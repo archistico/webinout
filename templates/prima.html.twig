@@ -1,0 +1,14 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Titolo 1{% endblock %}
+
+{% block body %}
+
+<div hx-target="this" hx-swap="outerHTML">
+    <div>DEMO 1</div>
+    <button hx-get="/seconda">
+        clicca
+    </button>
+</div>
+
+{% endblock %}
