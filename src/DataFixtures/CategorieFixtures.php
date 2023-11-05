@@ -499,6 +499,38 @@ class CategorieFixtures extends Fixture
                 ->setPadre($lavoro_uscita);
         $manager->persist($materiale);
 
+        // ------------------
+        // TIPO PAGAMENTI
+        // ------------------
+
+        $tipo_pagamento_contanti = (new \App\Entity\TipoPagamento())
+            ->setDescrizione("Contanti");
+        $manager->persist($tipo_pagamento_contanti);
+
+        $tipo_pagamento_bonifico = (new \App\Entity\TipoPagamento())
+            ->setDescrizione("Bonifico");
+        $manager->persist($tipo_pagamento_bonifico);
+
+        $tipo_pagamento_bancomat = (new \App\Entity\TipoPagamento())
+            ->setDescrizione("Bancomat");
+        $manager->persist($tipo_pagamento_bancomat);
+
+        $tipo_pagamento_paypal = (new \App\Entity\TipoPagamento())
+            ->setDescrizione("Paypal");
+        $manager->persist($tipo_pagamento_paypal);
+
+        $tipo_pagamento_cartaprepagata = (new \App\Entity\TipoPagamento())
+            ->setDescrizione("Carta prepagata");
+        $manager->persist($tipo_pagamento_cartaprepagata);
+
+        $tipo_pagamento_cartacredito = (new \App\Entity\TipoPagamento())
+            ->setDescrizione("Carta di credito");
+        $manager->persist($tipo_pagamento_cartacredito);
+
+        $tipo_pagamento_bollettinopostale = (new \App\Entity\TipoPagamento())
+            ->setDescrizione("Bollettino postale");
+        $manager->persist($tipo_pagamento_bollettinopostale);
+
         $manager->flush();
     }
 }
