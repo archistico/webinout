@@ -9,8 +9,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
-    #[Route('/prima', name: 'app_prima')]
-    public function prima(): Response
+    #[Route('/', name: 'app_home')]
+    public function Home(): Response
     {
         return $this->render('prima.html.twig', []);
     }
