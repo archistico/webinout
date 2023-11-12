@@ -4,7 +4,7 @@ bash -c "$(wget -qLO - https://github.com/tteck/Proxmox/raw/main/ct/ubuntu.sh)"
 192.168.0.254
 
 root
-F@c1l3yv
+..yv
 
 df
 sudo apt install software-properties-common
@@ -110,6 +110,8 @@ nano /var/www/inout/index.php
 phpinfo();
 
 sudo apt install php8.2-fpm php8.2-common php8.2-mysql php8.2-xml php8.2-xmlrpc php8.2-curl php8.2-gd php8.2-imagick php8.2-cli php8.2-dev php8.2-imap php8.2-mbstring php8.2-opcache php8.2-soap php8.2-zip php8.2-intl php8.2-bcmath unzip -y
+sudo apt install php8.2-sqlite
+
 symfony check:requirements
 
 
@@ -128,6 +130,7 @@ apt install samba -y
 useradd smbutente
 usermod -a -G sambashare smbutente
 smbpasswd -a smbutente
+usermod -aG sudo smbutente
 
 chown smbutente:sambashare /var/www/inout -R
 chmod 0775 /var/www/inout -R
@@ -148,3 +151,13 @@ path = /var/www/inout
 browsable = yes
 read only = no
 
+
+per l'accesso con ssh
+mkdir /home/smbutente
+passwd smbutente
+sudo chown smbutente:sambashare /home/smbutente -R
+usermod -d /home/smbutente -m smbutente
+ssh smbutente@192.168.0.193
+
+
+php bin/console asset-map:compile

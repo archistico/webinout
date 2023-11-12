@@ -12,12 +12,6 @@ class HomeController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function Home(): Response
     {
-        return $this->render('prima.html.twig', []);
-    }
-
-    #[Route('/seconda', name: 'app_seconda')]
-    public function seconda(): Response
-    {
-        return $this->render('seconda.html.twig', []);
+        return $this->render('home.html.twig', []);
     }
 }
