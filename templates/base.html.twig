@@ -48,7 +48,17 @@
 				</div>
 			</div>
             <!-- CONTENUTO -->
-			{% block body %}{% endblock %}
+
+			<div class="page-body">
+				<div class="container-xl">
+					<div class="row">
+						<div class="col-12">
+						{% block body %}{% endblock %}
+						</div>
+					</div>
+				</div>
+			</div>
+			
 			<footer class="footer footer-transparent d-print-none">
 				<div class="container-xl">
 					<div class="row text-center align-items-center flex-row-reverse">
@@ -56,9 +66,6 @@
 							<ul class="list-inline list-inline-dots mb-0">
 								<li class="list-inline-item">
 									<a href="./license.html" class="link-secondary">License</a>
-								</li>
-								<li class="list-inline-item">
-									<a href="https://github.com/tabler/tabler" target="_blank" class="link-secondary" rel="noopener">Source code</a>
 								</li>
 							</ul>
 						</div>

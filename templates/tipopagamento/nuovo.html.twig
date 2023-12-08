@@ -1,0 +1,33 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Tipo di pagamento - Nuovo
+{% endblock %}
+
+{% block body %}
+	<div class="row">
+		<div class="col-12">
+			<h1>NUOVO TIPO DI PAGAMENTO</h1>
+		</div>
+	</div>
+
+	{{ form_start(form) }}
+	<div class="row">
+		<div class="col-12">
+			{{ form_label(form.Descrizione) }}
+			{{ form_widget(form.Descrizione) }}
+			<div class="text-red li-senza-pallino">
+				{{ form_errors(form.Descrizione) }}
+			</div>
+		</div>
+	</div>
+	<div class="row mt-4">
+		<div class="col-md-6 mt-2">
+			<a class="btn btn-secondary btn-square w-100" href="{{ path('app_tipopagamento_lista') }}">TORNA INDIETRO</a>
+		</div>
+		<div class="col-md-6 mt-2">
+			<button type="submit" class="btn btn-primary btn-square w-100">SALVA</button>
+		</div>
+	</div>
+	{{ form_end(form) }}
+
+{% endblock %}
