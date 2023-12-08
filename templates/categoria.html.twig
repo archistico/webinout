@@ -1,0 +1,48 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Home
+{% endblock %}
+
+{% block body %}
+
+	<!-- Page body -->
+	<div class="page-body">
+		<div class="container-xl">
+			<div class="row row-deck row-cards">
+				<div class="col-md-12 col-lg-12">
+					<div class="row row-cards">
+						<div class="col-12">
+							<form class="card">
+								<div class="card-body">
+									<h3 class="card-title">Edit Profile</h3>
+									<div class="row row-cards">
+										<div class="col-12">
+											<div class="mb-3">
+												<label class="form-label">Username</label>
+												<input type="text" class="form-control" placeholder="Username" value="michael23">
+											</div>
+										</div>										
+										<div class="col-12">
+											<div class="mb-3">
+												<label class="form-label">Country</label>
+												<select class="form-control form-select">
+													<option value="">Germany</option>
+													<option value="">Italia</option>
+												</select>
+											</div>
+										</div>										
+									</div>
+								</div>
+								<div class="card-footer text-end">
+									<button type="submit" class="btn btn-primary">Update Profile</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+{% endblock %}
