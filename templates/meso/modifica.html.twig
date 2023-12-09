@@ -1,25 +1,32 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Categoria Macro - Modifica
+{% block title %}Categoria Meso - Modifica
 {% endblock %}
 
 {% block body %}
 	<div class="row">
 		<div class="col-12">
-			<h1>MODIFICA CATEGORIA MACRO</h1>
+			<h1>MODIFICA CATEGORIA MESO</h1>
 		</div>
 	</div>
 
 	{{ form_start(form) }}
 	<div class="row">
-		<div class="col-6">
+		<div class="col-4">
+			{{ form_label(form.Padre) }}
+			{{ form_widget(form.Padre) }}
+			<div class="text-red li-senza-pallino">
+				{{ form_errors(form.Padre) }}
+			</div>
+		</div>
+		<div class="col-4">
 			{{ form_label(form.Nome) }}
 			{{ form_widget(form.Nome) }}
 			<div class="text-red li-senza-pallino">
 				{{ form_errors(form.Nome) }}
 			</div>
-		</div>
-		<div class="col-6">
+		</div>		
+		<div class="col-4">
 			{{ form_label(form.Invio) }}
 			{{ form_widget(form.Invio) }}
 			<div class="text-red li-senza-pallino">

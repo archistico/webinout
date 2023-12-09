@@ -162,3 +162,6 @@ ssh smbutente@192.168.0.193
 
 chown -R www-data:root /var/www
 php bin/console asset-map:compile
+
+
+composer require --dev symfony/debug-bundle
