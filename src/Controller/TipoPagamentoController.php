@@ -73,7 +73,7 @@ class TipoPagamentoController extends AbstractController
         }
 
         if($form->isSubmitted() && !$form->isValid()) {
-            $this->addFlash('error', "Ci sono degli errori nella modifica del medico");
+            $this->addFlash('error', "Ci sono degli errori nella modifica del tipo di pagamento");
         }
 
         return $this->render('tipopagamento/modifica.html.twig', [

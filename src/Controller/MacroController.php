@@ -74,7 +74,7 @@ class MacroController extends AbstractController
         }
 
         if($form->isSubmitted() && !$form->isValid()) {
-            $this->addFlash('error', "Ci sono degli errori nella modifica del medico");
+            $this->addFlash('error', "Ci sono degli errori nella modifica della categoria macro");
         }
 
         return $this->render('macro/modifica.html.twig', [

@@ -1,0 +1,65 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Movimento - Modifica
+{% endblock %}
+
+{% block body %}
+	<div class="row">
+		<div class="col-12">
+			<h1>MODIFICA MOVIMENTO</h1>
+		</div>
+	</div>
+
+	{{ form_start(form) }}
+	<div class="row">
+		<div class="col-4">
+			{{ form_label(form.Data) }}
+			{{ form_widget(form.Data) }}
+			<div class="text-red li-senza-pallino">
+				{{ form_errors(form.Data) }}
+			</div>
+		</div>
+		<div class="col-8">
+			{{ form_label(form.Categoria) }}
+			{{ form_widget(form.Categoria) }}
+			<div class="text-red li-senza-pallino">
+				{{ form_errors(form.Categoria) }}
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-4">
+			{{ form_label(form.Importo) }}
+			{{ form_widget(form.Importo) }}
+			<div class="text-red li-senza-pallino">
+				{{ form_errors(form.Importo) }}
+			</div>
+		</div>
+		<div class="col-8">
+			{{ form_label(form.Tipo) }}
+			{{ form_widget(form.Tipo) }}
+			<div class="text-red li-senza-pallino">
+				{{ form_errors(form.Tipo) }}
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12">
+			{{ form_label(form.Note) }}
+			{{ form_widget(form.Note) }}
+			<div class="text-red li-senza-pallino">
+				{{ form_errors(form.Note) }}
+			</div>
+		</div>
+	</div>
+	<div class="row mt-4">
+		<div class="col-md-6 mt-2">
+			<a class="btn btn-secondary btn-square w-100" href="{{ path('app_movimento_lista') }}">TORNA INDIETRO</a>
+		</div>
+		<div class="col-md-6 mt-2">
+			<button type="submit" class="btn btn-primary btn-square w-100">SALVA</button>
+		</div>
+	</div>
+	{{ form_end(form) }}
+
+{% endblock %}

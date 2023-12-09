@@ -73,7 +73,7 @@ class MesoController extends AbstractController
         }
 
         if($form->isSubmitted() && !$form->isValid()) {
-            $this->addFlash('error', "Ci sono degli errori nella modifica del medico");
+            $this->addFlash('error', "Ci sono degli errori nella modifica della categoria meso");
         }
 
         return $this->render('meso/modifica.html.twig', [
