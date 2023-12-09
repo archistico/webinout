@@ -23,11 +23,11 @@
 						</span>
 					</a>
 				</li>
-				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="false">
+				<li class="nav-item">
+					<a class="nav-link" href="{{ path('app_movimento_lista') }}">
 						<span
 							class="nav-link-icon d-md-none d-lg-inline-block">
-							<!-- Download SVG icon from http://tabler-icons.io/i/package -->
+							<!-- Download SVG icon from http://tabler-icons.io/i/home -->
 							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrows-up-down" width="24" height="24" viewbox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 								<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
 								<path d="M7 3l0 18"></path>
@@ -40,18 +40,6 @@
 							Movimenti
 						</span>
 					</a>
-					<div class="dropdown-menu show">
-						<div class="dropdown-menu-columns">
-							<div class="dropdown-menu-column">
-								<a class="dropdown-item" href="{{ path('app_movimento_lista') }}">
-									Entrate
-								</a>
-								<a class="dropdown-item" href="{{ path('app_movimento_lista') }}">
-									Uscite
-								</a>
-							</div>
-						</div>
-					</div>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="{{ path('app_home') }}">
