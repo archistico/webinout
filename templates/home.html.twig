@@ -21,7 +21,8 @@
 							<div class="col-10">
 								<h3 class="h1">InOut</h3>
 								<div class="markdown text-secondary">
-									Questo è un semplice gestionale opensource sulle spese famigliari che tiene traccia delle entrate e uscite. Inoltre permette di registrare assieme ai movimenti gli allegati per poi l'invio al commercialista.
+									Questo è un gestionale opensource per le spese famigliari che tiene traccia di entrate e uscite. <br/>
+									Permette inoltre di registrare gli allegati dei movimenti per l'invio al commercialista.
 								</div>
 							</div>
 						</div>
@@ -31,7 +32,8 @@
 			
 			<div class="col-12">
 				<div class="row row-cards">
-					<div class="col-sm-6 col-lg-3">
+					<h2>Riepilogo spese del mese in corso</h2>
+					<div class="col-sm-12 col-lg-4">
 						<div class="card card-sm">
 							<div class="card-body">
 								<div class="row align-items-center">
@@ -43,7 +45,7 @@
 									</div>
 									<div class="col">
 										<div class="font-weight-medium">
-											<strong>1500 €</strong>
+											<strong>+{{ entrate_mensili|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</strong>
 										</div>
 										<div class="text-secondary">
 											Entrate mensili
@@ -53,7 +55,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-sm-6 col-lg-3">
+					<div class="col-sm-12 col-lg-4">
 						<div class="card card-sm">
 							<div class="card-body">
 								<div class="row align-items-center">
@@ -65,7 +67,7 @@
 									</div>
 									<div class="col">
 										<div class="font-weight-medium">
-											<strong>1000 €</strong>
+											<strong>-{{ uscite_mensili|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</strong>
 										</div>
 										<div class="text-secondary">
 											Uscite mensili
@@ -75,7 +77,37 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-sm-6 col-lg-3">
+					<div class="col-sm-12 col-lg-4">
+						<div class="card card-sm">
+							<div class="card-body">
+								<div class="row align-items-center">
+									<div class="col-auto">
+										<span
+											class="text-black avatar">
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-scale" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 20l10 0" /><path d="M6 6l6 -1l6 1" /><path d="M12 3l0 17" /><path d="M9 12l-3 -6l-3 6a3 3 0 0 0 6 0" /><path d="M21 12l-3 -6l-3 6a3 3 0 0 0 6 0" /></svg>
+										</span>
+									</div>
+									<div class="col">
+										<div class="font-weight-medium">
+											<strong>{{ (entrate_mensili-uscite_mensili)|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</strong>
+										</div>
+										<div class="text-secondary">
+											Differenza
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+
+			<div class="col-12">
+				<div class="row row-cards">
+					<h2>Riepilogo spese annuali</h2>
+					<div class="col-sm-12 col-lg-4">
 						<div class="card card-sm">
 							<div class="card-body">
 								<div class="row align-items-center">
@@ -87,7 +119,7 @@
 									</div>
 									<div class="col">
 										<div class="font-weight-medium">
-											<strong>18.000 €</strong>
+											<strong>+{{ entrate_annuali|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</strong>
 										</div>
 										<div class="text-secondary">
 											Entrate annuali
@@ -97,7 +129,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-sm-6 col-lg-3">
+					<div class="col-sm-12 col-lg-4">
 						<div class="card card-sm">
 							<div class="card-body">
 								<div class="row align-items-center">
@@ -109,7 +141,7 @@
 									</div>
 									<div class="col">
 										<div class="font-weight-medium">
-											<strong>10.000 €</strong>
+											<strong>-{{ uscite_annuali|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</strong>
 										</div>
 										<div class="text-secondary">
 											Uscite annuali
@@ -119,53 +151,32 @@
 							</div>
 						</div>
 					</div>
-				</div>
-			</div>
-			<div class="col-md-12 col-lg-12">
-				<div class="card">
-					<div class="card-header">
-						<h3 class="card-title">Le 3 categorie più rilevanti</h3>
+					<div class="col-sm-12 col-lg-4">
+						<div class="card card-sm">
+							<div class="card-body">
+								<div class="row align-items-center">
+									<div class="col-auto">
+										<span
+											class="text-black avatar">
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-scale" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 20l10 0" /><path d="M6 6l6 -1l6 1" /><path d="M12 3l0 17" /><path d="M9 12l-3 -6l-3 6a3 3 0 0 0 6 0" /><path d="M21 12l-3 -6l-3 6a3 3 0 0 0 6 0" /></svg>
+										</span>
+									</div>
+									<div class="col">
+										<div class="font-weight-medium">
+											<strong>{{ (entrate_annuali-uscite_annuali)|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</strong>
+										</div>
+										<div class="text-secondary">
+											Differenza
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
-					<table class="table card-table table-vcenter">
-						<thead>
-							<tr>
-								<th>Categorie</th>
-								<th>Importo</th>
-								<th>% del totale</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td class="w-20">Uscite - Bollette - Gas</td>
-								<td>3.550,00 €</td>
-								<td class="w-20">
-									<div class="progress progress-xs">
-										<div class="progress-bar bg-primary" style="width: 50.0%"></div>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td class="w-20">Uscite - Carburanti - Auto</td>
-								<td>1.250,00 €</td>
-								<td class="w-20">
-									<div class="progress progress-xs">
-										<div class="progress-bar bg-primary" style="width: 25.00%"></div>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td class="w-20">Uscite - Alimentazione</td>
-								<td>1.000,00 €</td>
-								<td class="w-20">
-									<div class="progress progress-xs">
-										<div class="progress-bar bg-primary" style="width: 10.0%"></div>
-									</div>
-								</td>
-							</tr>
-						</tbody>
-					</table>
+
 				</div>
 			</div>
+
 		</div>
 	</div>
 </div>
