@@ -66,16 +66,16 @@
 							Categorie
 						</span>
 					</a>
-					<div class="dropdown-menu"> <!-- show -->
+					<div class="dropdown-menu {% if route_name matches '{^app_categoria}' %} show {% endif %}">
 						<div class="dropdown-menu-columns">
 							<div class="dropdown-menu-column">
-								<a class="dropdown-item" href="{{ path('app_macro_lista') }}">
+								<a class="dropdown-item" href="{{ path('app_categoria_macro_lista') }}">
 									Categorie macro
 								</a>
-								<a class="dropdown-item" href="{{ path('app_meso_lista') }}">
+								<a class="dropdown-item" href="{{ path('app_categoria_meso_lista') }}">
 									Categorie meso
 								</a>
-								<a class="dropdown-item" href="{{ path('app_micro_lista') }}">
+								<a class="dropdown-item" href="{{ path('app_categoria_micro_lista') }}">
 									Categorie micro
 								</a>
 							</div>

@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class MicroController extends AbstractController
 {
-    #[Route('/micro', name: 'app_micro_lista')]
+    #[Route('/micro', name: 'app_categoria_micro_lista')]
     public function Lista(MicroRepository $microRepository): Response
     {
         $elementi = $microRepository->findAll();
@@ -22,7 +22,7 @@ class MicroController extends AbstractController
         ]);
     }
 
-    #[Route('/micro/nuovo', name: 'app_micro_nuovo')]
+    #[Route('/micro/nuovo', name: 'app_categoria_micro_nuovo')]
     public function Nuovo(Request $request, EntityManagerInterface $em): Response
     {
         $elemento = null;
@@ -38,7 +38,7 @@ class MicroController extends AbstractController
             
             $this->addFlash('success', "Una nuova categoria micro è stato aggiunta");
 
-            return $this->redirectToRoute('app_micro_lista');
+            return $this->redirectToRoute('app_categoria_micro_lista');
         }
 
         if($form->isSubmitted() && !$form->isValid()) {
@@ -50,7 +50,7 @@ class MicroController extends AbstractController
         ]);
     }
 
-    #[Route('/micro/modifica/{id}', name: 'app_micro_modifica')]
+    #[Route('/micro/modifica/{id}', name: 'app_categoria_micro_modifica')]
     public function Modifica($id, Request $request, EntityManagerInterface $em, MicroRepository $microRepository): Response
     {
         $elemento = $microRepository->find($id);
@@ -67,7 +67,7 @@ class MicroController extends AbstractController
 
             $this->addFlash('success', 'I dati della categoria micro sono stati modificati');
             
-            return $this->redirectToRoute('app_micro_lista', [
+            return $this->redirectToRoute('app_categoria_micro_lista', [
                 'id' => $elemento->getId(),
             ]);
         }
@@ -81,7 +81,7 @@ class MicroController extends AbstractController
         ]);
     }
 
-    #[Route('/micro/cancella/{id}/ok', name: 'app_micro_cancella_ok')]
+    #[Route('/micro/cancella/{id}/ok', name: 'app_categoria_micro_cancella_ok')]
     public function Cancella($id, MicroRepository $microRepository, EntityManagerInterface $em): Response
     {
         $elemento = $microRepository->findOneBy(['id' => $id]);
@@ -89,6 +89,6 @@ class MicroController extends AbstractController
         $em->remove($elemento);
         $em->flush();
         
-        return $this->redirectToRoute('app_micro_lista');
+        return $this->redirectToRoute('app_categoria_micro_lista');
     }
 }

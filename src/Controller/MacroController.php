@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class MacroController extends AbstractController
 {
-    #[Route('/macro', name: 'app_macro_lista')]
+    #[Route('/macro', name: 'app_categoria_macro_lista')]
     public function Lista(MacroRepository $macroRepository): Response
     {
         $elementi = $macroRepository->findAll();
@@ -23,7 +23,7 @@ class MacroController extends AbstractController
         ]);
     }
 
-    #[Route('/macro/nuovo', name: 'app_macro_nuovo')]
+    #[Route('/macro/nuovo', name: 'app_categoria_macro_nuovo')]
     public function Nuovo(Request $request, EntityManagerInterface $em): Response
     {
         $elemento = null;
@@ -39,7 +39,7 @@ class MacroController extends AbstractController
             
             $this->addFlash('success', "Una nuova categoria macro è stato aggiunta");
 
-            return $this->redirectToRoute('app_macro_lista');
+            return $this->redirectToRoute('app_categoria_macro_lista');
         }
 
         if($form->isSubmitted() && !$form->isValid()) {
@@ -51,7 +51,7 @@ class MacroController extends AbstractController
         ]);
     }
 
-    #[Route('/macro/modifica/{id}', name: 'app_macro_modifica')]
+    #[Route('/macro/modifica/{id}', name: 'app_categoria_macro_modifica')]
     public function Modifica($id, Request $request, EntityManagerInterface $em, MacroRepository $macroRepository): Response
     {
         $elemento = $macroRepository->find($id);
@@ -68,7 +68,7 @@ class MacroController extends AbstractController
 
             $this->addFlash('success', 'I dati della categoria macro sono stati modificati');
             
-            return $this->redirectToRoute('app_macro_lista', [
+            return $this->redirectToRoute('app_categoria_macro_lista', [
                 'id' => $elemento->getId(),
             ]);
         }
@@ -82,7 +82,7 @@ class MacroController extends AbstractController
         ]);
     }
 
-    #[Route('/macro/cancella/{id}/ok', name: 'app_macro_cancella_ok')]
+    #[Route('/macro/cancella/{id}/ok', name: 'app_categoria_macro_cancella_ok')]
     public function Cancella($id, MacroRepository $macroRepository, EntityManagerInterface $em): Response
     {
         $elemento = $macroRepository->findOneBy(['id' => $id]);
@@ -90,6 +90,6 @@ class MacroController extends AbstractController
         $em->remove($elemento);
         $em->flush();
         
-        return $this->redirectToRoute('app_macro_lista');
+        return $this->redirectToRoute('app_categoria_macro_lista');
     }
 }

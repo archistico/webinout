@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class MesoController extends AbstractController
 {
-    #[Route('/meso', name: 'app_meso_lista')]
+    #[Route('/meso', name: 'app_categoria_meso_lista')]
     public function Lista(MesoRepository $mesoRepository): Response
     {
         $elementi = $mesoRepository->findAll();
@@ -22,7 +22,7 @@ class MesoController extends AbstractController
         ]);
     }
 
-    #[Route('/meso/nuovo', name: 'app_meso_nuovo')]
+    #[Route('/meso/nuovo', name: 'app_categoria_meso_nuovo')]
     public function Nuovo(Request $request, EntityManagerInterface $em): Response
     {
         $elemento = null;
@@ -38,7 +38,7 @@ class MesoController extends AbstractController
             
             $this->addFlash('success', "Una nuova categoria meso è stato aggiunta");
 
-            return $this->redirectToRoute('app_meso_lista');
+            return $this->redirectToRoute('app_categoria_meso_lista');
         }
 
         if($form->isSubmitted() && !$form->isValid()) {
@@ -50,7 +50,7 @@ class MesoController extends AbstractController
         ]);
     }
 
-    #[Route('/meso/modifica/{id}', name: 'app_meso_modifica')]
+    #[Route('/meso/modifica/{id}', name: 'app_categoria_meso_modifica')]
     public function Modifica($id, Request $request, EntityManagerInterface $em, MesoRepository $mesoRepository): Response
     {
         $elemento = $mesoRepository->find($id);
@@ -67,7 +67,7 @@ class MesoController extends AbstractController
 
             $this->addFlash('success', 'I dati della categoria meso sono stati modificati');
             
-            return $this->redirectToRoute('app_meso_lista', [
+            return $this->redirectToRoute('app_categoria_meso_lista', [
                 'id' => $elemento->getId(),
             ]);
         }
@@ -81,7 +81,7 @@ class MesoController extends AbstractController
         ]);
     }
 
-    #[Route('/meso/cancella/{id}/ok', name: 'app_meso_cancella_ok')]
+    #[Route('/meso/cancella/{id}/ok', name: 'app_categoria_meso_cancella_ok')]
     public function Cancella($id, MesoRepository $mesoRepository, EntityManagerInterface $em): Response
     {
         $elemento = $mesoRepository->findOneBy(['id' => $id]);
@@ -89,6 +89,6 @@ class MesoController extends AbstractController
         $em->remove($elemento);
         $em->flush();
         
-        return $this->redirectToRoute('app_meso_lista');
+        return $this->redirectToRoute('app_categoria_meso_lista');
     }
 }
