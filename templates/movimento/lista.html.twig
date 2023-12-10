@@ -25,7 +25,7 @@
 							<tr>
 								<th>Data</th>
 								<th>Categoria</th>
-								<th>Importo</th>
+								<th class="text-end">Importo</th>
 								<th>Tipo di pagamento</th>
 								<th class="w-1"></th>
 							</tr>
@@ -35,7 +35,13 @@
 								<tr>
 									<td>{{ elemento.Data|date('d/m/Y') }}</td>
 									<td>{{ elemento.Categoria.Padre.Padre.Nome }} | {{ elemento.Categoria.Padre.Nome }} | {{ elemento.Categoria.Nome }}</td>
-									<td>{{ elemento.Importo|format_currency('EUR', {rounding_mode: 'floor'}) }}</td>
+									<td class="text-end">
+										{% if elemento.Categoria.Padre.Padre.Nome == 'Uscita' %}
+											<span class="text-danger">- {{ elemento.Importo|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</span>
+										{% else %}
+											+ {{ elemento.Importo|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}
+										{% endif %}
+									</td>
 									<td>{{ elemento.Tipo.Descrizione }}</td>
 									<td>
 										<div class="btn-list flex-nowrap">
