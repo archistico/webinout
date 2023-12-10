@@ -71,7 +71,7 @@ class MovimentoType extends AbstractType
                     new All([
                         'constraints' => [
                             new File([
-                                'maxSize' => '5000k',
+                                'maxSize' => '10M',
                                 'mimeTypes' => [
                                     'application/pdf',
                                     'application/x-pdf',
