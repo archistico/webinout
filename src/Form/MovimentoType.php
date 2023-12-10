@@ -3,10 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Micro;
-use App\Entity\Meso;
 use App\Entity\Movimento;
 use App\Entity\TipoPagamento;
-use App\Repository\MesoRepository;
 use App\Repository\MicroRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -15,8 +13,9 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Doctrine\ORM\Query\Expr\Join;
-
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\All;
+use Symfony\Component\Validator\Constraints\File;
 
 class MovimentoType extends AbstractType
 {
@@ -62,6 +61,35 @@ class MovimentoType extends AbstractType
             ->add('Tipo', EntityType::class, [
                 'class' => TipoPagamento::class,
                 'choice_label' => 'Descrizione',
+            ])
+            ->add('Allegati', FileType::class, [
+                'label' => 'Allegati (pdf, png, jpg, doc, docx, xls, xlsx, odt, ods, zip)',
+                'mapped' => false,
+                'required' => false,
+                'multiple' => true,
+                'constraints' => [
+                    new All([
+                        'constraints' => [
+                            new File([
+                                'maxSize' => '5000k',
+                                'mimeTypes' => [
+                                    'application/pdf',
+                                    'application/x-pdf',
+                                    'image/jpeg',
+                                    'image/png',
+                                    'application/vnd.oasis.opendocument.text',
+                                    'application/vnd.oasis.opendocument.spreadsheet',
+                                    'application/vnd.ms-excel',
+                                    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                                    'application/zip',
+                                    'application/msword',
+                                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                                ],
+                                'mimeTypesMessage' => 'Caricare un file valido (solo pdf, png, jpg, doc, docx, xls, xlsx, odt, ods, zip)',
+                            ]),
+                        ],
+                    ]),
+                ],
             ])
             ->add('Note')
         ;

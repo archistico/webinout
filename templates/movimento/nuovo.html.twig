@@ -45,6 +45,15 @@
 	</div>
 	<div class="row">
 		<div class="col-12">
+			{{ form_label(form.Allegati) }}
+			{{ form_widget(form.Allegati) }}
+			<div class="text-red li-senza-pallino">
+				{{ form_errors(form.Allegati) }}
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12">
 			{{ form_label(form.Note) }}
 			{{ form_widget(form.Note) }}
 			<div class="text-red li-senza-pallino">

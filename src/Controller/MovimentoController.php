@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Allegato;
 use App\Form\MovimentoType;
 use App\Repository\MovimentoRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -9,6 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class MovimentoController extends AbstractController
 {
@@ -23,7 +26,7 @@ class MovimentoController extends AbstractController
     }
 
     #[Route('/movimento/nuovo', name: 'app_movimento_nuovo')]
-    public function Nuovo(Request $request, EntityManagerInterface $em): Response
+    public function Nuovo(Request $request, EntityManagerInterface $em, SluggerInterface $slugger): Response
     {
         $elemento = null;
         $form = $this->createForm(MovimentoType::class);
@@ -32,9 +35,40 @@ class MovimentoController extends AbstractController
         if($form->isSubmitted() && $form->isValid()) {
 
             $elemento = $form->getData();
+            $allegati = $form->get('Allegati')->getData();
             
             $em->persist($elemento);
             $em->flush();
+
+            $conteggio = 0;
+            foreach($allegati as $allegato)
+            {
+                if ($allegato) {
+                    
+                    $originalFilename = pathinfo($allegato->getClientOriginalName(), PATHINFO_FILENAME);
+                    $safeFilename = $slugger->slug("Data-".$elemento->getData()->format('Y-m-d') . "-Importo-".$elemento->getImporto()."-Movimento-".$elemento->getId()."-".$conteggio);
+                    $newFilename = $safeFilename.'-'.uniqid().'.'.$allegato->guessExtension();
+                    
+                    $a = (new Allegato())
+                    ->setMovimento($elemento)
+                    ->setNomefile($newFilename)
+                    ;
+
+                    try {
+                        $allegato->move(
+                            $this->getParameter('allegati_directory'),
+                            $newFilename
+                        );
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                    }
+
+                    $em->persist($a);
+                    $em->flush();
+
+                    $conteggio += 1;
+                }
+            }
             
             $this->addFlash('success', "Un nuovo movimento è stato aggiunto");
 

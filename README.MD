@@ -165,3 +165,4 @@ php bin/console asset-map:compile
 
 
 composer require --dev symfony/debug-bundle
+composer require symfony/mime

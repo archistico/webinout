@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\MovimentoRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -30,6 +32,14 @@ class Movimento
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $Note = null;
+
+    #[ORM\OneToMany(mappedBy: 'Movimento', targetEntity: Allegato::class, orphanRemoval: true)]
+    private Collection $allegati;
+
+    public function __construct()
+    {
+        $this->allegati = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -92,6 +102,36 @@ class Movimento
     public function setNote(?string $Note): static
     {
         $this->Note = $Note;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Allegato>
+     */
+    public function getAllegati(): Collection
+    {
+        return $this->allegati;
+    }
+
+    public function addAllegati(Allegato $allegati): static
+    {
+        if (!$this->allegati->contains($allegati)) {
+            $this->allegati->add($allegati);
+            $allegati->setMovimento($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAllegati(Allegato $allegati): static
+    {
+        if ($this->allegati->removeElement($allegati)) {
+            // set the owning side to null (unless already changed)
+            if ($allegati->getMovimento() === $this) {
+                $allegati->setMovimento(null);
+            }
+        }
 
         return $this;
     }
