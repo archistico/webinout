@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
@@ -95,7 +96,7 @@ class MovimentoController extends AbstractController
     }
 
     #[Route('/movimento/modifica/{id}', name: 'app_movimento_modifica')]
-    public function Modifica($id, Request $request, EntityManagerInterface $em, MovimentoRepository $movimentoRepository): Response
+    public function Modifica($id, Request $request, EntityManagerInterface $em, MovimentoRepository $movimentoRepository, SluggerInterface $slugger): Response
     {
         $elemento = $movimentoRepository->find($id);
 
@@ -105,9 +106,49 @@ class MovimentoController extends AbstractController
         if($form->isSubmitted() && $form->isValid()) {
 
             $elemento = $form->getData();
+            $allegati = $form->get('Allegati')->getData();
             
             $em->persist($elemento);
             $em->flush();
+
+            $conteggio = 0;
+            foreach($allegati as $allegato)
+            {
+                if ($allegato) {
+                    
+                    //$originalFilename = pathinfo($allegato->getClientOriginalName(), PATHINFO_FILENAME);
+                    $filedata = $elemento->getData()->format('Y-m-d');
+                    $fileanno = $elemento->getData()->format('Y');
+                    $fileimporto = $elemento->getImporto();
+                    $filemovimentoid = $elemento->getId();
+
+                    $filemicro = $elemento->getCategoria()->getNome();
+                    $filemeso = $elemento->getCategoria()->getPadre()->getNome();
+                    $filemacro = $elemento->getCategoria()->getPadre()->getPadre()->getNome();
+
+                    $safeFilename = $slugger->slug($filedata . "-".$filemacro."-".$filemeso."-".$filemicro. "-Importo-".$fileimporto."-Mov-".$filemovimentoid."-N-".$conteggio);
+                    $newFilename = $fileanno.'/'.$safeFilename.'-'.uniqid().'.'.$allegato->guessExtension();
+                    
+                    $a = (new Allegato())
+                    ->setMovimento($elemento)
+                    ->setNomefile($newFilename)
+                    ;
+
+                    try {
+                        $allegato->move(
+                            $this->getParameter('allegati_directory').'/'.$fileanno,
+                            $newFilename
+                        );
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                    }
+
+                    $em->persist($a);
+                    $em->flush();
+
+                    $conteggio += 1;
+                }
+            }
 
             $this->addFlash('success', 'I dati del movimento sono stati modificati');
             
@@ -126,9 +167,19 @@ class MovimentoController extends AbstractController
     }
 
     #[Route('/movimento/cancella/{id}/ok', name: 'app_movimento_cancella_ok')]
-    public function Cancella($id, MovimentoRepository $movimentoRepository, EntityManagerInterface $em): Response
+    public function Cancella($id, MovimentoRepository $movimentoRepository, EntityManagerInterface $em, Filesystem $filesystem): Response
     {
         $elemento = $movimentoRepository->findOneBy(['id' => $id]);
+        $fileanno = $elemento->getData()->format('Y');
+        $allegati = $elemento->getAllegati();
+
+        foreach($allegati as $allegato)
+        {
+            $filename = $this->getParameter('allegati_directory').'/'.$allegato->getNomefile();
+            if ($filesystem->exists($filename)) {
+                $filesystem->remove($filename);
+            }
+        }
 
         $em->remove($elemento);
         $em->flush();
