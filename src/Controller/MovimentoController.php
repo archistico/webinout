@@ -46,9 +46,18 @@ class MovimentoController extends AbstractController
             {
                 if ($allegato) {
                     
-                    $originalFilename = pathinfo($allegato->getClientOriginalName(), PATHINFO_FILENAME);
-                    $safeFilename = $slugger->slug("Data-".$elemento->getData()->format('Y-m-d') . "-Importo-".$elemento->getImporto()."-Movimento-".$elemento->getId()."-".$conteggio);
-                    $newFilename = $safeFilename.'-'.uniqid().'.'.$allegato->guessExtension();
+                    //$originalFilename = pathinfo($allegato->getClientOriginalName(), PATHINFO_FILENAME);
+                    $filedata = $elemento->getData()->format('Y-m-d');
+                    $fileanno = $elemento->getData()->format('Y');
+                    $fileimporto = $elemento->getImporto();
+                    $filemovimentoid = $elemento->getId();
+
+                    $filemicro = $elemento->getCategoria()->getNome();
+                    $filemeso = $elemento->getCategoria()->getPadre()->getNome();
+                    $filemacro = $elemento->getCategoria()->getPadre()->getPadre()->getNome();
+
+                    $safeFilename = $slugger->slug($filedata . "-".$filemacro."-".$filemeso."-".$filemicro. "-Importo-".$fileimporto."-Mov-".$filemovimentoid."-N-".$conteggio);
+                    $newFilename = $fileanno.'/'.$safeFilename.'-'.uniqid().'.'.$allegato->guessExtension();
                     
                     $a = (new Allegato())
                     ->setMovimento($elemento)
@@ -57,7 +66,7 @@ class MovimentoController extends AbstractController
 
                     try {
                         $allegato->move(
-                            $this->getParameter('allegati_directory'),
+                            $this->getParameter('allegati_directory').'/'.$fileanno,
                             $newFilename
                         );
                     } catch (FileException $e) {
