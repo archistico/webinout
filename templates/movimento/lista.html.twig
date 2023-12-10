@@ -35,7 +35,7 @@
 								<tr>
 									<td>{{ elemento.Data|date('d/m/Y') }}</td>
 									<td>{{ elemento.Categoria.Padre.Padre.Nome }} | {{ elemento.Categoria.Padre.Nome }} | {{ elemento.Categoria.Nome }}</td>
-									<td>{{ elemento.Importo }}</td>
+									<td>{{ elemento.Importo|format_currency('EUR', {rounding_mode: 'floor'}) }}</td>
 									<td>{{ elemento.Tipo.Descrizione }}</td>
 									<td>
 										<div class="btn-list flex-nowrap">
