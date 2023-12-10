@@ -5,13 +5,13 @@
 		</button>
 		<h1 class="navbar-brand navbar-brand-autodark">
 			<a href="{{ path('app_home') }}">
-				<img src="logo.svg" alt="InOut" class="navbar-brand-logo">
+				<img src="{{ asset('logo.svg') }}" alt="InOut" class="navbar-brand-logo">
 			</a>
 		</h1>
 
 		<div class="collapse navbar-collapse" id="sidebar-menu">
 			<ul class="navbar-nav pt-lg-3">
-				<li class="nav-item active">
+				<li class="nav-item {% if route_name matches '{^app_home}' %} active {% endif %}">
 					<a class="nav-link" href="{{ path('app_home') }}">
 						<span
 							class="nav-link-icon d-md-none d-lg-inline-block">
@@ -23,7 +23,7 @@
 						</span>
 					</a>
 				</li>
-				<li class="nav-item">
+				<li class="nav-item {% if route_name matches '{^app_movimento}' %} active {% endif %}">
 					<a class="nav-link" href="{{ path('app_movimento_lista') }}">
 						<span
 							class="nav-link-icon d-md-none d-lg-inline-block">
@@ -41,7 +41,7 @@
 						</span>
 					</a>
 				</li>
-				<li class="nav-item">
+				<li class="nav-item {% if route_name matches '{^app_allegato}' %} active {% endif %}">
 					<a class="nav-link" href="{{ path('app_home') }}">
 						<span
 							class="nav-link-icon d-md-none d-lg-inline-block">
@@ -56,7 +56,7 @@
 						</span>
 					</a>
 				</li>
-				<li class="nav-item dropdown">
+				<li class="nav-item dropdown {% if route_name matches '{^app_categoria}' %} active {% endif %}">
 					<a class="nav-link dropdown-toggle" href="#navbar-layout" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="true">
 						<span
 							class="nav-link-icon d-md-none d-lg-inline-block">
@@ -66,7 +66,7 @@
 							Categorie
 						</span>
 					</a>
-					<div class="dropdown-menu show">
+					<div class="dropdown-menu"> <!-- show -->
 						<div class="dropdown-menu-columns">
 							<div class="dropdown-menu-column">
 								<a class="dropdown-item" href="{{ path('app_macro_lista') }}">
@@ -82,7 +82,7 @@
 						</div>
 					</div>
 				</li>
-				<li class="nav-item">
+				<li class="nav-item {% if route_name matches '{^app_tipopagamento}' %} active {% endif %}">
 					<a class="nav-link" href="{{ path('app_tipopagamento_lista') }}">
 						<span
 							class="nav-link-icon d-md-none d-lg-inline-block">
@@ -99,7 +99,7 @@
 						</span>
 					</a>
 				</li>
-				<li class="nav-item">
+				<li class="nav-item {% if route_name matches '{^app_commercialista}' %} active {% endif %}">
 					<a class="nav-link" href="{{ path('app_home') }}">
 						<span
 							class="nav-link-icon d-md-none d-lg-inline-block">
@@ -120,7 +120,7 @@
 						</span>
 					</a>
 				</li>
-				<li class="nav-item">
+				<li class="nav-item {% if route_name matches '{^app_previsione}' %} active {% endif %}">
 					<a class="nav-link" href="{{ path('app_home') }}">
 						<span
 							class="nav-link-icon d-md-none d-lg-inline-block">
@@ -137,7 +137,7 @@
 						</span>
 					</a>
 				</li>
-				<li class="nav-item">
+				<li class="nav-item {% if route_name matches '{^app_analisi}' %} active {% endif %}">
 					<a class="nav-link" href="{{ path('app_home') }}">
 						<span
 							class="nav-link-icon d-md-none d-lg-inline-block">
@@ -153,7 +153,8 @@
 						</span>
 					</a>
 				</li>
-				<li class="nav-item pt-3">
+				<li class="nav-item">
+					<hr />
 					<a class="nav-link" href="https://tabler.io/docs/" target="_blanck">
 						<span
 							class="nav-link-icon d-md-none d-lg-inline-block">
