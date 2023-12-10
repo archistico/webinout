@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lista allegati
+{% endblock %}
+
+{% block body %}
+	<div class="row">
+		<div class="col-12">
+			<h1>LISTA ALLEGATI</h1>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="table-responsive">
+					<table class="table table-vcenter card-table table-striped">
+						<thead>
+							<tr>
+								<th>Data</th>
+								<th>Movimento</th>
+								<th>Importo</th>
+								<th>Allegato</th>
+								<th class="w-1"></th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for elemento in lista %}
+								<tr>
+									<td>{{ elemento.Movimento.Data|date('d/m/Y') }}</td>
+									<td>{{ elemento.Movimento.Categoria.Padre.Padre.Nome }} | {{ elemento.Movimento.Categoria.Padre.Nome }} | {{ elemento.Movimento.Categoria.Nome }}</td>
+									<td>
+									{% if elemento.Movimento.Categoria.Padre.Padre.Nome == 'Uscita' %}
+										<span class="text-danger">-{{ elemento.Movimento.Importo|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</span>
+									{% else %}
+										+{{ elemento.Movimento.Importo|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}
+									{% endif %}
+									</td>
+									<td><a href="{{ asset( 'uploads/allegati/' ~ elemento.nomefile) }}" target="_blank">Link</a></td>
+									<td>
+										<div class="btn-list flex-nowrap">
+											<div class="col-xl-auto py-1">
+												<a href="{{ path('app_allegato_cancella_ok', { id: elemento.id }) }}" class="btn btn-danger w-100 btn-icon" aria-label="Cancella" data-balloon-pos="up-right">
+													<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24" height="24" viewbox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0"/><path d="M10 11l0 6"/><path d="M14 11l0 6"/><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"/><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"/></svg>
+												</a>
+											</div>
+										</div>
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
