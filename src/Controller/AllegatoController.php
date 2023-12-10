@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 class AllegatoController extends AbstractController
 {
@@ -82,9 +83,14 @@ class AllegatoController extends AbstractController
     }
 
     #[Route('/allegato/cancella/{id}/ok', name: 'app_allegato_cancella_ok')]
-    public function Cancella($id, AllegatoRepository $allegatoRepository, EntityManagerInterface $em): Response
+    public function Cancella($id, AllegatoRepository $allegatoRepository, EntityManagerInterface $em, Filesystem $filesystem): Response
     {
         $elemento = $allegatoRepository->findOneBy(['id' => $id]);
+
+        $filename = $this->getParameter('allegati_directory').'/'.$elemento->getNomefile();
+        if ($filesystem->exists($filename)) {
+            $filesystem->remove($filename);
+        }
 
         $em->remove($elemento);
         $em->flush();
