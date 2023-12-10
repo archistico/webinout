@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mostra Movimento
+{% endblock %}
+
+{% block body %}
+	<div class="row">
+		<div class="col-12">
+			<h1>MOSTRA MOVIMENTO</h1>
+		</div>
+	</div>
+	<div class="row py-3">
+		<div class="col-12">
+			<div class="card">
+				<div class="row g-0">
+					<div class="col-auto">
+						<div class="card-body">
+							<div class="avatar avatar-md" style="background-image: url({{ asset('logo.svg')}})"></div>
+						</div>
+					</div>
+					<div class="col">
+						<div class="card-body ps-0">
+							<div class="row">
+								<div class="col">
+									<h3 class="mb-0">
+										{% if movimento.Categoria.Padre.Padre.Nome == 'Uscita' %}
+											<span class="text-danger">-{{ movimento.Importo|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</span>
+										{% else %}
+											+{{ movimento.Importo|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}
+										{% endif %}
+									</h3>
+								</div>
+								<div class="col-auto fs-3 text-muted"><em>{{ movimento.Note }}</em></div>
+							</div>
+							<div class="row">
+								<div class="col-md">
+									<div class="mt-3 list-inline list-inline-dots mb-0 text-secondary d-sm-block d-none">
+										<div class="list-inline-item">
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-event" width="24" height="24" viewbox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 5m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"/><path d="M16 3l0 4"/><path d="M8 3l0 4"/><path d="M4 11l16 0"/><path d="M8 15h2v2h-2z"/></svg>
+											{{ movimento.Data|date('d/m/Y') }}</div>
+										<div class="list-inline-item">
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-cash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 9m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z" /><path d="M14 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 9v-2a2 2 0 0 0 -2 -2h-10a2 2 0 0 0 -2 2v6a2 2 0 0 0 2 2h2" /></svg>
+											{{ movimento.Tipo.Descrizione }}</div>
+									</div>
+									<div class="mt-3 list mb-0 text-secondary d-block d-sm-none">
+										<div class="list-item">
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-event" width="24" height="24" viewbox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 5m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"/><path d="M16 3l0 4"/><path d="M8 3l0 4"/><path d="M4 11l16 0"/><path d="M8 15h2v2h-2z"/></svg>
+											{{ movimento.Data|date('d/m/Y') }}</div>
+										<div class="list-item">
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-cash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 9m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z" /><path d="M14 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 9v-2a2 2 0 0 0 -2 -2h-10a2 2 0 0 0 -2 2v6a2 2 0 0 0 2 2h2" /></svg>
+											{{ movimento.Tipo.Descrizione }}</div>
+									</div>
+								</div>
+								<div class="col-md-auto">
+									<div class="mt-3 badges">
+										<a href="#" class="badge badge-outline text-secondary fw-normal badge-pill">{{ movimento.Categoria.Padre.Padre.Nome }}</a>
+										<a href="#" class="badge badge-outline text-secondary fw-normal badge-pill">{{ movimento.Categoria.Padre.Nome }}</a>
+										<a href="#" class="badge badge-outline text-secondary fw-normal badge-pill">{{ movimento.Categoria.Nome }}</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h3 class="card-title">Allegati</h3>
+				</div>
+				<div class="list-group list-group-flush">
+					{% for allegato in movimento.allegati %}
+						<a href="{{ asset( 'uploads/allegati/' ~ allegato.nomefile) }}" target="_blank" class="list-group-item list-group-item-action">{{ allegato.nomefile }}</a>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

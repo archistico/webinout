@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Allegato;
 use App\Form\MovimentoType;
+use App\Repository\AllegatoRepository;
 use App\Repository\MovimentoRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -124,5 +125,17 @@ class MovimentoController extends AbstractController
         $em->flush();
         
         return $this->redirectToRoute('app_movimento_lista');
+    }
+
+    #[Route('/movimento/mostra/{id}', name: 'app_movimento_mostra')]
+    public function Mostra($id, MovimentoRepository $movimentoRepository, AllegatoRepository $allegatoRepository, EntityManagerInterface $em): Response
+    {
+        $movimento = $movimentoRepository->findOneBy(['id' => $id]);
+        $allegati_directory = $this->getParameter('allegati_directory');
+
+        return $this->render('movimento/mostra.html.twig', [
+            'movimento' => $movimento,
+            'allegati_directory' => $allegati_directory,
+        ]);
     }
 }
