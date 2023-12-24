@@ -17,11 +17,22 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class MovimentoController extends AbstractController
 {
+    #[Route('/movimento/totali', name: 'app_movimento_totali')]
+    public function Totali(MovimentoRepository $movimentoRepository): Response
+    {
+        $elementi = $movimentoRepository->SommaImportiAnni();
+        //dd($elementi);
+
+        return $this->render('movimento/totali.html.twig', [
+            'lista' => $elementi,
+        ]);
+    }
+
     #[Route('/movimento', name: 'app_movimento_lista')]
     public function Lista(MovimentoRepository $movimentoRepository): Response
     {
-        $elementi = $movimentoRepository->findAll();
-
+        $elementi = $movimentoRepository->lista();
+        
         return $this->render('movimento/lista.html.twig', [
             'lista' => $elementi,
         ]);

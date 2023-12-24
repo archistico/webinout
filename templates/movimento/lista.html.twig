@@ -38,8 +38,10 @@
 									<td class="text-end">
 										{% if elemento.Categoria.Padre.Padre.Nome == 'Uscita' %}
 											<span class="text-danger">-{{ elemento.Importo|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</span>
-										{% else %}
+										{% elseif elemento.Categoria.Padre.Padre.Nome == 'Entrata' %}
 											+{{ elemento.Importo|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}
+										{% else %}
+											{{ elemento.Importo|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}
 										{% endif %}
 									</td>
 									<td class="d-none d-md-table-cell">{{ elemento.Tipo.Descrizione }}</td>

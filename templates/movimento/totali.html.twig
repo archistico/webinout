@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Totali Movimenti
+{% endblock %}
+
+{% block body %}
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				{% for elemento in lista %}
+					<h1 class="mb-0 mt-2">{{ elemento.Anno }}</h1>
+					{{ elemento.MacroNome }} | {{ elemento.MesoNome }} | {{ elemento.MicroNome }}<br>
+                    {{ elemento.Totale|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}<br>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

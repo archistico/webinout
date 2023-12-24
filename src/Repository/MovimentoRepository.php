@@ -21,6 +21,71 @@ class MovimentoRepository extends ServiceEntityRepository
         parent::__construct($registry, Movimento::class);
     }
 
+    /**
+    * @return Movimento[] Per la lista dei movimenti
+    */
+    public function lista(): array
+    {
+        return $this
+            ->createQueryBuilder('m')
+            ->innerJoin('m.Categoria', 'micro', 'WITH', 'm.Categoria = micro.id')
+            ->innerJoin('micro.Padre', 'meso', 'WITH', 'micro.Padre = meso.id')
+            ->innerJoin('meso.Padre', 'macro', 'WITH', 'meso.Padre = macro.id')
+            ->orderBy('m.Data', 'DESC')
+            ->addOrderBy('macro.Nome', 'ASC')
+            ->addOrderBy('meso.Nome', 'ASC')
+            ->addOrderBy('micro.Nome', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function SommaImporti(): array
+    {
+        return $this
+            ->createQueryBuilder('m')
+            ->select('micro.Nome As MicroNome')
+            ->addselect('meso.Nome As MesoNome')
+            ->addselect('macro.Nome As MacroNome')
+            ->addSelect('SUM(m.Importo) as Totale')
+            ->innerJoin('m.Categoria', 'micro', 'WITH', 'm.Categoria = micro.id')
+            ->innerJoin('micro.Padre', 'meso', 'WITH', 'micro.Padre = meso.id')
+            ->innerJoin('meso.Padre', 'macro', 'WITH', 'meso.Padre = macro.id')
+            ->groupBy('micro.id')
+            ->addGroupBy('meso.id')
+            ->addGroupBy('macro.id')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function SommaImportiAnni(): array
+    {
+        $qb = $this->createQueryBuilder('m');
+        $query = $qb
+            ->addselect('micro.Nome As MicroNome')
+            ->addselect('meso.Nome As MesoNome')
+            ->addselect('macro.Nome As MacroNome')
+            ->addselect($qb->expr()->substring('m.Data', 0, 5). ' AS Anno')
+            ->addSelect('SUM(m.Importo) as Totale')
+            ->innerJoin('m.Categoria', 'micro', 'WITH', 'm.Categoria = micro.id')
+            ->innerJoin('micro.Padre', 'meso', 'WITH', 'micro.Padre = meso.id')
+            ->innerJoin('meso.Padre', 'macro', 'WITH', 'meso.Padre = macro.id')
+            ->addGroupBy('Anno')
+            ->addgroupBy('micro.id')
+            ->addGroupBy('meso.id')
+            ->addGroupBy('macro.id')
+            ->addOrderBy('Anno')
+            ->addOrderBy('macro.Nome')
+            ->addOrderBy('meso.Nome')
+            ->addOrderBy('micro.Nome')
+            ->getQuery();
+
+        return $query
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return Movimento[] Returns an array of Movimento objects
 //     */
