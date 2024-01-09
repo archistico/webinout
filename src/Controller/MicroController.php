@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class MicroController extends AbstractController
 {
-    #[Route('/micro', name: 'app_categoria_micro_lista')]
+    #[Route('/admin/micro', name: 'app_categoria_micro_lista')]
     public function Lista(MicroRepository $microRepository): Response
     {
         $elementi = $microRepository->findAll();
@@ -22,7 +22,7 @@ class MicroController extends AbstractController
         ]);
     }
 
-    #[Route('/micro/nuovo', name: 'app_categoria_micro_nuovo')]
+    #[Route('/admin/micro/nuovo', name: 'app_categoria_micro_nuovo')]
     public function Nuovo(Request $request, EntityManagerInterface $em): Response
     {
         $elemento = null;
@@ -50,7 +50,7 @@ class MicroController extends AbstractController
         ]);
     }
 
-    #[Route('/micro/modifica/{id}', name: 'app_categoria_micro_modifica')]
+    #[Route('/admin/micro/modifica/{id}', name: 'app_categoria_micro_modifica')]
     public function Modifica($id, Request $request, EntityManagerInterface $em, MicroRepository $microRepository): Response
     {
         $elemento = $microRepository->find($id);
@@ -81,7 +81,7 @@ class MicroController extends AbstractController
         ]);
     }
 
-    #[Route('/micro/cancella/{id}/ok', name: 'app_categoria_micro_cancella_ok')]
+    #[Route('/admin/micro/cancella/{id}/ok', name: 'app_categoria_micro_cancella_ok')]
     public function Cancella($id, MicroRepository $microRepository, EntityManagerInterface $em): Response
     {
         $elemento = $microRepository->findOneBy(['id' => $id]);

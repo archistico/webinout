@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class MesoController extends AbstractController
 {
-    #[Route('/meso', name: 'app_categoria_meso_lista')]
+    #[Route('/admin/meso', name: 'app_categoria_meso_lista')]
     public function Lista(MesoRepository $mesoRepository): Response
     {
         $elementi = $mesoRepository->findAll();
@@ -22,7 +22,7 @@ class MesoController extends AbstractController
         ]);
     }
 
-    #[Route('/meso/nuovo', name: 'app_categoria_meso_nuovo')]
+    #[Route('/admin/meso/nuovo', name: 'app_categoria_meso_nuovo')]
     public function Nuovo(Request $request, EntityManagerInterface $em): Response
     {
         $elemento = null;
@@ -50,7 +50,7 @@ class MesoController extends AbstractController
         ]);
     }
 
-    #[Route('/meso/modifica/{id}', name: 'app_categoria_meso_modifica')]
+    #[Route('/admin/meso/modifica/{id}', name: 'app_categoria_meso_modifica')]
     public function Modifica($id, Request $request, EntityManagerInterface $em, MesoRepository $mesoRepository): Response
     {
         $elemento = $mesoRepository->find($id);
@@ -81,7 +81,7 @@ class MesoController extends AbstractController
         ]);
     }
 
-    #[Route('/meso/cancella/{id}/ok', name: 'app_categoria_meso_cancella_ok')]
+    #[Route('/admin/meso/cancella/{id}/ok', name: 'app_categoria_meso_cancella_ok')]
     public function Cancella($id, MesoRepository $mesoRepository, EntityManagerInterface $em): Response
     {
         $elemento = $mesoRepository->findOneBy(['id' => $id]);

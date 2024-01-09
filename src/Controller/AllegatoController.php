@@ -13,7 +13,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class AllegatoController extends AbstractController
 {
-    #[Route('/allegato', name: 'app_allegato_lista')]
+    #[Route('/admin/allegato', name: 'app_allegato_lista')]
     public function Lista(AllegatoRepository $allegatoRepository): Response
     {
         $elementi = $allegatoRepository->findAll();
@@ -23,7 +23,7 @@ class AllegatoController extends AbstractController
         ]);
     }
 
-    #[Route('/allegato/nuovo', name: 'app_allegato_nuovo')]
+    #[Route('/admin/allegato/nuovo', name: 'app_allegato_nuovo')]
     public function Nuovo(Request $request, EntityManagerInterface $em): Response
     {
         $elemento = null;
@@ -51,7 +51,7 @@ class AllegatoController extends AbstractController
         ]);
     }
 
-    #[Route('/allegato/modifica/{id}', name: 'app_allegato_modifica')]
+    #[Route('/admin/allegato/modifica/{id}', name: 'app_allegato_modifica')]
     public function Modifica($id, Request $request, EntityManagerInterface $em, AllegatoRepository $allegatoRepository): Response
     {
         $elemento = $allegatoRepository->find($id);
@@ -82,7 +82,7 @@ class AllegatoController extends AbstractController
         ]);
     }
 
-    #[Route('/allegato/cancella/{id}/ok', name: 'app_allegato_cancella_ok')]
+    #[Route('/admin/allegato/cancella/{id}/ok', name: 'app_allegato_cancella_ok')]
     public function Cancella($id, AllegatoRepository $allegatoRepository, EntityManagerInterface $em, Filesystem $filesystem): Response
     {
         $elemento = $allegatoRepository->findOneBy(['id' => $id]);

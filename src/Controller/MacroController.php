@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class MacroController extends AbstractController
 {
-    #[Route('/macro', name: 'app_categoria_macro_lista')]
+    #[Route('/admin/macro', name: 'app_categoria_macro_lista')]
     public function Lista(MacroRepository $macroRepository): Response
     {
         $elementi = $macroRepository->findAll();
@@ -23,7 +23,7 @@ class MacroController extends AbstractController
         ]);
     }
 
-    #[Route('/macro/nuovo', name: 'app_categoria_macro_nuovo')]
+    #[Route('/admin/macro/nuovo', name: 'app_categoria_macro_nuovo')]
     public function Nuovo(Request $request, EntityManagerInterface $em): Response
     {
         $elemento = null;
@@ -51,7 +51,7 @@ class MacroController extends AbstractController
         ]);
     }
 
-    #[Route('/macro/modifica/{id}', name: 'app_categoria_macro_modifica')]
+    #[Route('/admin/macro/modifica/{id}', name: 'app_categoria_macro_modifica')]
     public function Modifica($id, Request $request, EntityManagerInterface $em, MacroRepository $macroRepository): Response
     {
         $elemento = $macroRepository->find($id);
@@ -82,7 +82,7 @@ class MacroController extends AbstractController
         ]);
     }
 
-    #[Route('/macro/cancella/{id}/ok', name: 'app_categoria_macro_cancella_ok')]
+    #[Route('/admin/macro/cancella/{id}/ok', name: 'app_categoria_macro_cancella_ok')]
     public function Cancella($id, MacroRepository $macroRepository, EntityManagerInterface $em): Response
     {
         $elemento = $macroRepository->findOneBy(['id' => $id]);

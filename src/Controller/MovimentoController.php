@@ -17,7 +17,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class MovimentoController extends AbstractController
 {
-    #[Route('/movimento/totali', name: 'app_movimento_totali')]
+    #[Route('/admin/movimento/totali', name: 'app_movimento_totali')]
     public function Totali(MovimentoRepository $movimentoRepository): Response
     {
         $elementi = $movimentoRepository->SommaImportiAnni();
@@ -28,7 +28,7 @@ class MovimentoController extends AbstractController
         ]);
     }
 
-    #[Route('/movimento', name: 'app_movimento_lista')]
+    #[Route('/admin/movimento', name: 'app_movimento_lista')]
     public function Lista(MovimentoRepository $movimentoRepository): Response
     {
         $elementi = $movimentoRepository->lista();
@@ -38,7 +38,7 @@ class MovimentoController extends AbstractController
         ]);
     }
 
-    #[Route('/movimento/nuovo', name: 'app_movimento_nuovo')]
+    #[Route('/admin/movimento/nuovo', name: 'app_movimento_nuovo')]
     public function Nuovo(Request $request, EntityManagerInterface $em, SluggerInterface $slugger): Response
     {
         $elemento = null;
@@ -106,7 +106,7 @@ class MovimentoController extends AbstractController
         ]);
     }
 
-    #[Route('/movimento/modifica/{id}', name: 'app_movimento_modifica')]
+    #[Route('/admin/movimento/modifica/{id}', name: 'app_movimento_modifica')]
     public function Modifica($id, Request $request, EntityManagerInterface $em, MovimentoRepository $movimentoRepository, SluggerInterface $slugger): Response
     {
         $elemento = $movimentoRepository->find($id);
@@ -177,7 +177,7 @@ class MovimentoController extends AbstractController
         ]);
     }
 
-    #[Route('/movimento/cancella/{id}/ok', name: 'app_movimento_cancella_ok')]
+    #[Route('/admin/movimento/cancella/{id}/ok', name: 'app_movimento_cancella_ok')]
     public function Cancella($id, MovimentoRepository $movimentoRepository, EntityManagerInterface $em, Filesystem $filesystem): Response
     {
         $elemento = $movimentoRepository->findOneBy(['id' => $id]);
@@ -198,7 +198,7 @@ class MovimentoController extends AbstractController
         return $this->redirectToRoute('app_movimento_lista');
     }
 
-    #[Route('/movimento/mostra/{id}', name: 'app_movimento_mostra')]
+    #[Route('/admin/movimento/mostra/{id}', name: 'app_movimento_mostra')]
     public function Mostra($id, MovimentoRepository $movimentoRepository, AllegatoRepository $allegatoRepository, EntityManagerInterface $em): Response
     {
         $movimento = $movimentoRepository->findOneBy(['id' => $id]);

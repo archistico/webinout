@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
-    #[Route('/', name: 'app_home')]
+    #[Route('/admin', name: 'app_home')]
     public function Home(MovimentoRepository $movimentoRepository): Response
     {
         $movimenti = $movimentoRepository->findAll();

@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class TipoPagamentoController extends AbstractController
 {
-    #[Route('/tipopagamento', name: 'app_tipopagamento_lista')]
+    #[Route('/admin/tipopagamento', name: 'app_tipopagamento_lista')]
     public function Lista(TipoPagamentoRepository $tipoPagamentoRepository): Response
     {
         $elementi = $tipoPagamentoRepository->findAll();
@@ -22,7 +22,7 @@ class TipoPagamentoController extends AbstractController
         ]);
     }
 
-    #[Route('/tipopagamento/nuovo', name: 'app_tipopagamento_nuovo')]
+    #[Route('/admin/tipopagamento/nuovo', name: 'app_tipopagamento_nuovo')]
     public function Nuovo(Request $request, EntityManagerInterface $em): Response
     {
         $elemento = null;
@@ -50,7 +50,7 @@ class TipoPagamentoController extends AbstractController
         ]);
     }
 
-    #[Route('/tipopagamento/modifica/{id}', name: 'app_tipopagamento_modifica')]
+    #[Route('/admin/tipopagamento/modifica/{id}', name: 'app_tipopagamento_modifica')]
     public function Modifica($id, Request $request, EntityManagerInterface $em, TipoPagamentoRepository $tipoPagamentoRepository): Response
     {
         $elemento = $tipoPagamentoRepository->find($id);
@@ -81,7 +81,7 @@ class TipoPagamentoController extends AbstractController
         ]);
     }
 
-    #[Route('/tipopagamento/cancella/{id}/ok', name: 'app_tipopagamento_cancella_ok')]
+    #[Route('/admin/tipopagamento/cancella/{id}/ok', name: 'app_tipopagamento_cancella_ok')]
     public function Cancella($id, TipoPagamentoRepository $tipoPagamentoRepository, EntityManagerInterface $em): Response
     {
         $elemento = $tipoPagamentoRepository->findOneBy(['id' => $id]);

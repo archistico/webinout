@@ -22,4 +22,10 @@ class LoginController extends AbstractController
             'error'         => $error,
         ]);
     }
+
+    #[Route('/', name: 'app_redirect')]
+    public function app_redirect(): Response
+    {
+        return $this->redirectToRoute('app_login', []);
+    }
 }
