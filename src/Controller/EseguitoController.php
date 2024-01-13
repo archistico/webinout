@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Eseguito;
 use App\Form\EseguitoType;
+use App\Form\ScadenzaEseguitoType;
 use App\Repository\EseguitoRepository;
+use App\Repository\ScadenzaRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -99,6 +102,74 @@ class EseguitoController extends AbstractController
 
         return $this->render('eseguito/mostra.html.twig', [
             'elemento' => $elemento,
+        ]);
+    }
+
+    #[Route('/admin/eseguito/nuovo/{id}', name: 'app_eseguito_nuovo_scadenza')]
+    public function NuovoDaScadenza($id, Request $request, EntityManagerInterface $em, EseguitoRepository $repo, ScadenzaRepository $repoScadenza): Response
+    {
+        $elemento = $repoScadenza->find($id);
+        $eseguito = new Eseguito();
+        $eseguito
+            ->setAttivita($elemento->getAttivita())
+            ->setDataScadenza($elemento->getDataScadenza());
+
+        $form = $this->createForm(ScadenzaEseguitoType::class, $eseguito);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+
+            $params = $request->request->all();
+            $differisci = $params['scadenza_eseguito']['Differisci'];
+
+            /*
+            'Anno'
+            'Biennio'
+            'Decennio'
+            */
+
+            $intervalloQt = '';
+            switch ($differisci) {
+                case 'Anno':
+                    $intervalloQt = 'P1Y';
+                    break;
+                case 'Biennio':
+                    $intervalloQt = 'P2Y';
+                    break;
+                case 'Decennio':
+                    $intervalloQt = 'P10Y';
+                    break;
+                
+                default:
+                    $intervalloQt = 'P1D';
+                    break;
+            }
+
+            $dataScadenza = \DateTime::createFromInterface($elemento->getDataScadenza());
+            $intervallo = new \DateInterval($intervalloQt);
+            $dataScadenza->add($intervallo);
+
+            $elemento->setDataScadenza($dataScadenza);
+            $em->persist($elemento);
+
+            $eseguito = $form->getData();
+            
+            $em->persist($eseguito);
+            $em->flush();
+
+            $this->addFlash('success', 'I dati della scadenza eseguita sono stati modificati');
+            
+            return $this->redirectToRoute('app_eseguito_lista', [
+                'id' => $eseguito->getId(),
+            ]);
+        }
+
+        if($form->isSubmitted() && !$form->isValid()) {
+            $this->addFlash('error', "Ci sono degli errori nella modifica della scadenza eseguita");
+        }
+
+        return $this->render('eseguito/nuovo.scadenza.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 }

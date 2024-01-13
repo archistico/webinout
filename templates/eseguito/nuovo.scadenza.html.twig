@@ -1,0 +1,56 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Scadenza eseguita - Nuovo
+{% endblock %}
+
+{% block body %}
+	<div class="row">
+		<div class="col-12">
+			<h1>NUOVA SCADENZA ESEGUITA</h1>
+		</div>
+	</div>
+
+	{{ form_start(form) }}
+	<div class="row">
+		<div class="col-8">
+			{{ form_label(form.Attivita) }}
+			{{ form_widget(form.Attivita) }}
+			<div class="text-red li-senza-pallino">
+				{{ form_errors(form.Attivita) }}
+			</div>
+		</div>
+        <div class="col-4">
+			{{ form_label(form.Differisci) }}
+			{{ form_widget(form.Differisci) }}
+			<div class="text-red li-senza-pallino">
+				{{ form_errors(form.Differisci) }}
+			</div>
+		</div>	
+	</div>
+	<div class="row mt-2">
+		<div class="col-6">
+			{{ form_label(form.DataScadenza) }}
+			{{ form_widget(form.DataScadenza) }}
+			<div class="text-red li-senza-pallino">
+				{{ form_errors(form.DataScadenza) }}
+			</div>
+		</div>
+		<div class="col-6">
+			{{ form_label(form.DataEseguito) }}
+			{{ form_widget(form.DataEseguito) }}
+			<div class="text-red li-senza-pallino">
+				{{ form_errors(form.DataEseguito) }}
+			</div>
+		</div>		
+	</div>	
+	<div class="row mt-4">
+		<div class="col-md-6 mt-2">
+			<a class="btn btn-secondary btn-square w-100" href="{{ path('app_eseguito_lista') }}">TORNA INDIETRO</a>
+		</div>
+		<div class="col-md-6 mt-2">
+			<button type="submit" class="btn btn-primary btn-square w-100">SALVA</button>
+		</div>
+	</div>
+	{{ form_end(form) }}
+
+{% endblock %}

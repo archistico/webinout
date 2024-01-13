@@ -10,7 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class EseguitoType extends AbstractType
+class ScadenzaEseguitoType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -39,6 +39,16 @@ class EseguitoType extends AbstractType
             'attr' => [
                 'class' => 'form-control',
             ]
+        ])
+        ->add('Differisci', ChoiceType::class, [
+            'label' => 'Differisci la scadenza originale', 
+            'required' => true,
+            'choices'  => [
+                'Anno' => 'Anno',
+                'Biennio' => 'Biennio',
+                'Decennio' => 'Decennio',
+                ],
+                "mapped" => false,
         ])
         ;
     }
