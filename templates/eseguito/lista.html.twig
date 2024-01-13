@@ -26,6 +26,7 @@
 								<th>Attivita</th>
 								<th class="text-end">Scadenza</th>
 								<th class="text-end">Fatto</th>
+								<th class="text-end">Anticipo</th>
 								<th class="w-1"></th>
 							</tr>
 						</thead>
@@ -35,13 +36,21 @@
 									<td>{{ elemento.Attivita }}</td>
 									<td class="text-end">{{ elemento.DataScadenza|date('d/m/Y') }}</td>
 									<td class="text-end">{{ elemento.DataEseguito|date('d/m/Y') }}</td>
+									<td class="text-end">
+										{% if elemento.DifferenzaGiorni == 0 %}
+											<span class="badge bg-orange text-black">All'ultimo</span>
+										{% elseif elemento.DifferenzaGiorni == 1  %}
+											<span class="badge bg-lime text-black">Un giorno prima</span>
+										{% elseif elemento.DifferenzaGiorni > 1 %}
+											<span class="badge bg-lime text-black">{{ elemento.DifferenzaGiorni }} giorni prima</span>
+										{% elseif elemento.DifferenzaGiorni == -1  %}
+											<span class="badge bg-red text-black">Scaduto da {{ elemento.DifferenzaGiorni|abs }} giorno</span>
+										{% else %}
+											<span class="badge bg-red text-black">Scaduto da {{ elemento.DifferenzaGiorni|abs }} giorni</span>
+										{% endif %}									
+									</td>
 									<td>
 										<div class="btn-list flex-nowrap">
-											<div class="col-xl-auto py-1">
-												<a href="{{ path('app_eseguito_mostra', { id: elemento.id }) }}" class="btn btn-success w-100 btn-icon" aria-label="Fatto" data-balloon-pos="up-right">
-													<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l5 5l10 -10" /></svg>
-												</a>
-											</div>
 											<div class="col-xl-auto py-1">
 												<a href="{{ path('app_eseguito_mostra', { id: elemento.id }) }}" class="btn btn-twitter w-100 btn-icon" aria-label="Mostra" data-balloon-pos="up-right">
 													<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye" width="24" height="24" viewbox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"/><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6"/></svg>

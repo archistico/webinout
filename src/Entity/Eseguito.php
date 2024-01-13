@@ -63,4 +63,15 @@ class Eseguito
 
         return $this;
     }
+
+    public function getDifferenzaGiorni(): ?string
+    {
+        $scadenza = $this->DataScadenza->getTimestamp();
+        //$intervallo = new \DateInterval('P1D');
+        $eseguito = $this->DataEseguito->getTimestamp();
+        
+        $diff = $scadenza - $eseguito;
+        $giorni = intval(round($diff / 86400));
+        return $giorni;
+    }
 }
