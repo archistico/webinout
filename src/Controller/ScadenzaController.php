@@ -15,7 +15,7 @@ class ScadenzaController extends AbstractController
     #[Route('/admin/scadenza', name: 'app_scadenza_lista')]
     public function Lista(ScadenzaRepository $repo): Response
     {
-        $elementi = $repo->findAll();
+        $elementi = $repo->lista();
 
         return $this->render('scadenza/lista.html.twig', [
             'lista' => $elementi,

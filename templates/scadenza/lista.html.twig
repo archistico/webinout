@@ -38,8 +38,10 @@
 										{% if elemento.DifferenzaGiorni == 0 %}
 											<span class="badge bg-orange text-black">Scade oggi</span>
 										{% elseif elemento.DifferenzaGiorni == 1  %}
-											<span class="badge bg-lime text-black">Tra {{ elemento.DifferenzaGiorni|abs }} giorno</span>
-										{% elseif elemento.DifferenzaGiorni > 1 %}
+											<span class="badge bg-yellow text-black">In scadenza tra {{ elemento.DifferenzaGiorni|abs }} giorno</span>
+										{% elseif elemento.DifferenzaGiorni > 1 and elemento.DifferenzaGiorni <= 30 %}
+											<span class="badge bg-yellow text-black">In scadenza tra {{ elemento.DifferenzaGiorni }} giorni</span>
+										{% elseif elemento.DifferenzaGiorni > 30 %}
 											<span class="badge bg-lime text-black">Tra {{ elemento.DifferenzaGiorni }} giorni</span>
 										{% elseif elemento.DifferenzaGiorni == -1  %}
 											<span class="badge bg-red text-black">Scaduto da {{ elemento.DifferenzaGiorni|abs }} giorno</span>

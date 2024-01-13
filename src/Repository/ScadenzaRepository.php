@@ -21,20 +21,17 @@ class ScadenzaRepository extends ServiceEntityRepository
         parent::__construct($registry, Scadenza::class);
     }
 
-//    /**
-//     * @return Scadenza[] Returns an array of Scadenza objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return Scadenza[] Returns an array of Scadenza objects
+     */
+    public function lista(): array
+    {
+        return $this->createQueryBuilder('m')
+            ->orderBy('m.DataScadenza', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
 //    public function findOneBySomeField($value): ?Scadenza
 //    {
