@@ -48,4 +48,15 @@ class Scadenza
 
         return $this;
     }
+
+    public function getDifferenzaGiorni(): ?string
+    {
+        $scadenza = $this->DataScadenza->getTimestamp();
+        $intervallo = new \DateInterval('P1D');
+        $oggi = ((new \DateTime())->sub($intervallo))->getTimestamp();
+        
+        $diff = $scadenza - $oggi;
+        $giorni = intval(round($diff / 86400));
+        return $giorni;
+    }
 }
