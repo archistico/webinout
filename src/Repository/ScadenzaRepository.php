@@ -33,6 +33,19 @@ class ScadenzaRepository extends ServiceEntityRepository
         ;
     }
 
+    /**
+     * @return Scadenza[] Returns an array of Scadenza objects
+     */
+    public function listaUltime(): array
+    {
+        return $this->createQueryBuilder('m')
+            ->orderBy('m.DataScadenza', 'ASC')
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    public function findOneBySomeField($value): ?Scadenza
 //    {
 //        return $this->createQueryBuilder('s')

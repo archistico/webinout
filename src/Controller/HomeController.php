@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\MovimentoRepository;
+use App\Repository\ScadenzaRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,8 +12,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     #[Route('/admin', name: 'app_home')]
-    public function Home(MovimentoRepository $movimentoRepository): Response
+    public function Home(MovimentoRepository $movimentoRepository, ScadenzaRepository $scadezaRepository): Response
     {
+        $listaScadenze = $scadezaRepository->listaUltime();
+
         $movimenti = $movimentoRepository->findAll();
         $entrate_mensili = 0;
         $uscite_mensili = 0;
@@ -52,6 +55,7 @@ class HomeController extends AbstractController
             'uscite_mensili' => $uscite_mensili,
             'entrate_annuali' => $entrate_annuali,
             'uscite_annuali' => $uscite_annuali,
+            'listaScadenze' => $listaScadenze,
         ]);
     }
 }
