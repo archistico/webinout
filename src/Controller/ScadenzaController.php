@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Form\MacroType;
+use App\Form\ScadenzaType;
 use App\Repository\ScadenzaRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,7 +26,7 @@ class ScadenzaController extends AbstractController
     public function Nuovo(Request $request, EntityManagerInterface $em): Response
     {
         $elemento = null;
-        $form = $this->createForm(MacroType::class);
+        $form = $this->createForm(ScadenzaType::class);
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
@@ -55,7 +55,7 @@ class ScadenzaController extends AbstractController
     {
         $elemento = $repo->find($id);
 
-        $form = $this->createForm(MacroType::class, $elemento);
+        $form = $this->createForm(ScadenzaType::class, $elemento);
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
@@ -90,5 +90,15 @@ class ScadenzaController extends AbstractController
         $em->flush();
         
         return $this->redirectToRoute('app_scadenza_lista');
+    }
+
+    #[Route('/admin/scadenza/mostra/{id}', name: 'app_scadenza_mostra')]
+    public function Mostra($id, ScadenzaRepository $repo, EntityManagerInterface $em): Response
+    {
+        $elemento = $repo->findOneBy(['id' => $id]);        
+
+        return $this->render('scadenza/mostra.html.twig', [
+            'elemento' => $elemento,
+        ]);
     }
 }
