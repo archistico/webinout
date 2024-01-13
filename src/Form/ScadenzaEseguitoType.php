@@ -44,6 +44,9 @@ class ScadenzaEseguitoType extends AbstractType
             'label' => 'Differisci la scadenza originale', 
             'required' => true,
             'choices'  => [
+                'Settimana' => 'Settimana',
+                'Mese' => 'Mese',
+                'Semestre' => 'Semestre',
                 'Anno' => 'Anno',
                 'Biennio' => 'Biennio',
                 'Decennio' => 'Decennio',
