@@ -86,6 +86,32 @@ class MovimentoRepository extends ServiceEntityRepository
         ;
     }
 
+    /**
+    * @return Movimento[] Somma lista movimenti per categorie
+    */
+    public function listaSommaPerCategorie(): array
+    {
+        return $this
+            ->createQueryBuilder('m')
+            ->addselect('micro.Nome As MicroNome')
+            ->addselect('meso.Nome As MesoNome')
+            ->addselect('macro.Nome As MacroNome')
+            ->addSelect('SUM(m.Importo) as Totale')
+            ->innerJoin('m.Categoria', 'micro', 'WITH', 'm.Categoria = micro.id')
+            ->innerJoin('micro.Padre', 'meso', 'WITH', 'micro.Padre = meso.id')
+            ->innerJoin('meso.Padre', 'macro', 'WITH', 'meso.Padre = macro.id')
+            ->orderBy('SUM(m.Importo)', 'DESC')
+            ->addOrderBy('macro.Nome', 'ASC')
+            ->addOrderBy('meso.Nome', 'ASC')
+            ->addOrderBy('micro.Nome', 'ASC')
+            ->addGroupBy('macro.Nome')
+            ->addGroupBy('meso.Nome')
+            ->addGroupBy('micro.Nome')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return Movimento[] Returns an array of Movimento objects
 //     */

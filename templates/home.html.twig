@@ -179,7 +179,7 @@
 
 				<div class="col-12">
 					<div class="row row-cards">
-						<h2>Prime cinque scadenze</h2>
+						<h2>Prime cinque scadenze <a href="{{ path('app_scadenza_lista') }}" class="btn btn-primary btn-sm btn-square">Lista scadenze</a></h2>
 
 						<div class="row">
 							<div class="col-12">
@@ -223,6 +223,37 @@
 																	giorni</span>
 															{% endif %}
 														</td>
+													</tr>
+												{% endfor %}
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-12">
+					<div class="row row-cards">
+						<h2>Somme movimenti per le varie categorie <a href="{{ path('app_movimento_lista') }}" class="btn btn-primary btn-sm btn-square">Lista movimenti</a></h2>
+						
+						<div class="row">
+							<div class="col-12">
+								<div class="card">
+									<div class="table-responsive">
+										<table class="table table-vcenter card-table table-striped">
+											<thead>
+												<tr>
+													<th>Categoria</th>
+													<th class="text-end">Importo</th>
+												</tr>
+											</thead>
+											<tbody>
+												{% for elemento in movimentiSomme %}
+													<tr>
+														<td>{{ elemento.MacroNome }} | {{ elemento.MesoNome }} | {{ elemento.MicroNome }}</td>
+														<td class="text-end">{{ elemento.Totale|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</td>
 													</tr>
 												{% endfor %}
 											</tbody>

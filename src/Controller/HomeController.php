@@ -50,12 +50,15 @@ class HomeController extends AbstractController
             
         }
 
+        $movimentiSomme = $movimentoRepository->listaSommaPerCategorie();
+
         return $this->render('home.html.twig', [
             'entrate_mensili' => $entrate_mensili,
             'uscite_mensili' => $uscite_mensili,
             'entrate_annuali' => $entrate_annuali,
             'uscite_annuali' => $uscite_annuali,
             'listaScadenze' => $listaScadenze,
+            'movimentiSomme' => $movimentiSomme,
         ]);
     }
 }
