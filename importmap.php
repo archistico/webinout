@@ -18,10 +18,6 @@ return [
         'path' => 'app.js',
         'preload' => true,
     ],
-    'htmx.org' => [
-        'downloaded_to' => 'vendor/htmx.org.js',
-        'url' => 'https://cdn.jsdelivr.net/npm/htmx.org@1.9.6/+esm',
-    ],
     '@hotwired/stimulus' => [
         'url' => 'https://cdn.jsdelivr.net/npm/@hotwired/stimulus@3.2.2/+esm',
     ],

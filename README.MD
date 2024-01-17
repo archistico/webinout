@@ -168,3 +168,5 @@ composer require --dev symfony/debug-bundle
 composer require symfony/mime
 composer require twig/intl-extra
 
+compilazione
+php bin/console asset-map:compile
