@@ -24,13 +24,39 @@ class HomeController extends AbstractController
         $entrate_annuali = 0;
         $uscite_annuali = 0;
 
+        $listaPeriodi = [];
+        $EntratePeriodi = [];
+        $UscitePeriodi = [];
+
         foreach($movimenti as $m) 
         {
             $annoInCorso = date("Y");
             $meseInCorso = date("m");
 
+            $periodo = $m->getData()->format('Y') . "-" . $m->getData()->format('m');
+
+            if (!in_array($periodo, $listaPeriodi)) {
+                $listaPeriodi[] = $periodo;
+            }
+
+            $filemacro = $m->getCategoria()->getPadre()->getPadre()->getNome();
+
+            if ($filemacro == "Entrata") {
+                if (!array_key_exists($periodo, $EntratePeriodi)) {
+                    $EntratePeriodi[$periodo] = $m->getImporto();
+                } else {
+                    $EntratePeriodi[$periodo] = $EntratePeriodi[$periodo] + $m->getImporto();
+                }
+            }
+            if ($filemacro == "Uscita") {
+                if (!array_key_exists($periodo, $UscitePeriodi)) {
+                    $UscitePeriodi[$periodo] = $m->getImporto();
+                } else {
+                    $UscitePeriodi[$periodo] = $UscitePeriodi[$periodo] + $m->getImporto();
+                }
+            }
+
             if ($m->getData()->format('Y') == $annoInCorso) {
-                $filemacro = $m->getCategoria()->getPadre()->getPadre()->getNome();
                 if ($filemacro == "Entrata") {
                     $entrate_annuali += $m->getImporto();
                 }
@@ -47,22 +73,54 @@ class HomeController extends AbstractController
                     }
                 }
             }
-            //$filemicro = $m->getCategoria()->getNome();
-            //$filemeso = $m->getCategoria()->getPadre()->getNome();
-            
         }
+
+        sort($listaPeriodi);
+
+        foreach ($listaPeriodi as $p) {
+            if (!array_key_exists($p, $EntratePeriodi)) {
+                $EntratePeriodi[$p] = 0;
+            }
+            if (!array_key_exists($p, $UscitePeriodi)) {
+                $UscitePeriodi[$p] = 0;
+            }
+        }
+
+        ksort($EntratePeriodi);
+        ksort($UscitePeriodi);
+
+        //dump($EntratePeriodi);
+        //dump($UscitePeriodi);
+        //dd($listaPeriodi);
 
         $movimentiSomme = $movimentoRepository->listaSommaPerCategorie();
 
-        $chart = $chartBuilder->createChart(Chart::TYPE_LINE);
+        $chart = $chartBuilder->createChart(Chart::TYPE_BAR);
         $chart->setData([
-            'labels' => ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            'labels' => $listaPeriodi,
             'datasets' => [
                 [
-                    'label' => 'Sales!',
+                    'label' => 'Entrate',
+                    'backgroundColor' => 'rgb(30, 250, 132)',
+                    'borderColor' => 'rgb(30, 250, 132)',
+                    'data' => array_values($EntratePeriodi),
+                ],
+                [
+                    'label' => 'Uscite',
                     'backgroundColor' => 'rgb(255, 99, 132)',
                     'borderColor' => 'rgb(255, 99, 132)',
-                    'data' => [522, 1500, 2250, 2197, 2345, 3122, 3099],
+                    'data' => array_values($UscitePeriodi),
+                ],
+            ],
+        ]);
+
+        $chart->setOptions([
+            'scales' => [
+                'x' => [
+                    'stacked' => true,
+                ],
+                'y' => [
+                    'stacked' => true,
                 ],
             ],
         ]);
