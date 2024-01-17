@@ -8,11 +8,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
+use Symfony\UX\Chartjs\Model\Chart;
 
 class HomeController extends AbstractController
 {
     #[Route('/admin', name: 'app_home')]
-    public function Home(MovimentoRepository $movimentoRepository, ScadenzaRepository $scadezaRepository): Response
+    public function Home(MovimentoRepository $movimentoRepository, ScadenzaRepository $scadezaRepository, ChartBuilderInterface $chartBuilder): Response
     {
         $listaScadenze = $scadezaRepository->listaUltime();
 
@@ -52,6 +54,19 @@ class HomeController extends AbstractController
 
         $movimentiSomme = $movimentoRepository->listaSommaPerCategorie();
 
+        $chart = $chartBuilder->createChart(Chart::TYPE_LINE);
+        $chart->setData([
+            'labels' => ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            'datasets' => [
+                [
+                    'label' => 'Sales!',
+                    'backgroundColor' => 'rgb(255, 99, 132)',
+                    'borderColor' => 'rgb(255, 99, 132)',
+                    'data' => [522, 1500, 2250, 2197, 2345, 3122, 3099],
+                ],
+            ],
+        ]);
+
         return $this->render('home.html.twig', [
             'entrate_mensili' => $entrate_mensili,
             'uscite_mensili' => $uscite_mensili,
@@ -59,6 +74,7 @@ class HomeController extends AbstractController
             'uscite_annuali' => $uscite_annuali,
             'listaScadenze' => $listaScadenze,
             'movimentiSomme' => $movimentiSomme,
+            'chart' => $chart,
         ]);
     }
 }

@@ -22,4 +22,16 @@ return [
         'downloaded_to' => 'vendor/htmx.org.js',
         'url' => 'https://cdn.jsdelivr.net/npm/htmx.org@1.9.6/+esm',
     ],
+    '@hotwired/stimulus' => [
+        'url' => 'https://cdn.jsdelivr.net/npm/@hotwired/stimulus@3.2.2/+esm',
+    ],
+    '@symfony/stimulus-bundle' => [
+        'path' => '@symfony/stimulus-bundle/loader.js',
+    ],
+    '@hotwired/turbo' => [
+        'url' => 'https://cdn.jsdelivr.net/npm/@hotwired/turbo@7.3.0/+esm',
+    ],
+    'chart.js/auto' => [
+        'url' => 'https://cdn.jsdelivr.net/npm/chart.js@3.9.1/auto/+esm',
+    ],
 ];
