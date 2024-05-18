@@ -177,7 +177,19 @@ class MovimentoController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/movimento/cancella/{id}/ok', name: 'app_movimento_cancella_ok')]
+    #[Route('/admin/movimento/cancella/ok/{id}', name: 'app_movimento_cancella_ok')]
+    public function CancellaOK($id, MovimentoRepository $movimentoRepository, EntityManagerInterface $em, Filesystem $filesystem): Response
+    {
+        $movimento = $movimentoRepository->findOneBy(['id' => $id]);
+        $allegati_directory = $this->getParameter('allegati_directory');
+
+        return $this->render('movimento/cancella.html.twig', [
+            'movimento' => $movimento,
+            'allegati_directory' => $allegati_directory,
+        ]);
+    }
+
+    #[Route('/admin/movimento/cancella/{id}', name: 'app_movimento_cancella')]
     public function Cancella($id, MovimentoRepository $movimentoRepository, EntityManagerInterface $em, Filesystem $filesystem): Response
     {
         $elemento = $movimentoRepository->findOneBy(['id' => $id]);
