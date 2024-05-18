@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Analisi movimenti
+{% endblock %}
+
+{% block body %}
+	<div class="row">
+		<div class="col-12">
+			<h1>ANALISI MOVIMENTI</h1>
+		</div>
+	</div>
+	<div class="row py-3">
+		<div class="col-12">
+			<div class="row">
+				<div class="col-6 p-2">
+					{{ render_chart(chart_analisi_1, {'class': 'chart-lg'}) }}
+				</div>
+				<div class="col-6 p-2">
+					{{ render_chart(chart_analisi_2, {'class': 'chart-lg'}) }}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row mt-4">
+		<div class="col-12">
+			<a class="btn btn-secondary btn-square w-100" href="{{ path('app_home') }}">TORNA INDIETRO</a>
+		</div>
+	</div>
+
+{% endblock %}
