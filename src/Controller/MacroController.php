@@ -16,7 +16,7 @@ class MacroController extends AbstractController
     #[Route('/admin/macro', name: 'app_categoria_macro_lista')]
     public function Lista(MacroRepository $macroRepository): Response
     {
-        $elementi = $macroRepository->findAll();
+        $elementi = $macroRepository->findAllOrdered();
 
         return $this->render('macro/lista.html.twig', [
             'lista' => $elementi,

@@ -15,7 +15,7 @@ class MesoController extends AbstractController
     #[Route('/admin/meso', name: 'app_categoria_meso_lista')]
     public function Lista(MesoRepository $mesoRepository): Response
     {
-        $elementi = $mesoRepository->findAll();
+        $elementi = $mesoRepository->findAllOrdered();
 
         return $this->render('meso/lista.html.twig', [
             'lista' => $elementi,

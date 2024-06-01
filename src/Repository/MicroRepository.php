@@ -21,20 +21,21 @@ class MicroRepository extends ServiceEntityRepository
         parent::__construct($registry, Micro::class);
     }
 
-//    /**
-//     * @return Micro[] Returns an array of Micro objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('m')
-//            ->andWhere('m.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('m.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return Micro[] Returns an array of Micro objects
+     */
+    public function findAllOrdered(): array
+    {
+        return $this->createQueryBuilder('micro')
+        ->innerJoin('micro.Padre', 'meso', 'WITH', 'micro.Padre = meso.id')
+        ->innerJoin('meso.Padre', 'macro', 'WITH', 'meso.Padre = macro.id')
+        ->orderBy('macro.Nome', 'ASC')
+        ->addOrderBy('meso.Nome', 'ASC')
+        ->addOrderBy('micro.Nome', 'ASC')
+        ->getQuery()
+        ->getResult()
+        ;
+    }
 
 //    public function findOneBySomeField($value): ?Micro
 //    {

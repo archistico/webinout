@@ -15,7 +15,7 @@ class MicroController extends AbstractController
     #[Route('/admin/micro', name: 'app_categoria_micro_lista')]
     public function Lista(MicroRepository $microRepository): Response
     {
-        $elementi = $microRepository->findAll();
+        $elementi = $microRepository->findAllOrdered();
 
         return $this->render('micro/lista.html.twig', [
             'lista' => $elementi,

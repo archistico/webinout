@@ -21,20 +21,17 @@ class MacroRepository extends ServiceEntityRepository
         parent::__construct($registry, Macro::class);
     }
 
-//    /**
-//     * @return Macro[] Returns an array of Macro objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('m')
-//            ->andWhere('m.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('m.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+    * @return Macro[] Returns an array of Macro objects
+    */
+    public function findAllOrdered(): array
+    {
+        return $this->createQueryBuilder('m')
+            ->orderBy('m.Nome', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
 //    public function findOneBySomeField($value): ?Macro
 //    {

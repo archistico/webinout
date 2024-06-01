@@ -21,20 +21,19 @@ class MesoRepository extends ServiceEntityRepository
         parent::__construct($registry, Meso::class);
     }
 
-//    /**
-//     * @return Meso[] Returns an array of Meso objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('m')
-//            ->andWhere('m.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('m.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return Meso[] Returns an array of Meso objects
+     */
+    public function findAllOrdered(): array
+    {
+        return $this->createQueryBuilder('meso')
+            ->innerJoin('meso.Padre', 'macro', 'WITH', 'meso.Padre = macro.id')
+            ->orderBy('macro.Nome', 'ASC')
+            ->addOrderBy('meso.Nome', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
 //    public function findOneBySomeField($value): ?Meso
 //    {
