@@ -128,6 +128,8 @@ class EseguitoController extends AbstractController
             'Decennio'
             'Mese'
             'Semestre'
+            'Quadriennio'
+            'Quinquennio'
             */
 
             $intervalloQt = '';
@@ -137,6 +139,12 @@ class EseguitoController extends AbstractController
                     break;
                 case 'Biennio':
                     $intervalloQt = 'P2Y';
+                    break;
+                case 'Quadriennio':
+                    $intervalloQt = 'P4Y';
+                    break;
+                case 'Quinquennio':
+                    $intervalloQt = 'P5Y';
                     break;
                 case 'Decennio':
                     $intervalloQt = 'P10Y';

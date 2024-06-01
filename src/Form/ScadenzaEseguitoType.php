@@ -49,6 +49,8 @@ class ScadenzaEseguitoType extends AbstractType
                 'Semestre' => 'Semestre',
                 'Anno' => 'Anno',
                 'Biennio' => 'Biennio',
+                'Quadriennio' => 'Quadriennio',
+                'Quinquennio' => 'Quinquennio',
                 'Decennio' => 'Decennio',
                 ],
                 "mapped" => false,
