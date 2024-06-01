@@ -112,6 +112,60 @@ class MovimentoRepository extends ServiceEntityRepository
         ;
     }
 
+    /**
+    * @return Movimento[] Lista movimenti dal
+    */
+    public function listaPrevisione(\DateTime $datainizio, int $mesi): array
+    {
+        return $this
+            ->createQueryBuilder('m')
+            ->setParameter('mesi', $mesi)
+            ->addselect('macro.Nome As MacroNome')
+            ->addselect('meso.Nome As MesoNome')
+            ->addselect('micro.Nome As MicroNome')
+            ->addSelect('SUM(m.Importo)/:mesi as Totale')
+            ->innerJoin('m.Categoria', 'micro', 'WITH', 'm.Categoria = micro.id')
+            ->innerJoin('micro.Padre', 'meso', 'WITH', 'micro.Padre = meso.id')
+            ->innerJoin('meso.Padre', 'macro', 'WITH', 'meso.Padre = macro.id')
+            ->setParameter('datainizio', $datainizio->format('Y-m-d'))
+            ->Where('m.Data >= :datainizio')
+            ->GroupBy('macro.Nome')
+            ->addGroupBy('meso.Nome')
+            ->addGroupBy('micro.Nome')
+            ->orderBy('Totale', 'DESC')
+            ->addOrderBy('macro.Nome', 'ASC')
+            ->addOrderBy('meso.Nome', 'ASC')
+            ->addOrderBy('micro.Nome', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+    * @return Movimento[] Lista movimenti dal
+    */
+    public function listaPrevisioneCategoria(\DateTime $datainizio, int $mesi, string $categoria): array
+    {
+        return $this
+            ->createQueryBuilder('m')
+            ->setParameter('mesi', $mesi)
+            ->addselect('macro.Nome As MacroNome')
+            ->addSelect('SUM(m.Importo)/:mesi as Totale')
+            ->innerJoin('m.Categoria', 'micro', 'WITH', 'm.Categoria = micro.id')
+            ->innerJoin('micro.Padre', 'meso', 'WITH', 'micro.Padre = meso.id')
+            ->innerJoin('meso.Padre', 'macro', 'WITH', 'meso.Padre = macro.id')
+            ->setParameter('datainizio', $datainizio->format('Y-m-d'))
+            ->Where('m.Data >= :datainizio')
+            ->setParameter('categoria', $categoria)
+            ->andWhere('macro.Nome = :categoria')
+            ->GroupBy('macro.Nome')
+            ->orderBy('Totale', 'DESC')
+            ->addOrderBy('macro.Nome', 'ASC')            
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return Movimento[] Returns an array of Movimento objects
 //     */
