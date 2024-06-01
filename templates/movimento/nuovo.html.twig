@@ -14,7 +14,7 @@
 	<div class="row">
 		<div class="col-4">
 			{{ form_label(form.Data) }}
-			{{ form_widget(form.Data) }}
+			{{ form_widget(form.Data, {'value' : 'now'|date('Y-m-d', "Europe/Rome")}) }}
 			<div class="text-red li-senza-pallino">
 				{{ form_errors(form.Data) }}
 			</div>
