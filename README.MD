@@ -1,172 +1,100 @@
-bash -c "$(wget -qLO - https://github.com/tteck/Proxmox/raw/main/ct/ubuntu.sh)"
+<a id="readme-top"></a>
 
-192.168.0.193/24
-192.168.0.254
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/archistico/webinout">
+    <img src="https://github.com/archistico/webinout/raw/refs/heads/main/public/logo.svg" alt="Logo" width="80" height="80">
+  </a>
 
-root
-..yv
+  <h1 align="center">INOUT</h1>
+  <p align="center">
+    Gestionale dei movimenti di entrata/uscita personali!
+  </p>
+</div>
 
-df
-sudo apt install software-properties-common
-sudo add-apt-repository ppa:ondrej/php
-sudo apt update
-sudo apt upgrade
+<!-- ABOUT THE PROJECT -->
+## About The Project
 
-sudo apt -y install php8.2
-php -v
-sudo apt -y install libapache2-mod-php8.2
+Gestionale dei movimenti di entrata/uscita personali.  
+![screenshot1](https://raw.githubusercontent.com/archistico/webinout/refs/heads/main/screenshot1.png)
 
-curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | sudo -E bash
-sudo apt install symfony-cli
-symfony --version
+![screenshot2](https://raw.githubusercontent.com/archistico/webinout/refs/heads/main/screenshot2.png)
 
-curl -sS https://getcomposer.org/installer -o /tmp/composer-setup.php
-HASH=`curl -sS https://composer.github.io/installer.sig`
-echo $HASH
-php -r "if (hash_file('SHA384', '/tmp/composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
-sudo php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer
-composer --version
+<p align="right">(<a href="#readme-top">torna su</a>)</p>
 
-curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash 
-source ~/.bashrc   
-nvm install --lts 
-npm install -g pnpm
+<!-- GETTING STARTED -->
+## Getting Started
 
-sudo apt install git -y
-git config --global user.name "Archistico"
-git config --global user.email "info@archistico.com"
-git config --list
-nano ~/.gitconfig
+### Prerequisiti
 
-ssh-keygen -t ed25519 -C "info@archistico.com"
-eval "$(ssh-agent -s)"
-ssh-add ~/.ssh/id_ed25519
-cat ~/.ssh/id_ed25519.pub
+Quello che serve per far partire symfony:
+* php
+* composer
+* symfony-cli
 
-Copia tutto il cat sotto setting -> SSH keys
+### Installazione
 
-sudo apt install sqlite3 libsqlite3-dev -y
+_Clonare il repository._
 
-sudo apt install curl -y
+1. Clone the repo
+   ```bash
+   git clone https://github.com/archistico/webinout.git
+   ```
+2. Install NPM packages
+   ```bash
+   cd webinout
+   composer install
+   ```
 
-sudo ufw app list
-sudo ufw allow 'Apache'
+<p align="right">(<a href="#readme-top">torna su</a>)</p>
 
-sudo systemctl status apache2
+<!-- USAGE EXAMPLES -->
+## Utilizzo
+Per lanciare il server
+```bash
+symfony server:start
+```
+vai sul link
+<a href="https://127.0.0.1:8000">Server locale</a>
 
-per trovare l'IP
-ip addr show eth0 | grep inet | awk '{ print $2; }' | sed 's/\/.*$//'
+Per stoppare il server
+```bash
+symfony server:stop
+```
 
+<p align="right">(<a href="#readme-top">torna su</a>)</p>
 
-sudo mkdir /var/www/inout
-sudo chown -R $USER:$USER /var/www/inout
-sudo nano /etc/apache2/sites-available/inout.conf
+<!-- ROADMAP -->
+## Roadmap
 
-<VirtualHost *:80>
-    ServerName inout
-    ServerAlias www.inout
-    ServerAdmin webmaster@localhost
-    DocumentRoot /var/www/inout/public
+- [ ] Multi linguaggio
+- [ ] Ultimi 5 movimenti entrate
+- [ ] Ultimi 5 movimenti uscite
+- [ ] Somma importi meso gruppi entrate
+- [ ] Somma importi meso gruppi uscite
+- [ ] Somma importi micro gruppi entrate
+- [ ] Somma importi micro gruppi uscite
+- [ ] Somme per anni
+- [ ] notifiche js
+- [ ] datatable sortable
 
-    <Directory /var/www/inout/public>
-        AllowOverride None
-        Require all granted
-        FallbackResource /index.php
-    </Directory>
+See the [open issues](https://github.com/archistico/webinout/issues) for a full list of proposed features (and known issues).
 
-    ErrorLog ${APACHE_LOG_DIR}/error.log
-    CustomLog ${APACHE_LOG_DIR}/access.log combined
-</VirtualHost>
+<p align="right">(<a href="#readme-top">torna su</a>)</p>
 
+<!-- LICENSE -->
+## License
 
-sudo a2ensite inout
-sudo a2dissite 000-default
-sudo apache2ctl configtest
-sudo systemctl reload apache2
+Distributed under the Unlicense License. See `LICENSE.txt` for more information.
 
-nano /var/www/inout/index.html
+<p align="right">(<a href="#readme-top">torna su</a>)</p>
 
-<html>
-  <head>
-    <title>inout website</title>
-  </head>
-  <body>
-    <h1>Hello World!</h1>
+<!-- CONTACT -->
+## Contact
 
-    <p>This is the landing page of <strong>inout</strong>.</p>
-  </body>
-</html>
+Emilie Rollandin - [@Linkedin](https://www.linkedin.com/in/emilie-rollandin-a8a5831a6/) - info@archistico.com
 
-sudo nano /etc/apache2/mods-enabled/dir.conf
-spostare php prima di html
-<IfModule mod_dir.c>
-        DirectoryIndex index.php index.html index.cgi index.pl index.xhtml index.htm
-</IfModule>
+Project Link: [https://github.com/archistico/webinout](https://github.com/archistico/webinout)
 
-sudo systemctl reload apache2
-
-nano /var/www/inout/index.php
-<?php
-phpinfo();
-
-sudo apt install php8.2-fpm php8.2-common php8.2-mysql php8.2-xml php8.2-xmlrpc php8.2-curl php8.2-gd php8.2-imagick php8.2-cli php8.2-dev php8.2-imap php8.2-mbstring php8.2-opcache php8.2-soap php8.2-zip php8.2-intl php8.2-bcmath unzip -y
-sudo apt install php8.2-sqlite
-
-symfony check:requirements
-
-
-composer require symfony/apache-pack 
-
-symfony server:ca:install
-
-sudo apt-get install ruby-full
-gem install bundler
-
-
-
-apt update
-apt install samba -y
-
-useradd smbutente
-usermod -a -G sambashare smbutente
-smbpasswd -a smbutente
-usermod -aG sudo smbutente
-
-chown smbutente:sambashare /var/www/inout -R
-chmod 0775 /var/www/inout -R
-
-cp /etc/samba/smb.conf /etc/samba/smb.conf.old
-rm /etc/samba/smb.conf
-nano /etc/samba/smb.conf
-
-
-[global]
-workgroup = WORKGROUP
-vfs objects = fruit streams_xattr
-map to guest = bad user
-
-[InOut]
-comment = WebApp
-path = /var/www/inout
-browsable = yes
-read only = no
-
-
-per l'accesso con ssh
-mkdir /home/smbutente
-passwd smbutente
-sudo chown smbutente:sambashare /home/smbutente -R
-usermod -d /home/smbutente -m smbutente
-ssh smbutente@192.168.0.193
-
-
-chown -R www-data:root /var/www
-php bin/console asset-map:compile
-
-
-composer require --dev symfony/debug-bundle
-composer require symfony/mime
-composer require twig/intl-extra
-
-compilazione
-php bin/console asset-map:compile
+<p align="right">(<a href="#readme-top">torna su</a>)</p>
