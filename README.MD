@@ -17,9 +17,9 @@
 ## About The Project
 
 Gestionale dei movimenti di entrata/uscita personali.  
-![screenshot1](https://raw.githubusercontent.com/archistico/webinout/refs/heads/main/screenshot1.png)
+![screenshot1](https://github.com/archistico/webinout/blob/main/screenshot1.png)
 
-![screenshot2](https://raw.githubusercontent.com/archistico/webinout/refs/heads/main/screenshot2.png)
+![screenshot2](https://github.com/archistico/webinout/blob/main/screenshot2.png)
 
 <p align="right">(<a href="#readme-top">torna su</a>)</p>
 
