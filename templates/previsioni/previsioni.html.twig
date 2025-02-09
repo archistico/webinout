@@ -83,7 +83,7 @@
 													{{ elemento.MesoNome }}
 													|
 													{{ elemento.MicroNome }}</td>
-												<td class="text-end">{{ elemento.Totale|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}/mese</td>
+												<td class="text-end">{% if elemento.MacroNome == "Uscita" %}<span class="text-danger">-{% else %}<span>+{% endif %}{{ elemento.Totale|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}/mese</span></td>
 											</tr>
 										{% endfor %}
 									</tbody>
