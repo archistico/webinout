@@ -31,7 +31,7 @@
 				<tbody>
 					{% for elemento in lista %}
 						<tr>
-							<td>{{ elemento.Data|date('d/m/Y') }}</td>
+							<td data-sort="{{ elemento.Data|date('Ymd') }}" >{{ elemento.Data|date('d/m/Y') }}</td>
 							<td>
 								{{ elemento.Categoria.Padre.Padre.Nome }}
 								|
@@ -42,7 +42,7 @@
 									<i>{{ elemento.Note }}</i>
 								</span>
 							</td>
-							<td class="text-end">
+							<td class="text-end" data-sort="{% if elemento.Categoria.Padre.Padre.Nome == 'Uscita' %}-{{ elemento.Importo|number_format(2, '.', '') }}{% else %}{{ elemento.Importo|number_format(2, '.', '') }}{% endif %}" >
 								{% if elemento.Categoria.Padre.Padre.Nome == 'Uscita' %}
 									<span class="text-danger">-{{ elemento.Importo|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</span>
 								{% elseif elemento.Categoria.Padre.Padre.Nome == 'Entrata' %}
@@ -98,7 +98,7 @@
 			lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "Tutti"]],
 			info: true,
 			ordering: true,
-            order: [[ 0, 'asc' ]],
+            order: [[ 0, 'desc' ]],
 			searching: true,
 		});
 </script>
