@@ -20,10 +20,10 @@
 
 		{% block stylesheets %}
 			<!-- CSS files -->
-			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta20/dist/css/tabler-flags.min.css">
-			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta20/dist/css/tabler-payments.min.css">
-			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta20/dist/css/tabler-vendors.min.css">
-			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta20/dist/css/tabler.min.css">
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta21/dist/css/tabler-flags.min.css">
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta21/dist/css/tabler-payments.min.css">
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta21/dist/css/tabler-vendors.min.css">
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta21/dist/css/tabler.min.css">
 			
 			<link rel="stylesheet" href="{{ asset('styles/app.css') }}">
 		{% endblock %}
@@ -95,6 +95,10 @@
 			</div>
 		</div>
 		<!-- Tabler Core -->
-		<script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta20/dist/js/tabler.min.js" defer></script>
+		<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta21/dist/js/tabler.min.js"></script>
+		<script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
+		<script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.min.js"></script>
+		{% block script %}{% endblock %}
 	</body>
 </html>

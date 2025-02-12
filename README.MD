@@ -63,6 +63,12 @@ Per stoppare il server
 symfony server:stop
 ```
 
+Per compilare gli asset
+```bash
+composer install
+php bin/console asset-map:compile
+```
+
 <p align="right">(<a href="#readme-top">torna su</a>)</p>
 
 <!-- ROADMAP -->
