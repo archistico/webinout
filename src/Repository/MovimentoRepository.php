@@ -189,6 +189,31 @@ class MovimentoRepository extends ServiceEntityRepository
     /**
     * @return array 
     */
+    public function listaTotaliPerMicro(): array
+    {
+        return $this
+            ->createQueryBuilder('m')
+            ->addselect('macro.Nome As MacroNome')
+            ->addselect('meso.Nome As MesoNome')
+            ->addselect('micro.Nome As MicroNome')
+            ->addSelect('SUM(m.Importo) as Totale')
+            ->innerJoin('m.Categoria', 'micro', 'WITH', 'm.Categoria = micro.id')
+            ->innerJoin('micro.Padre', 'meso', 'WITH', 'micro.Padre = meso.id')
+            ->innerJoin('meso.Padre', 'macro', 'WITH', 'meso.Padre = macro.id')
+            ->GroupBy('macro.id')
+            ->addGroupBy('meso.id')
+            ->addGroupBy('micro.id')
+            ->addOrderBy('macro.Nome', 'ASC')            
+            ->addOrderBy('meso.Nome', 'ASC')            
+            ->addOrderBy('micro.Nome', 'ASC')            
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+    * @return array 
+    */
     public function listaTotaliPerMeso(): array
     {
         return $this
@@ -203,6 +228,25 @@ class MovimentoRepository extends ServiceEntityRepository
             ->addGroupBy('meso.id')
             ->addOrderBy('macro.Nome', 'ASC')            
             ->addOrderBy('meso.Nome', 'ASC')            
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+    * @return array 
+    */
+    public function listaTotaliPerMacro(): array
+    {
+        return $this
+            ->createQueryBuilder('m')
+            ->addselect('macro.Nome As MacroNome')
+            ->addSelect('SUM(m.Importo) as Totale')
+            ->innerJoin('m.Categoria', 'micro', 'WITH', 'm.Categoria = micro.id')
+            ->innerJoin('micro.Padre', 'meso', 'WITH', 'micro.Padre = meso.id')
+            ->innerJoin('meso.Padre', 'macro', 'WITH', 'meso.Padre = macro.id')
+            ->GroupBy('macro.id')
+            ->addOrderBy('macro.Nome', 'ASC')            
             ->getQuery()
             ->getResult()
         ;
