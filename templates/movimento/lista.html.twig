@@ -34,7 +34,10 @@
 							{% for elemento in lista %}
 								<tr>
 									<td>{{ elemento.Data|date('d/m/Y') }}</td>
-									<td>{{ elemento.Categoria.Padre.Padre.Nome }} | {{ elemento.Categoria.Padre.Nome }} | {{ elemento.Categoria.Nome }}</td>
+									<td>
+										{{ elemento.Categoria.Padre.Padre.Nome }} | {{ elemento.Categoria.Padre.Nome }} | {{ elemento.Categoria.Nome }}<br>
+										<span class="text-secondary"><i>{{ elemento.Note }}</i></span>
+									</td>
 									<td class="text-end">
 										{% if elemento.Categoria.Padre.Padre.Nome == 'Uscita' %}
 											<span class="text-danger">-{{ elemento.Importo|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</span>

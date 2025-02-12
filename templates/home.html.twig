@@ -27,7 +27,9 @@
 							<div class="row align-items-center">
 								<div class="col-10">
 									<h3 class="h1">InOut - Gestionale entrate/uscite</h3>
-									<p class="text-secondary"><small>by Emilie Rollandin</small></p>
+									<p class="text-secondary">
+										<small>by Emilie Rollandin</small>
+									</p>
 								</div>
 							</div>
 						</div>
@@ -40,18 +42,18 @@
 						<div class="row">
 							<div class="col-sm-12 col-lg-4 py-1">
 								<a href="{{ path('app_movimento_nuovo') }}" class="btn btn-primary btn-square w-100">
-								<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
-								NUOVO MOVIMENTO</a>
+									<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="24" height="24" viewbox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14"/><path d="M5 12l14 0"/></svg>
+									NUOVO MOVIMENTO</a>
 							</div>
 							<div class="col-sm-12 col-lg-4 py-1">
 								<a href="{{ path('app_scadenza_nuovo') }}" class="btn btn-primary btn-square w-100">
-								<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
-								NUOVA SCADENZA</a>
+									<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="24" height="24" viewbox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14"/><path d="M5 12l14 0"/></svg>
+									NUOVA SCADENZA</a>
 							</div>
 							<div class="col-sm-12 col-lg-4 py-1">
 								<a href="{{ path('app_eseguito_nuovo') }}" class="btn btn-primary btn-square w-100">
-								<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
-								NUOVO ESEGUITO</a>
+									<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="24" height="24" viewbox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14"/><path d="M5 12l14 0"/></svg>
+									NUOVO ESEGUITO</a>
 							</div>
 						</div>
 					</div>
@@ -196,9 +198,62 @@
 					</div>
 				</div>
 
+
 				<div class="col-12">
 					<div class="row row-cards">
-						<h2>Prime cinque scadenze <a href="{{ path('app_scadenza_lista') }}" class="btn btn-primary btn-sm btn-square">Lista scadenze</a></h2>
+						<h2>Ultimi movimenti</h2>
+
+						<div class="row">
+							<div class="col-12">
+								<div class="card">
+									<div class="table-responsive">
+										<table class="table table-vcenter card-table table-striped">
+											<thead>
+												<tr>
+													<th>Data</th>
+													<th>Categoria</th>
+													<th class="text-end">Importo</th>
+												</tr>
+											</thead>
+											<tbody>
+												{% for elemento in listaUltimiMovimenti %}
+													<tr>
+														<td>{{ elemento.Data|date('d/m/Y') }}</td>
+														<td>
+															{{ elemento.Categoria.Padre.Padre.Nome }}
+															|
+															{{ elemento.Categoria.Padre.Nome }}
+															|
+															{{ elemento.Categoria.Nome }}<br>
+															<span class="text-secondary">
+																<i>{{ elemento.Note }}</i>
+															</span>
+														</td>
+														<td class="text-end">
+															{% if elemento.Categoria.Padre.Padre.Nome == 'Uscita' %}
+																<span class="text-danger">-{{ elemento.Importo|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</span>
+															{% elseif elemento.Categoria.Padre.Padre.Nome == 'Entrata' %}
+																+{{ elemento.Importo|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}
+															{% else %}
+																{{ elemento.Importo|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}
+															{% endif %}
+														</td>
+													</tr>
+												{% endfor %}
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-12">
+					<div class="row row-cards">
+						<h2>Prime cinque scadenze
+							<a href="{{ path('app_scadenza_lista') }}" class="btn btn-primary btn-sm btn-square">Lista scadenze</a>
+						</h2>
 
 						<div class="row">
 							<div class="col-12">
@@ -255,8 +310,10 @@
 
 				<div class="col-12">
 					<div class="row row-cards">
-						<h2>Somme movimenti per le varie categorie <a href="{{ path('app_movimento_lista') }}" class="btn btn-primary btn-sm btn-square">Lista movimenti</a></h2>
-						
+						<h2>Somme movimenti per le varie categorie
+							<a href="{{ path('app_movimento_lista') }}" class="btn btn-primary btn-sm btn-square">Lista movimenti</a>
+						</h2>
+
 						<div class="row">
 							<div class="col-12">
 								<div class="card">
@@ -271,7 +328,11 @@
 											<tbody>
 												{% for elemento in movimentiSomme %}
 													<tr>
-														<td>{{ elemento.MacroNome }} | {{ elemento.MesoNome }} | {{ elemento.MicroNome }}</td>
+														<td>{{ elemento.MacroNome }}
+															|
+															{{ elemento.MesoNome }}
+															|
+															{{ elemento.MicroNome }}</td>
 														<td class="text-end">{{ elemento.Totale|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</td>
 													</tr>
 												{% endfor %}
@@ -287,7 +348,7 @@
 				<div class="col-12">
 					<div class="row row-cards">
 						<h2>Grafico entrate/uscite</h2>
-						
+
 						<div class="row">
 							<div class="col-12">
 								<div class="card">

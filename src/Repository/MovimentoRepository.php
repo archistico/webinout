@@ -40,6 +40,26 @@ class MovimentoRepository extends ServiceEntityRepository
         ;
     }
 
+    /**
+    * @return Movimento[] Per la lista dei movimenti
+    */
+    public function listaUltimiMovimenti($limit): array
+    {
+        return $this
+            ->createQueryBuilder('m')
+            ->innerJoin('m.Categoria', 'micro', 'WITH', 'm.Categoria = micro.id')
+            ->innerJoin('micro.Padre', 'meso', 'WITH', 'micro.Padre = meso.id')
+            ->innerJoin('meso.Padre', 'macro', 'WITH', 'meso.Padre = macro.id')
+            ->orderBy('m.Data', 'DESC')
+            ->addOrderBy('macro.Nome', 'ASC')
+            ->addOrderBy('meso.Nome', 'ASC')
+            ->addOrderBy('micro.Nome', 'ASC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     public function SommaImporti(): array
     {
         return $this

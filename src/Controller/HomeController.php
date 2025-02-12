@@ -125,6 +125,8 @@ class HomeController extends AbstractController
             ],
         ]);
 
+        $listaUltimiMovimenti = $movimentoRepository->listaUltimiMovimenti(5);
+
         return $this->render('home.html.twig', [
             'entrate_mensili' => $entrate_mensili,
             'uscite_mensili' => $uscite_mensili,
@@ -133,6 +135,7 @@ class HomeController extends AbstractController
             'listaScadenze' => $listaScadenze,
             'movimentiSomme' => $movimentiSomme,
             'chart' => $chart,
+            'listaUltimiMovimenti' => $listaUltimiMovimenti,
         ]);
     }
 }
