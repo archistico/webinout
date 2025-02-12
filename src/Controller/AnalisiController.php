@@ -90,9 +90,15 @@ class AnalisiController extends AbstractController
             ],            
         ]);
 
+        // Lista totali per meso
+        $listaMeso = $movimentoRepository->listaTotaliPerMeso();
+
+        //dd($listaMeso);
+
         return $this->render('analisi/analisi.html.twig', [
             'chart_analisi_1' => $chart_analisi_1,
             'chart_analisi_2' => $chart_analisi_2,
+            'listaMeso' => $listaMeso,
         ]);
     }
 }

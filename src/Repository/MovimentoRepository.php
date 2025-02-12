@@ -142,7 +142,7 @@ class MovimentoRepository extends ServiceEntityRepository
     }
 
     /**
-    * @return Movimento[] Lista movimenti dal
+    * @return array 
     */
     public function listaPrevisioneCategoria(\DateTime $datainizio, int $mesi, string $categoria): array
     {
@@ -161,6 +161,28 @@ class MovimentoRepository extends ServiceEntityRepository
             ->GroupBy('macro.Nome')
             ->orderBy('Totale', 'DESC')
             ->addOrderBy('macro.Nome', 'ASC')            
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+    * @return array 
+    */
+    public function listaTotaliPerMeso(): array
+    {
+        return $this
+            ->createQueryBuilder('m')
+            ->addselect('macro.Nome As MacroNome')
+            ->addselect('meso.Nome As MesoNome')
+            ->addSelect('SUM(m.Importo) as Totale')
+            ->innerJoin('m.Categoria', 'micro', 'WITH', 'm.Categoria = micro.id')
+            ->innerJoin('micro.Padre', 'meso', 'WITH', 'micro.Padre = meso.id')
+            ->innerJoin('meso.Padre', 'macro', 'WITH', 'meso.Padre = macro.id')
+            ->GroupBy('macro.id')
+            ->addGroupBy('meso.id')
+            ->addOrderBy('macro.Nome', 'ASC')            
+            ->addOrderBy('meso.Nome', 'ASC')            
             ->getQuery()
             ->getResult()
         ;
