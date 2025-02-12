@@ -44,7 +44,7 @@ class AnalisiController extends AbstractController
 
         //dd($listaUsciteMeso);
 
-        $chart_analisi_1 = $chartBuilder->createChart(Chart::TYPE_PIE);
+        $chart_analisi_1 = $chartBuilder->createChart(Chart::TYPE_BAR);
         $chart_analisi_1->setData([
             'labels' => ["Entrate", "Uscite"],
             'datasets' => [
@@ -55,7 +55,7 @@ class AnalisiController extends AbstractController
             ],
         ]);
 
-        $chart_analisi_2 = $chartBuilder->createChart(Chart::TYPE_PIE);
+        $chart_analisi_2 = $chartBuilder->createChart(Chart::TYPE_BAR);
         $chart_analisi_2->setData([
             'labels' => array_keys($listaUsciteMeso),
             'datasets' => [
@@ -72,7 +72,10 @@ class AnalisiController extends AbstractController
                     'display' => true,
                     'text' => 'Entrate/Uscite totali',
                 ],
-            ],            
+                'legend' => [
+                    'display' => false
+                ], 
+            ],          
         ]);
 
         $chart_analisi_2->setOptions([
@@ -80,6 +83,9 @@ class AnalisiController extends AbstractController
                 'title' => [
                     'display' => true,
                     'text' => 'Uscite meso categorie',
+                ],
+                'legend' => [
+                    'display' => false
                 ],
             ],            
         ]);
