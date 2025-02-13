@@ -63,7 +63,7 @@
 	<div class="row py-3">
 		<div class="col-12">
 			<div class="row row-cards">
-				<h2>Media mensile per ogni categoria (dal {{ datainizio|date('d/m/Y') }})</h2>
+				<h2>Media importo mensile/annuale per ogni categoria (dal {{ datainizio|date('d/m/Y') }})</h2>
 				<div class="row">
 					<div class="col-12">
 						<div class="card">
@@ -72,7 +72,8 @@
 									<thead>
 										<tr>
 											<th>Categoria</th>
-											<th class="text-end">Media</th>
+											<th class="text-end">Importo mensile</th>
+											<th class="text-end">Importo annuale</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -84,6 +85,7 @@
 													|
 													{{ elemento.MicroNome }}</td>
 												<td class="text-end">{% if elemento.MacroNome == "Uscita" %}<span class="text-danger">-{% else %}<span>+{% endif %}{{ elemento.Totale|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}/mese</span></td>
+												<td class="text-end">{% if elemento.MacroNome == "Uscita" %}<span class="text-danger">-{% else %}<span>+{% endif %}{{ (elemento.Totale*12)|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}/annuo</span></td>
 											</tr>
 										{% endfor %}
 									</tbody>
