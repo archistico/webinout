@@ -44,7 +44,7 @@
 									<div class="d-sm-none">
 										<div class="fs-2 text-center">
 											<div class="mb-2 bg-info text-black rounded-1">
-												{{ elemento.Data|date('d/m/Y') }}
+												{{ elemento.Data|format_datetime('full', 'none', locale = 'it') }}
 											</div>
 										</div>
 									</div>
