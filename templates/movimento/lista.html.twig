@@ -17,80 +17,78 @@
 		</div>
 	</div>
 
-<div class="container-xl">
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="card">
-				<div class="list-group card-list-group">
+<div class="row">
+	<div class="col-lg-12">
+		<div class="card">
+			<div class="list-group card-list-group">
 
-				{% for elemento in lista %}
+			{% for elemento in lista %}
 
-					<div class="list-group-item">
-						<div class="row g-2 align-items-center">
-							
-							<div class="col-auto fs-3 text-center">
-								<div class="mb-0">{{ elemento.Data|date('d/m') }}</div>
-								<div class="fs-2">{{ elemento.Data|date('Y') }}</div>
+				<div class="list-group-item">
+					<div class="row g-2 align-items-center">
+						
+						<div class="col-auto fs-3 text-center">
+							<div class="mb-0">{{ elemento.Data|date('d/m') }}</div>
+							<div class="fs-2">{{ elemento.Data|date('Y') }}</div>
+						</div>
+						
+						<div class="col-auto">
+							<div class="text-info">
+								{{ icona(elemento.Categoria.Padre.Padre.Nome, elemento.Categoria.Padre.Nome, elemento.Categoria.Nome)|raw }}
 							</div>
-							
-							<div class="col-auto">
-								<div class="text-info">
-									{{ icona(elemento.Categoria.Padre.Padre.Nome, elemento.Categoria.Padre.Nome, elemento.Categoria.Nome)|raw }}
-								</div>
+						</div>
+						
+						<div class="col">
+							{{ unisciCategorie(elemento.Categoria.Padre.Padre.Nome, elemento.Categoria.Padre.Nome, elemento.Categoria.Nome)  }}
+							<div class="text-secondary">
+								<i>{{ elemento.Note }}</i>
 							</div>
-							
+						</div>
+						
+						<div class="col-auto">
 							<div class="col">
-								{{ unisciCategorie(elemento.Categoria.Padre.Padre.Nome, elemento.Categoria.Padre.Nome, elemento.Categoria.Nome)  }}
-								<div class="text-secondary">
-									<i>{{ elemento.Note }}</i>
-								</div>
+								<p class="text-end fs-2 mb-0">
+								{% if elemento.Categoria.Padre.Padre.Nome == 'Uscita' %}
+									<span class="text-danger">-{{ elemento.Importo|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</span>
+								{% elseif elemento.Categoria.Padre.Padre.Nome == 'Entrata' %}
+									<span class="text-white">+{{ elemento.Importo|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</span>
+								{% endif %}
+								</p>
+								<p class="text-secondary text-end">
+									<i>{{ elemento.Tipo.Descrizione }}</i>
+								</p>
 							</div>
-							
-							<div class="col-auto">
-								<div class="col">
-									<p class="text-end fs-2 mb-0">
-									{% if elemento.Categoria.Padre.Padre.Nome == 'Uscita' %}
-										<span class="text-danger">-{{ elemento.Importo|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</span>
-									{% elseif elemento.Categoria.Padre.Padre.Nome == 'Entrata' %}
-										<span class="text-white">+{{ elemento.Importo|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</span>
-									{% endif %}
-									</p>
-									<p class="text-secondary text-end">
-										<i>{{ elemento.Tipo.Descrizione }}</i>
-									</p>
-								</div>
-							</div>
-							
-							<div class="col-auto lh-1">
-								<div class="dropdown">
-									<a
-										href="#" class="link-secondary" data-bs-toggle="dropdown">
-										<!-- Download SVG icon from http://tabler.io/icons/icon/dots -->
-										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1">
-											<path d="M5 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-											<path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-											<path d="M19 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-										</svg>
+						</div>
+						
+						<div class="col-auto lh-1">
+							<div class="dropdown">
+								<a
+									href="#" class="link-secondary" data-bs-toggle="dropdown">
+									<!-- Download SVG icon from http://tabler.io/icons/icon/dots -->
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1">
+										<path d="M5 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+										<path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+										<path d="M19 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+									</svg>
+								</a>
+								<div class="dropdown-menu dropdown-menu-end">
+									<a class="dropdown-item" href="{{ path('app_movimento_mostra', { id: elemento.id }) }}">
+										Visualizza
 									</a>
-									<div class="dropdown-menu dropdown-menu-end">
-										<a class="dropdown-item" href="{{ path('app_movimento_mostra', { id: elemento.id }) }}">
-											Visualizza
-										</a>
-										<a class="dropdown-item" href="{{ path('app_movimento_modifica', { id: elemento.id }) }}">
-											Modifica
-										</a>
-										<a class="dropdown-item" href="{{ path('app_movimento_cancella_ok', { id: elemento.id }) }}">
-											Elimina
-										</a>
-									</div>
+									<a class="dropdown-item" href="{{ path('app_movimento_modifica', { id: elemento.id }) }}">
+										Modifica
+									</a>
+									<a class="dropdown-item" href="{{ path('app_movimento_cancella_ok', { id: elemento.id }) }}">
+										Elimina
+									</a>
 								</div>
 							</div>
 						</div>
 					</div>
-					
-				{% endfor %}
-
 				</div>
+				
+			{% endfor %}
+
 			</div>
 		</div>
 	</div>
