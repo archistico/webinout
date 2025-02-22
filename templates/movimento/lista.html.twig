@@ -30,9 +30,9 @@
 						<div class="d-flex flex-column flex-sm-row">
 
 							<div class="d-none d-sm-block">
-								<div class="col-auto fs-3 text-center">
+								<div class="col-auto fs-2 text-center pe-2">
 									<div class="mb-0">{{ elemento.Data|date('d/m') }}</div>
-									<div class="fs-2">{{ elemento.Data|date('Y') }}</div>
+									<div class="fs-3">{{ elemento.Data|date('Y') }}</div>
 								</div>
 							</div>
 
@@ -43,7 +43,7 @@
 							</div>
 							
 							<div class="d-flex flex-row flex-grow-1">
-								<div class="text-info ps-2 pe-2">
+								<div class="text-info ps-0 pe-2">
 									{{ icona(elemento.Categoria.Padre.Padre.Nome, elemento.Categoria.Padre.Nome, elemento.Categoria.Nome)|raw }}
 								</div>
 								<div class="text-white fs-2">
@@ -56,7 +56,7 @@
 							
 							<div class="d-flex justify-content-end">
 								<div class="col">
-									<p class="text-end fs-2 mb-0">
+									<p class="text-end fs-1 mb-0">
 									{% if elemento.Categoria.Padre.Padre.Nome == 'Uscita' %}
 										<span class="text-danger">-{{ elemento.Importo|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</span>
 									{% elseif elemento.Categoria.Padre.Padre.Nome == 'Entrata' %}
