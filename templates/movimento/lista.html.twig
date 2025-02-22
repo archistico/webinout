@@ -97,9 +97,9 @@
 					{% endfor %}
 
 				</ul>
-				<nav aria-label="Paginazione">
+				{# <nav aria-label="Paginazione">
 					<ul class="pagination"></ul>
-				</nav>
+				</nav> #}
 
 			</div>
 		</div>
@@ -111,8 +111,6 @@
 	<script>
 		var movimentiLista = new List('movimenti-lista', {
 			valueNames: ['filtraCategoria', 'filtraNote'],
-			page: 50,
-			pagination: true
 		});
 	</script>
 {% endblock %}
