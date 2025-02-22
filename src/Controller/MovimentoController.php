@@ -174,6 +174,7 @@ class MovimentoController extends AbstractController
 
         return $this->render('movimento/modifica.html.twig', [
             'form' => $form->createView(),
+            'elementoid' => $id,
         ]);
     }
 
