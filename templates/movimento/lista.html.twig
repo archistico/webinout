@@ -16,90 +16,90 @@
 				NUOVO</a>
 		</div>
 	</div>
+
+<div class="container-xl">
 	<div class="row">
-		<div class="col-12">
-			<table id="lista" class="table table-vcenter card-table table-striped">
-				<thead>
-					<tr>
-						<th>Data</th>
-						<th>Categoria</th>
-						<th class="text-end">Importo</th>
-						<th class="d-none d-md-table-cell">Tipo di pagamento</th>
-						<th>#</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for elemento in lista %}
-						<tr>
-							<td data-sort="{{ elemento.Data|date('Ymd') }}" >{{ elemento.Data|date('d/m/Y') }}</td>
-							<td>
-								{{ elemento.Categoria.Padre.Padre.Nome }}
-								|
-								{{ elemento.Categoria.Padre.Nome }}
-								|
-								{{ elemento.Categoria.Nome }}<br>
-								<span class="text-secondary">
+		<div class="col-lg-12">
+			<div class="card">
+				<div class="list-group card-list-group">
+
+				{% for elemento in lista %}
+
+					<div class="list-group-item">
+						<div class="row g-2 align-items-center">
+							
+							<div class="col-auto fs-3 text-center">
+								<div class="mb-0">{{ elemento.Data|date('d/m') }}</div>
+								<div class="fs-2">{{ elemento.Data|date('Y') }}</div>
+							</div>
+							
+							<div class="col-auto">
+								<div class="text-info">
+									{{ icona(elemento.Categoria.Padre.Padre.Nome, elemento.Categoria.Padre.Nome, elemento.Categoria.Nome)|raw }}
+								</div>
+							</div>
+							
+							<div class="col">
+								{{ unisciCategorie(elemento.Categoria.Padre.Padre.Nome, elemento.Categoria.Padre.Nome, elemento.Categoria.Nome)  }}
+								<div class="text-secondary">
 									<i>{{ elemento.Note }}</i>
-								</span>
-							</td>
-							<td class="text-end" data-sort="{% if elemento.Categoria.Padre.Padre.Nome == 'Uscita' %}-{{ elemento.Importo|number_format(2, '.', '') }}{% else %}{{ elemento.Importo|number_format(2, '.', '') }}{% endif %}" >
-								{% if elemento.Categoria.Padre.Padre.Nome == 'Uscita' %}
-									<span class="text-danger">-{{ elemento.Importo|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</span>
-								{% elseif elemento.Categoria.Padre.Padre.Nome == 'Entrata' %}
-									+{{ elemento.Importo|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}
-								{% else %}
-									{{ elemento.Importo|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}
-								{% endif %}
-							</td>
-							<td class="d-none d-md-table-cell">{{ elemento.Tipo.Descrizione }}</td>
-							<td>
-								<div class="btn-list flex-nowrap">
-									<div class="col-xl-auto py-1">
-										<a href="{{ path('app_movimento_mostra', { id: elemento.id }) }}" class="btn btn-twitter w-100 btn-icon" aria-label="Mostra" data-balloon-pos="up-right">
-											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye" width="24" height="24" viewbox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"/><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6"/></svg>
+								</div>
+							</div>
+							
+							<div class="col-auto">
+								<div class="col">
+									<p class="text-end fs-2 mb-0">
+									{% if elemento.Categoria.Padre.Padre.Nome == 'Uscita' %}
+										<span class="text-danger">-{{ elemento.Importo|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</span>
+									{% elseif elemento.Categoria.Padre.Padre.Nome == 'Entrata' %}
+										<span class="text-white">+{{ elemento.Importo|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</span>
+									{% endif %}
+									</p>
+									<p class="text-secondary text-end">
+										<i>{{ elemento.Tipo.Descrizione }}</i>
+									</p>
+								</div>
+							</div>
+							
+							<div class="col-auto lh-1">
+								<div class="dropdown">
+									<a
+										href="#" class="link-secondary" data-bs-toggle="dropdown">
+										<!-- Download SVG icon from http://tabler.io/icons/icon/dots -->
+										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1">
+											<path d="M5 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+											<path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+											<path d="M19 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+										</svg>
+									</a>
+									<div class="dropdown-menu dropdown-menu-end">
+										<a class="dropdown-item" href="{{ path('app_movimento_mostra', { id: elemento.id }) }}">
+											Visualizza
 										</a>
-									</div>
-									<div class="col-xl-auto py-1">
-										<a href="{{ path('app_movimento_modifica', { id: elemento.id }) }}" class="btn btn-rss w-100 btn-icon" aria-label="Modifica" data-balloon-pos="up-right">
-											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewbox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"/><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"/><path d="M16 5l3 3"/></svg>
+										<a class="dropdown-item" href="{{ path('app_movimento_modifica', { id: elemento.id }) }}">
+											Modifica
 										</a>
-									</div>
-									<div class="col-xl-auto py-1">
-										<a href="{{ path('app_movimento_cancella_ok', { id: elemento.id }) }}" class="btn btn-danger w-100 btn-icon" aria-label="Cancella" data-balloon-pos="up-right">
-											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24" height="24" viewbox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0"/><path d="M10 11l0 6"/><path d="M14 11l0 6"/><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"/><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"/></svg>
+										<a class="dropdown-item" href="{{ path('app_movimento_cancella_ok', { id: elemento.id }) }}">
+											Elimina
 										</a>
 									</div>
 								</div>
-							</td>
-						</tr>
-					{% endfor %}
-				</tbody>
-			</table>
+							</div>
+						</div>
+					</div>
+					
+				{% endfor %}
+
+				</div>
+			</div>
 		</div>
 	</div>
+</div>
 
 {% endblock %}
 
 {% block script %}
 <script>
-	var table = new DataTable('#lista', {
-			language: {
-			url: "{{ asset('/intl/datatables_it_it.json') }}"
-			},
-			columns: [
-                { },
-                { },
-                { },
-				{ className: 'wx100', },
-				{ className: 'wx100', },
-			],
-			paging: true,
-			iDisplayLength: 50,
-			lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "Tutti"]],
-			info: true,
-			ordering: true,
-            order: [[ 0, 'desc' ]],
-			searching: true,
-		});
+	
 </script>
 {% endblock %}

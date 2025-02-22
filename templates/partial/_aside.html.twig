@@ -56,31 +56,38 @@
 						</span>
 					</a>
 				</li>
-				<li class="nav-item dropdown {% if route_name matches '{^app_categoria}' %} active {% endif %}">
-					<a class="nav-link dropdown-toggle" href="#navbar-layout" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="true">
+				<li class="nav-item {% if route_name matches '{^app_categoria}' %} active {% endif %}">
+					<a class="nav-link" href="{{ path('app_categoria_macro_lista') }}">
 						<span
 							class="nav-link-icon d-md-none d-lg-inline-block">
-							<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewbox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 4m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v1a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z"/><path d="M4 13m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v3a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z"/><path d="M14 4m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v3a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z"/><path d="M14 15m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v1a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z"/></svg>
+							<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-circle-number-1"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M10 10l2 -2v8" /></svg>
 						</span>
 						<span class="nav-link-title">
-							Categorie
+							Categorie macro
 						</span>
 					</a>
-					<div class="dropdown-menu {% if route_name matches '{^app_categoria}' %} show {% endif %}">
-						<div class="dropdown-menu-columns">
-							<div class="dropdown-menu-column">
-								<a class="dropdown-item" href="{{ path('app_categoria_macro_lista') }}">
-									Categorie macro
-								</a>
-								<a class="dropdown-item" href="{{ path('app_categoria_meso_lista') }}">
-									Categorie meso
-								</a>
-								<a class="dropdown-item" href="{{ path('app_categoria_micro_lista') }}">
-									Categorie micro
-								</a>
-							</div>
-						</div>
-					</div>
+				</li>
+				<li class="nav-item {% if route_name matches '{^app_categoria}' %} active {% endif %}">
+					<a class="nav-link" href="{{ path('app_categoria_meso_lista') }}">
+						<span
+							class="nav-link-icon d-md-none d-lg-inline-block">
+							<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-circle-number-2"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M10 8h3a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-2a1 1 0 0 0 -1 1v2a1 1 0 0 0 1 1h3" /></svg>
+						</span>
+						<span class="nav-link-title">
+							Categorie meso
+						</span>
+					</a>
+				</li>
+				<li class="nav-item {% if route_name matches '{^app_categoria}' %} active {% endif %}">
+					<a class="nav-link" href="{{ path('app_categoria_micro_lista') }}">
+						<span
+							class="nav-link-icon d-md-none d-lg-inline-block">
+							<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-circle-number-3"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M10 9a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-2h2a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1" /></svg>
+						</span>
+						<span class="nav-link-title">
+							Categorie micro
+						</span>
+					</a>
 				</li>
 				<li class="nav-item {% if route_name matches '{^app_tipopagamento}' %} active {% endif %}">
 					<a class="nav-link" href="{{ path('app_tipopagamento_lista') }}">
