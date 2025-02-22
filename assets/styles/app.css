@@ -47,3 +47,13 @@ figcaption {
 .navbar-brand-logo {
     width: 6rem;
 }
+
+.pagination li {
+	display:inline-block;
+	padding:5px;
+}
+
+ul.listamovimenti {
+	list-style-type: none;
+	padding-left: 0px;
+}
