@@ -75,15 +75,14 @@ php bin/console asset-map:compile
 ## Roadmap
 
 - [ ] Multi linguaggio
-- [ ] Ultimi 5 movimenti entrate
-- [ ] Ultimi 5 movimenti uscite
-- [ ] Somma importi meso gruppi entrate
-- [ ] Somma importi meso gruppi uscite
-- [ ] Somma importi micro gruppi entrate
-- [ ] Somma importi micro gruppi uscite
 - [ ] Somme per anni
 - [ ] notifiche js
-- [ ] datatable sortable
+- [ ] movimenti filtrabili
+- [ ] paginazione
+- [ ] select2
+- [ ] pdf export
+- [ ] confronto anno passato
+- [ ] spese ricorrenti
 
 See the [open issues](https://github.com/archistico/webinout/issues) for a full list of proposed features (and known issues).
 
