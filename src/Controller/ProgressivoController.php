@@ -74,14 +74,31 @@ class ProgressivoController extends AbstractController
             $progressivo[$i]['Differenza'] = $progressivo[$i]['TotaleAnnoInCorso'] - $progressivo[$i]['TotaleAnnoScorso'];
         }
 
-        //dd($progressivo);
+        usort($progressivo, fn($a, $b) => $a['Differenza'] <=> $b['Differenza']);
+
+        $entrate = [];
+        $uscite = [];
+
+        for($i = 0; $i<count($progressivo); $i++) {
+            if (str_starts_with($progressivo[$i]['Categoria'], 'Entrata'))
+            {
+                $entrate[] = $progressivo[$i];
+            } else
+            {
+                $uscite[] = $progressivo[$i];
+            }
+        }
+
+        usort($entrate, fn($a, $b) => $a['Differenza'] <=> $b['Differenza']);
+        usort($uscite, fn($a, $b) => $a['Differenza'] <=> $b['Differenza']);
 
         return $this->render('progressivo/progressivo.html.twig', [
             'inizioAnnoPassato' => $inizioAnnoPassato,
             'fineAnnoPassato' => $fineAnnoPassato,
             'inizioAnnoInCorso' => $inizioAnnoInCorso,
             'fineAnnoInCorso' => $fineAnnoInCorso,
-            'progressivo' => $progressivo,
+            'entrate' => $entrate,
+            'uscite' => $uscite,
         ]);
     }
 }
