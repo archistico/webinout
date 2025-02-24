@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Allegato;
 use App\Form\MovimentoType;
+use App\Pdf\PdfMovimentoService;
 use App\Repository\AllegatoRepository;
 use App\Repository\MovimentoRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -221,5 +222,22 @@ class MovimentoController extends AbstractController
             'movimento' => $movimento,
             'allegati_directory' => $allegati_directory,
         ]);
+    }
+
+    #[Route('/admin/movimento/pdf', name: 'app_movimento_lista_pdf')]
+    public function ListaPdf(MovimentoRepository $movimentoRepository, PdfMovimentoService $pdfMovimentoService): Response
+    {
+        /** @var array $movimenti */
+        $movimenti = $movimentoRepository->lista();
+        $data = (new \DateTime('now'));
+
+        $pdf = $pdfMovimentoService->creaPdf($movimenti, $data);
+        $nome_file_pdf = $data->format('Y-m-d'). " Lista_movimenti.pdf";
+        $nome_file_pdf = str_replace(" ", "_", $nome_file_pdf);
+        $attachment = 'attachment; filename="'.$nome_file_pdf.'"';
+
+        $response = new Response($pdf->Output($nome_file_pdf, 'S'), 200, array('content-type' => 'application/pdf') );
+        $response->headers->set('Content-Disposition', $attachment);
+        return $response;
     }
 }
