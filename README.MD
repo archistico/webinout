@@ -27,6 +27,15 @@ Gestionale dei movimenti di entrata/uscita personali.
 ## Getting Started
 
 ### Demo app
+```bash
+   git clone https://github.com/archistico/webinout.git
+   cd webinout
+   composer install
+   symfony console asset-map:compile
+   symfony console doctrine:database:create
+   symfony console doctrine:fixtures:load
+   symfony server:start
+```
 Email: demo@demo.com
 Password: demo
 
