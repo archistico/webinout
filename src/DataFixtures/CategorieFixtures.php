@@ -4,9 +4,17 @@ namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class CategorieFixtures extends Fixture
 {
+    private UserPasswordHasherInterface $userPasswordHasher;
+
+    public function __construct(UserPasswordHasherInterface $userPasswordHasher)
+    {
+        $this->userPasswordHasher = $userPasswordHasher;
+    }
+
     public function load(ObjectManager $manager): void
     {
         // MACRO
@@ -529,6 +537,16 @@ class CategorieFixtures extends Fixture
         $tipo_pagamento_bollettinopostale = (new \App\Entity\TipoPagamento())
             ->setDescrizione("Bollettino postale");
         $manager->persist($tipo_pagamento_bollettinopostale);
+
+        $userDemo = new \App\Entity\User();
+        $userDemo->setNome("Demo");
+        $userDemo->setCognome("Demo");
+        $userDemo->setEmail("demo@demo.com");
+
+        $password = $this->userPasswordHasher->hashPassword($userDemo, 'demo');
+        $userDemo->setPassword($password);
+
+        $manager->persist($userDemo);
 
         $manager->flush();
     }
