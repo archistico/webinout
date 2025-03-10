@@ -20,8 +20,18 @@ class PrevisioniController extends AbstractController
 
         $lista = $movimentoRepository->listaPrevisione($datainizio, $mesi);
 
-        $entrate = $movimentoRepository->listaPrevisioneCategoria($datainizio, $mesi, "Entrata")[0];
-        $uscite = $movimentoRepository->listaPrevisioneCategoria($datainizio, $mesi, "Uscita")[0];
+        $listaEntrate = $movimentoRepository->listaPrevisioneCategoria($datainizio, $mesi, "Entrata");
+        $listaUscite = $movimentoRepository->listaPrevisioneCategoria($datainizio, $mesi, "Uscita");
+
+        if(count($listaEntrate) > 0 && count($listaUscite) > 0)
+        {
+            $entrate = $listaEntrate[0];
+            $uscite = $listaUscite[0];
+        } else 
+        {
+            $entrate["Totale"] = 0;
+            $uscite["Totale"] = 0;
+        }        
 
         return $this->render('previsioni/previsioni.html.twig', [
             'lista' => $lista,

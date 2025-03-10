@@ -26,6 +26,19 @@ Gestionale dei movimenti di entrata/uscita personali.
 <!-- GETTING STARTED -->
 ## Getting Started
 
+### Demo app
+```bash
+   git clone https://github.com/archistico/webinout.git
+   cd webinout
+   composer install
+   symfony console asset-map:compile
+   symfony console doctrine:database:create
+   symfony console doctrine:fixtures:load
+   symfony server:start
+```
+Email: demo@demo.com
+Password: demo
+
 ### Prerequisiti
 
 Quello che serve per far partire symfony:
@@ -83,6 +96,7 @@ php bin/console asset-map:compile
 - [ ] pdf export
 - [ ] confronto anno passato
 - [ ] spese ricorrenti
+- [ ] gestione utenti e primo login
 
 See the [open issues](https://github.com/archistico/webinout/issues) for a full list of proposed features (and known issues).
 
