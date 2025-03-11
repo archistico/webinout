@@ -14,21 +14,28 @@ class MovimentoRicorrenteService
         private MovimentoRicorrenteRepository $repo
     ) {}
 
-    public function processRecurringMovements(\DateTime $date): void
+    public function processaMovimentoRicorrente(): void
     {
-        $lista_ricorrenti = $this->repo->findRicorrenti($date);
+        $lista_ricorrenti = $this->repo->findAll();
+        $oggi = new \DateTime('today');
 
-        foreach ($lista_ricorrenti as $movimento_ricorrente) {
-            $this->aggiuntiMovimentoRicorrente($movimento_ricorrente, $date);
+        foreach ($lista_ricorrenti as $ricorrente) {
+            if ($ricorrente->isAttivo()) {
+                $listaPagamenti = $this->listaPagamenti($ricorrente);
+
+                if (in_array($oggi, $listaPagamenti)){
+                    $this->aggiuntiMovimentoRicorrente($ricorrente, $oggi);
+                }
+            }            
         }
 
         $this->entityManager->flush();
     }
 
-    private function aggiuntiMovimentoRicorrente(MovimentoRicorrente $ricorrente, \DateTime $date): void
+    private function aggiuntiMovimentoRicorrente(MovimentoRicorrente $ricorrente, \DateTime $data): void
     {
         $movimento = new Movimento();
-        $movimento->setData($date);
+        $movimento->setData($data);
         $movimento->setCategoria($ricorrente->getCategoria());
         $movimento->setImporto($ricorrente->getImporto());
         $movimento->setTipo($ricorrente->getTipo());
