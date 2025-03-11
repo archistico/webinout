@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Service\MovimentoRicorrenteService;
 
 class MovimentoRicorrenteController extends AbstractController
 {
@@ -109,47 +110,10 @@ class MovimentoRicorrenteController extends AbstractController
     }
 
     #[Route('/admin/ricorrenti/mostra/{id}', name: 'app_ricorrenti_mostra')]
-    public function Mostra($id, MovimentoRicorrenteRepository $movimentoRicorrenteRepository): Response
+    public function Mostra($id, MovimentoRicorrenteRepository $movimentoRicorrenteRepository, MovimentoRicorrenteService $movimentoRicorrenteService): Response
     {
         $movimento = $movimentoRicorrenteRepository->findOneBy(['id' => $id]);
-
-        $inizio = $movimento->getInizio();
-        $fine = $movimento->getFine();
-        $frequenza = $movimento->getFrequenza();
-
-        switch ($frequenza) {
-            case "Settimanale":
-                $intervallo = new \DateInterval('P1W');
-                break;
-            case "Mensile":
-                $intervallo = new \DateInterval('P1M');
-                break;
-            case "Trimestrale":
-                $intervallo = new \DateInterval('P3M');
-                break;
-            case "Quadrimestrale":
-                $intervallo = new \DateInterval('P4M');    
-                break;
-            case "Semestrale":
-                $intervallo = new \DateInterval('P6M');
-                break;
-            case "Annuale":
-                $intervallo = new \DateInterval('P1Y');
-                break;
-        }
-
-        if ($fine == null) {
-            $fine = new \DateTime('now');
-            $fine->add($intervallo);
-        }
-
-        $listaPagamenti = [];
-        $nextDate = \DateTime::createFromFormat('Y-m-d', $inizio->format('Y-m-d'));
-        do {
-            $listaPagamenti[] = $nextDate;
-            $nextDate = \DateTime::createFromFormat('Y-m-d', $nextDate->format('Y-m-d'));
-            $nextDate = $nextDate->add($intervallo);            
-        } while ($nextDate->format('Y-m-d') <= $fine->format('Y-m-d'));
+        $listaPagamenti = $movimentoRicorrenteService->listaPagamenti($movimento);
 
         return $this->render('movimento_ricorrente/mostra.html.twig', [
             'movimento' => $movimento,
