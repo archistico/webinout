@@ -22,7 +22,7 @@ class MovimentoRicorrenteService
         foreach ($lista_ricorrenti as $ricorrente) {
             if ($ricorrente->isAttivo()) {
                 $listaPagamenti = $this->listaPagamenti($ricorrente);
-
+                
                 if (in_array($oggi, $listaPagamenti)){
                     $this->aggiuntiMovimentoRicorrente($ricorrente, $oggi);
                 }
@@ -72,15 +72,15 @@ class MovimentoRicorrenteService
         }
 
         if ($fine == null) {
-            $fine = new \DateTime('now');
+            $fine = new \DateTime('today');
             $fine->add($intervallo);
         }
 
         $listaPagamenti = [];
-        $nextDate = \DateTime::createFromFormat('Y-m-d', $inizio->format('Y-m-d'));
+        $nextDate = \DateTime::createFromFormat('!Y-m-d', $inizio->format('Y-m-d')); // !Y-m-d crea senza time
         do {
             $listaPagamenti[] = $nextDate;
-            $nextDate = \DateTime::createFromFormat('Y-m-d', $nextDate->format('Y-m-d'));
+            $nextDate = \DateTime::createFromFormat('!Y-m-d', $nextDate->format('Y-m-d'));
             $nextDate = $nextDate->add($intervallo);            
         } while ($nextDate->format('Y-m-d') <= $fine->format('Y-m-d'));
 
