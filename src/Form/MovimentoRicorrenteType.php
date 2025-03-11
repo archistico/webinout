@@ -47,16 +47,10 @@ class MovimentoRicorrenteType extends AbstractType
             ])
             ->add('Frequenza', ChoiceType::class, [
                 'choices' => [
-                    'Mensile' => 'Mensile',
                     'Settimanale' => 'Settimanale',
+                    'Mensile' => 'Mensile',
+                    'Semestrale' => 'Semestrale',
                     'Annuale' => 'Annuale',
-                ],
-            ])
-            ->add('GiornoPagamento', NumberType::class, [
-                'label' => 'Giorno del pagamento (1-31)', 
-                'attr' => [
-                    'min' => 1,
-                    'max' => 31,
                 ],
             ])
             ->add('Attivo', CheckboxType::class, [

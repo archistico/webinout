@@ -30,9 +30,6 @@ class MovimentoRicorrente
     private ?string $Frequenza = null;
 
     #[ORM\Column]
-    private ?int $GiornoPagamento = null;
-
-    #[ORM\Column]
     private ?bool $Attivo = null;
 
     #[ORM\ManyToOne(inversedBy: 'MovimentiRicorrenti')]
@@ -104,18 +101,6 @@ class MovimentoRicorrente
     public function setFrequenza(string $Frequenza): static
     {
         $this->Frequenza = $Frequenza;
-
-        return $this;
-    }
-
-    public function getGiornoPagamento(): ?int
-    {
-        return $this->GiornoPagamento;
-    }
-
-    public function setGiornoPagamento(int $GiornoPagamento): static
-    {
-        $this->GiornoPagamento = $GiornoPagamento;
 
         return $this;
     }

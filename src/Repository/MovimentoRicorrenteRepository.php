@@ -47,7 +47,6 @@ class MovimentoRicorrenteRepository extends ServiceEntityRepository
             ->where('r.Attivo = :attivo')
             ->andWhere('r.Inizio <= :oggi')
             ->andWhere('r.Fine IS NULL OR r.Fine >= :oggi')
-            ->andWhere('r.GiornoPagamento = :giornoPagamento')
             ->setParameter('attivo', true)
             ->setParameter('oggi', $oggi)
             ->setParameter('giornoPagamento', $oggi->format('j'))

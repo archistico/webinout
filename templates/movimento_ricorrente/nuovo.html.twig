@@ -12,67 +12,60 @@
 
 	{{ form_start(form) }}
     <div class="row">
-		<div class="col-6">
-			{{ form_label(form.Descrizione) }}
-			{{ form_widget(form.Descrizione) }}
-			<div class="text-red li-senza-pallino">
-				{{ form_errors(form.Descrizione) }}
-			</div>
-		</div>
-        <div class="col-6">
+		<div class="col-4">
 			{{ form_label(form.Categoria) }}
 			{{ form_widget(form.Categoria) }}
 			<div class="text-red li-senza-pallino">
 				{{ form_errors(form.Categoria) }}
 			</div>
 		</div>
+		<div class="col-8">
+			{{ form_label(form.Descrizione) }}
+			{{ form_widget(form.Descrizione) }}
+			<div class="text-red li-senza-pallino">
+				{{ form_errors(form.Descrizione) }}
+			</div>
+		</div>
 	</div>
 	<div class="row mt-2">
-		<div class="col-3">
+		<div class="col-4">
 			{{ form_label(form.Inizio) }}
 			{{ form_widget(form.Inizio, {'value' : 'now'|date('Y-m-d', "Europe/Rome")}) }}
 			<div class="text-red li-senza-pallino">
 				{{ form_errors(form.Inizio) }}
 			</div>
 		</div>
-        <div class="col-3">
+        <div class="col-4">
 			{{ form_label(form.Fine) }}
 			{{ form_widget(form.Fine, {'value' : 'now'|date('Y-m-d', "Europe/Rome")}) }}
 			<div class="text-red li-senza-pallino">
 				{{ form_errors(form.Fine) }}
 			</div>
 		</div>
-		<div class="col-3">
+		<div class="col-4">
 			{{ form_label(form.Frequenza) }}
 			{{ form_widget(form.Frequenza) }}
 			<div class="text-red li-senza-pallino">
 				{{ form_errors(form.Frequenza) }}
 			</div>
 		</div>
-        <div class="col-3">
-			{{ form_label(form.GiornoPagamento) }}
-			{{ form_widget(form.GiornoPagamento) }}
-			<div class="text-red li-senza-pallino">
-				{{ form_errors(form.GiornoPagamento) }}
-			</div>
-		</div>
 	</div>
 	<div class="row mt-2">
-		<div class="col-3">
+		<div class="col-4">
 			{{ form_label(form.Importo) }}
 			{{ form_widget(form.Importo) }}
 			<div class="text-red li-senza-pallino">
 				{{ form_errors(form.Importo) }}
 			</div>
 		</div>
-		<div class="col-6">
+		<div class="col-4">
 			{{ form_label(form.Tipo) }}
 			{{ form_widget(form.Tipo) }}
 			<div class="text-red li-senza-pallino">
 				{{ form_errors(form.Tipo) }}
 			</div>
 		</div>
-        <div class="col-3">
+        <div class="col-4">
 			{{ form_label(form.Attivo) }}
 			{{ form_widget(form.Attivo) }}
 			<div class="text-red li-senza-pallino">
