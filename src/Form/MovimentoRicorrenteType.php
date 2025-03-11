@@ -50,6 +50,8 @@ class MovimentoRicorrenteType extends AbstractType
                     'Settimanale' => 'Settimanale',
                     'Mensile' => 'Mensile',
                     'Semestrale' => 'Semestrale',
+                    'Trimestrale' => 'Trimestrale',
+                    'Quadrimestrale' => 'Quadrimestrale',
                     'Annuale' => 'Annuale',
                 ],
             ])

@@ -112,9 +112,48 @@ class MovimentoRicorrenteController extends AbstractController
     public function Mostra($id, MovimentoRicorrenteRepository $movimentoRicorrenteRepository): Response
     {
         $movimento = $movimentoRicorrenteRepository->findOneBy(['id' => $id]);
-       
+
+        $inizio = $movimento->getInizio();
+        $fine = $movimento->getFine();
+        $frequenza = $movimento->getFrequenza();
+
+        switch ($frequenza) {
+            case "Settimanale":
+                $intervallo = new \DateInterval('P1W');
+                break;
+            case "Mensile":
+                $intervallo = new \DateInterval('P1M');
+                break;
+            case "Trimestrale":
+                $intervallo = new \DateInterval('P3M');
+                break;
+            case "Quadrimestrale":
+                $intervallo = new \DateInterval('P4M');    
+                break;
+            case "Semestrale":
+                $intervallo = new \DateInterval('P6M');
+                break;
+            case "Annuale":
+                $intervallo = new \DateInterval('P1Y');
+                break;
+        }
+
+        if ($fine == null) {
+            $fine = new \DateTime('now');
+            $fine->add($intervallo);
+        }
+
+        $listaPagamenti = [];
+        $nextDate = \DateTime::createFromFormat('Y-m-d', $inizio->format('Y-m-d'));
+        do {
+            $listaPagamenti[] = $nextDate;
+            $nextDate = \DateTime::createFromFormat('Y-m-d', $nextDate->format('Y-m-d'));
+            $nextDate = $nextDate->add($intervallo);            
+        } while ($nextDate->format('Y-m-d') <= $fine->format('Y-m-d'));
+
         return $this->render('movimento_ricorrente/mostra.html.twig', [
             'movimento' => $movimento,
+            'listaPagamenti' => $listaPagamenti,
         ]);
     }
 

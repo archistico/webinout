@@ -33,14 +33,14 @@
 	<div class="row mt-2">
 		<div class="col-4">
 			{{ form_label(form.Inizio) }}
-			{{ form_widget(form.Inizio, {'value' : 'now'|date('Y-m-d', "Europe/Rome")}) }}
+			{{ form_widget(form.Inizio) }}
 			<div class="text-red li-senza-pallino">
 				{{ form_errors(form.Inizio) }}
 			</div>
 		</div>
         <div class="col-4">
 			{{ form_label(form.Fine) }}
-			{{ form_widget(form.Fine, {'value' : 'now'|date('Y-m-d', "Europe/Rome")}) }}
+			{{ form_widget(form.Fine) }}
 			<div class="text-red li-senza-pallino">
 				{{ form_errors(form.Fine) }}
 			</div>

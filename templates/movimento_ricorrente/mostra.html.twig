@@ -4,65 +4,73 @@
 {% endblock %}
 
 {% block body %}
-	<div class="row">
-		<div class="col-12">
-			<h1>MOSTRA MOVIMENTO RICORRENTE</h1>
-		</div>
+<div class="row">
+	<div class="col-12">
+		<h1>MOSTRA MOVIMENTO RICORRENTE</h1>
 	</div>
-	<div class="row py-3">
-		<div class="col-12">
-			<div class="card">
-				<div class="row g-0">
-
-					<div class="col">
-						<div class="card-body">
-                            <div class="row">
-								<div class="col">
-									<h2 class="mb-0">
-										{{ movimento.Descrizione }}
-									</h2>
-								</div>
+</div>
+<div class="row py-3">
+	<div class="col-12">
+		<div class="card">
+			<div class="row g-0">
+				<div class="col">
+					<div class="card-body">
+						<div class="row">
+							<div class="col">
+								<h2 class="mb-0">
+									{{ movimento.Descrizione }}
+								</h2>
 							</div>
-							<div class="row">
-								<div class="col">
-									<h3 class="mb-0">
-										{{ movimento.Categoria.Padre.Padre.Nome }} |
-										{{ movimento.Categoria.Padre.Nome }} |
-										{{ movimento.Categoria.Nome }}
-									</h3>
-								</div>
-								<div class="col-auto fs-2 text-muted">
-									{% if movimento.Categoria.Padre.Padre.Nome == 'Uscita' %}
-										<span class="text-danger">-{{ movimento.Importo|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</span>
-									{% else %}
-										+{{ movimento.Importo|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}
-									{% endif %}
-								</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<h3 class="mb-0">
+									{{ movimento.Categoria.Padre.Padre.Nome }} | {{ movimento.Categoria.Padre.Nome }} | {{ movimento.Categoria.Nome }}
+								</h3>
 							</div>
-							<div class="row">
-								<div class="col-md">
-									<div class="mt-3 list mb-0 text-secondary">
-										<div class="list-item">
-											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-event" width="24" height="24" viewbox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 5m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"/><path d="M16 3l0 4"/><path d="M8 3l0 4"/><path d="M4 11l16 0"/><path d="M8 15h2v2h-2z"/></svg>
-											{{ movimento.Inizio|date('d/m/Y') }} - 
-                                            {% if movimento.Fine is null %}
-                                                Nessuna scadenza
-									        {% else %}
-										        {{ movimento.Fine|date('d/m/Y') }}
-									        {% endif %}
-                                        </div>
-                                        <div class="list-item">
-											<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-calendar-week"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" /><path d="M16 3v4" /><path d="M8 3v4" /><path d="M4 11h16" /><path d="M7 14h.013" /><path d="M10.01 14h.005" /><path d="M13.01 14h.005" /><path d="M16.015 14h.005" /><path d="M13.015 17h.005" /><path d="M7.01 17h.005" /><path d="M10.01 17h.005" /></svg>
-											{{ movimento.Frequenza }}
-                                        </div>
-                                        <div class="list-item">
-											<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-check"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l5 5l10 -10" /></svg>
-											{% if movimento.Attivo == true %} Attivo {% else %} Disattivo {% endif %}
-                                        </div>
-										<div class="list-item">
-											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-cash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 9m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z" /><path d="M14 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 9v-2a2 2 0 0 0 -2 -2h-10a2 2 0 0 0 -2 2v6a2 2 0 0 0 2 2h2" /></svg>
-											{{ movimento.Tipo.Descrizione }}
-                                        </div>                                        
+							<div class="col-auto fs-2 text-muted">
+								{% if movimento.Categoria.Padre.Padre.Nome == 'Uscita' %}
+									<span class="text-danger">-{{ movimento.Importo|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</span>
+								{% else %}
+									+{{ movimento.Importo|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}
+								{% endif %}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md">
+								<div class="mt-3 list mb-0 text-secondary">
+									<div class="list-item">
+										<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-event" width="24" height="24" viewbox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 5m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"/><path d="M16 3l0 4"/><path d="M8 3l0 4"/><path d="M4 11l16 0"/><path d="M8 15h2v2h-2z"/></svg>
+										{{ movimento.Inizio|date('d/m/Y') }}
+										-
+										{% if movimento.Fine is null %}
+											Nessuna scadenza
+										{% else %}
+											{{ movimento.Fine|date('d/m/Y') }}
+										{% endif %}
+									</div>
+									<div class="list-item">
+										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-calendar-week"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"/><path d="M16 3v4"/><path d="M8 3v4"/><path d="M4 11h16"/><path d="M7 14h.013"/><path d="M10.01 14h.005"/><path d="M13.01 14h.005"/><path d="M16.015 14h.005"/><path d="M13.015 17h.005"/><path d="M7.01 17h.005"/><path d="M10.01 17h.005"/></svg>
+										{{ movimento.Frequenza }}
+									</div>
+									<div class="list-item">
+										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-check"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l5 5l10 -10"/></svg>
+										{% if movimento.Attivo == true %}
+											Attivo
+										{% else %}
+											Disattivo
+										{% endif %}
+									</div>
+									<div class="list-item">
+										<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-cash" width="24" height="24" viewbox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 9m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z"/><path d="M14 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M17 9v-2a2 2 0 0 0 -2 -2h-10a2 2 0 0 0 -2 2v6a2 2 0 0 0 2 2h2"/></svg>
+										{{ movimento.Tipo.Descrizione }}
+									</div>
+									<div class="list-item">
+										<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-list-check"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3.5 5.5l1.5 1.5l2.5 -2.5" /><path d="M3.5 11.5l1.5 1.5l2.5 -2.5" /><path d="M3.5 17.5l1.5 1.5l2.5 -2.5" /><path d="M11 6l9 0" /><path d="M11 12l9 0" /><path d="M11 18l9 0" /></svg>
+										Lista date di pagamento:
+										{% for pagamento in listaPagamenti %}
+											<br>{{ pagamento|date('d/m/Y') }} 
+										{% endfor %}
 									</div>
 								</div>
 							</div>
@@ -72,11 +80,11 @@
 			</div>
 		</div>
 	</div>
-
-	<div class="row mt-4">
-		<div class="col-12">
-			<a class="btn btn-secondary btn-square w-100" href="{{ path('app_ricorrenti_lista') }}">TORNA INDIETRO</a>
-		</div>
+</div>
+<div class="row mt-4">
+	<div class="col-12">
+		<a class="btn btn-secondary btn-square w-100" href="{{ path('app_ricorrenti_lista') }}">TORNA INDIETRO</a>
 	</div>
+</div>
 
 {% endblock %}
