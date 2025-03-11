@@ -87,38 +87,26 @@ class MovimentoRicorrenteController extends AbstractController
         ]);
     }
 
-    // #[Route('/admin/movimento/cancella/ok/{id}', name: 'app_movimento_cancella_ok')]
-    // public function CancellaOK($id, MovimentoRepository $movimentoRepository, EntityManagerInterface $em, Filesystem $filesystem): Response
-    // {
-    //     $movimento = $movimentoRepository->findOneBy(['id' => $id]);
-    //     $allegati_directory = $this->getParameter('allegati_directory');
-
-    //     return $this->render('movimento/cancella.html.twig', [
-    //         'movimento' => $movimento,
-    //         'allegati_directory' => $allegati_directory,
-    //     ]);
-    // }
-
-    // #[Route('/admin/movimento/cancella/{id}', name: 'app_movimento_cancella')]
-    // public function Cancella($id, MovimentoRepository $movimentoRepository, EntityManagerInterface $em, Filesystem $filesystem): Response
-    // {
-    //     $elemento = $movimentoRepository->findOneBy(['id' => $id]);
-    //     $fileanno = $elemento->getData()->format('Y');
-    //     $allegati = $elemento->getAllegati();
-
-    //     foreach($allegati as $allegato)
-    //     {
-    //         $filename = $this->getParameter('allegati_directory').'/'.$allegato->getNomefile();
-    //         if ($filesystem->exists($filename)) {
-    //             $filesystem->remove($filename);
-    //         }
-    //     }
-
-    //     $em->remove($elemento);
-    //     $em->flush();
+    #[Route('/admin/ricorrenti/cancella/ok/{id}', name: 'app_ricorrenti_cancella_ok')]
+    public function CancellaOK($id, MovimentoRicorrenteRepository $movimentoRicorrenteRepository): Response
+    {
+        $movimento = $movimentoRicorrenteRepository->findOneBy(['id' => $id]);
         
-    //     return $this->redirectToRoute('app_movimento_lista');
-    // }
+        return $this->render('movimento_ricorrente/cancella.html.twig', [
+            'movimento' => $movimento,
+        ]);
+    }
+
+    #[Route('/admin/ricorrenti/cancella/{id}', name: 'app_ricorrenti_cancella')]
+    public function Cancella($id, MovimentoRicorrenteRepository $movimentoRicorrenteRepository, EntityManagerInterface $em): Response
+    {
+        $elemento = $movimentoRicorrenteRepository->findOneBy(['id' => $id]);
+
+        $em->remove($elemento);
+        $em->flush();
+        
+        return $this->redirectToRoute('app_ricorrenti_lista');
+    }
 
     #[Route('/admin/ricorrenti/mostra/{id}', name: 'app_ricorrenti_mostra')]
     public function Mostra($id, MovimentoRicorrenteRepository $movimentoRicorrenteRepository): Response
