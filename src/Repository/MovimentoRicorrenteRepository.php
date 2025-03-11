@@ -21,6 +21,26 @@ class MovimentoRicorrenteRepository extends ServiceEntityRepository
         parent::__construct($registry, MovimentoRicorrente::class);
     }
 
+    /**
+    * @return MovimentoRicorrente[] Per la lista dei movimenti ricorrenti
+    */
+    public function lista(): array
+    {
+        return $this
+            ->createQueryBuilder('m')
+            ->innerJoin('m.Categoria', 'micro', 'WITH', 'm.Categoria = micro.id')
+            ->innerJoin('micro.Padre', 'meso', 'WITH', 'micro.Padre = meso.id')
+            ->innerJoin('meso.Padre', 'macro', 'WITH', 'meso.Padre = macro.id')
+            ->orderBy('m.Inizio', 'DESC')
+            ->addOrderBy('m.Fine', 'DESC')
+            ->addOrderBy('macro.Nome', 'ASC')
+            ->addOrderBy('meso.Nome', 'ASC')
+            ->addOrderBy('micro.Nome', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     public function findRicorrenti(\DateTime $oggi): array
     {
         return $this->createQueryBuilder('r')

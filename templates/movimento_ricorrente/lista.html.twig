@@ -1,0 +1,193 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lista Movimenti
+{% endblock %}
+
+{% block body %}
+<div class="row">
+	<div class="col-12">
+		<h1>LISTA RICORRENTI</h1>
+	</div>
+</div>
+<div class="row">
+	<div class="col-12 py-3">
+		{# <a href="{{ path('app_movimento_nuovo') }}" class="btn btn-primary btn-square w-100">
+			<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="24" height="24" viewbox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14"/><path d="M5 12l14 0"/></svg>
+			NUOVO</a> #}
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="list-group" id="movimenti-lista">
+
+			<div class="d-flex flex-column flex-sm-row ">
+				<input type="text" class="search form-control mb-2 me-2" placeholder="Cerca"/>
+				<button class="sort btn btn-dark w-100 mb-2 me-2" data-sort="filtraCategoria">Ordina per categoria</button>
+				<button class="sort btn btn-dark w-100 mb-2" data-sort="filtraInizio">Ordina per data</button>
+			</div>
+
+			<ul class="list listamovimenti card-list-group">
+
+				{% for elemento in lista %}
+					<li class="list-group-item ps-0 pe-0 pb-3 pt-0">
+						<div class="row g-2 align-items-center">
+
+							<div
+								class="d-flex flex-column flex-sm-row">
+
+								{# DataNascosta #}
+								<div class="d-none filtraInizio">
+									{{ elemento.Inizio|date('Ymd') }}
+								</div>
+								<div class="d-none filtraFine">
+									{{ elemento.Fine|date('Ymd') }}
+								</div>
+
+								{# Versione grande #}
+								<div class="d-none d-sm-block flex-fill">
+									<div class="d-flex">
+										<div class="fs-2 text-center pe-2">
+											<div class="mb-0">{{ elemento.Inizio|date('d/m/Y') }}</div>
+											<div>
+												{% if elemento.Fine is null %}
+													-
+												{% else %}
+													{{ elemento.Fine|date('d/m/Y') }}
+												{% endif %}
+											</div>
+										</div>
+										<div class="text-info ps-0 pe-2">
+											{{ icona(elemento.Categoria.Padre.Padre.Nome, elemento.Categoria.Padre.Nome, elemento.Categoria.Nome)|raw }}
+										</div>
+										<div class="flex-grow-1">
+											<div class="d-flex flex-column">
+												<div class="filtraCategoria text-white fs-2 mb-0">
+													{{ unisciCategorie(elemento.Categoria.Padre.Padre.Nome, elemento.Categoria.Padre.Nome, elemento.Categoria.Nome) }}
+												</div>
+												<div class="filtraDescrizione text-secondary fs-3 mt-1 mb-2">
+													{{ elemento.Descrizione|capitalize }}
+													<div class="text-start">
+														Movimento ricorrente: 
+														{% if elemento.Attivo %}
+															<span class="text-white">Attivo</span>
+														{% else %}
+															<span class="text-danger">Non attivo</span>
+														{% endif %}
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="d-flex flex-column">
+											<div class="text-end fs-1 mb-0">
+												{% if elemento.Categoria.Padre.Padre.Nome == 'Uscita' %}
+													<span class="text-danger">-{{ elemento.Importo|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</span>
+												{% elseif elemento.Categoria.Padre.Padre.Nome == 'Entrata' %}
+													<span class="text-white">+{{ elemento.Importo|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</span>
+												{% endif %}
+											</div>
+											<div class="text-secondary text-end mt-1 mb-2">
+												{{ elemento.Tipo.Descrizione }}												
+											</div>
+										</div>
+
+										<div class="ms-3 d-flex justify-content-end">
+											<div class="ps-0">
+												<a href="{{ path('app_movimento_mostra', { id: elemento.id }) }}" class="btn btn-outline-twitter btn-icon">
+													<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye" width="24" height="24" viewbox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"/><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6"/></svg>
+												</a>
+											</div>
+											<div class="ps-2">
+												<a href="{{ path('app_movimento_modifica', { id: elemento.id }) }}" class="btn btn-outline-rss btn-icon">
+													<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewbox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"/><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"/><path d="M16 5l3 3"/></svg>
+												</a>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								{# Versione cellulare #}
+								<div class="d-sm-none">
+									<div class="fs-2 text-center">
+										<div class="mb-2 bg-info text-black rounded-1">
+											{{ elemento.Inizio|format_datetime('full', 'none', locale = 'it') }}
+										</div>
+									</div>
+
+									<div class="d-flex flex-row">
+										<div class="text-info ps-0 pe-2">
+											{{ icona(elemento.Categoria.Padre.Padre.Nome, elemento.Categoria.Padre.Nome, elemento.Categoria.Nome)|raw }}
+										</div>
+										<div class="d-flex flex-column flex-grow-1">
+											<div class="text-white fs-2 mb-0">
+												{{ elemento.Categoria.Padre.Padre.Nome }}<br>
+												{{ elemento.Categoria.Padre.Nome }}<br>
+												{{ elemento.Categoria.Nome }}
+											</div>
+											<div class="text-secondary fs-3 mt-1 mb-2">
+												{{ elemento.Descrizione|capitalize }}
+												<div class="text-start">
+													Movimento ricorrente: 
+													{% if elemento.Attivo %}
+														<span class="text-white">Attivo</span>
+													{% else %}
+														<span class="text-danger">Non attivo</span>
+													{% endif %}
+												</div>
+											</div>
+										</div>
+
+										<div class="d-flex flex-column justify-content-end">
+											<div class="text-end fs-1 mb-0">
+												{% if elemento.Categoria.Padre.Padre.Nome == 'Uscita' %}
+													<span class="text-danger">-{{ elemento.Importo|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</span>
+												{% elseif elemento.Categoria.Padre.Padre.Nome == 'Entrata' %}
+													<span class="text-white">+{{ elemento.Importo|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</span>
+												{% endif %}
+											</div>
+											<div class="text-secondary text-end mt-1 mb-2">
+												{{ elemento.Tipo.Descrizione }}
+											</div>
+										</div>
+									</div>
+
+									{# <div class="d-flex justify-content-end">
+										<div class="ps-0">
+											<a href="{{ path('app_movimento_mostra', { id: elemento.id }) }}" class="btn btn-outline-twitter btn-icon">
+												<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye" width="24" height="24" viewbox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"/><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6"/></svg>
+											</a>
+										</div>
+										<div class="ps-2">
+											<a href="{{ path('app_movimento_modifica', { id: elemento.id }) }}" class="btn btn-outline-rss btn-icon">
+												<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewbox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"/><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"/><path d="M16 5l3 3"/></svg>
+											</a>
+										</div>
+									</div> #}
+
+								</div>
+
+							</div>
+
+
+						</div>
+					</li>
+				{% endfor %}
+
+			</ul>
+
+		</div>
+	</div>
+</div>
+
+
+
+{% endblock %}
+
+{% block script %}
+	<script>
+		var movimentiLista = new List('movimenti-lista', {
+			valueNames: ['filtraCategoria', 'filtraDescrizione', 'filtraInizio', 'filtraFine'],
+		});
+	</script>
+{% endblock %}
