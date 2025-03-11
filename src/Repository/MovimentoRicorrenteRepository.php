@@ -21,6 +21,20 @@ class MovimentoRicorrenteRepository extends ServiceEntityRepository
         parent::__construct($registry, MovimentoRicorrente::class);
     }
 
+    public function findRicorrenti(\DateTime $oggi): array
+    {
+        return $this->createQueryBuilder('r')
+            ->where('r.Attivo = :attivo')
+            ->andWhere('r.Inizio <= :oggi')
+            ->andWhere('r.Fine IS NULL OR r.Fine >= :oggi')
+            ->andWhere('r.GiornoPagamento = :giornoPagamento')
+            ->setParameter('attivo', true)
+            ->setParameter('oggi', $oggi)
+            ->setParameter('giornoPagamento', $oggi->format('j'))
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return MovimentoRicorrente[] Returns an array of MovimentoRicorrente objects
 //     */

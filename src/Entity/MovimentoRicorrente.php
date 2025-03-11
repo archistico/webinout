@@ -39,6 +39,10 @@ class MovimentoRicorrente
     #[ORM\JoinColumn(nullable: false)]
     private ?Micro $Categoria = null;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?TipoPagamento $Tipo = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -136,6 +140,18 @@ class MovimentoRicorrente
     public function setCategoria(?Micro $Categoria): static
     {
         $this->Categoria = $Categoria;
+
+        return $this;
+    }
+
+    public function getTipo(): ?TipoPagamento
+    {
+        return $this->Tipo;
+    }
+
+    public function setTipo(?TipoPagamento $Tipo): static
+    {
+        $this->Tipo = $Tipo;
 
         return $this;
     }
