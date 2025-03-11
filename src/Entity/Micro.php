@@ -31,10 +31,14 @@ class Micro
     #[ORM\OneToMany(mappedBy: 'Categoria', targetEntity: Ripetuto::class)]
     private Collection $ripetuti;
 
+    #[ORM\OneToMany(mappedBy: 'Categoria', targetEntity: MovimentoRicorrente::class)]
+    private Collection $MovimentiRicorrenti;
+
     public function __construct()
     {
         $this->movimenti = new ArrayCollection();
         $this->ripetuti = new ArrayCollection();
+        $this->MovimentiRicorrenti = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -132,6 +136,36 @@ class Micro
             // set the owning side to null (unless already changed)
             if ($ripetuti->getCategoria() === $this) {
                 $ripetuti->setCategoria(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MovimentoRicorrente>
+     */
+    public function getMovimentiRicorrenti(): Collection
+    {
+        return $this->MovimentiRicorrenti;
+    }
+
+    public function addMovimentiRicorrenti(MovimentoRicorrente $movimentiRicorrenti): static
+    {
+        if (!$this->MovimentiRicorrenti->contains($movimentiRicorrenti)) {
+            $this->MovimentiRicorrenti->add($movimentiRicorrenti);
+            $movimentiRicorrenti->setCategoria($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMovimentiRicorrenti(MovimentoRicorrente $movimentiRicorrenti): static
+    {
+        if ($this->MovimentiRicorrenti->removeElement($movimentiRicorrenti)) {
+            // set the owning side to null (unless already changed)
+            if ($movimentiRicorrenti->getCategoria() === $this) {
+                $movimentiRicorrenti->setCategoria(null);
             }
         }
 
