@@ -39,7 +39,7 @@ class MovimentoRicorrenteService
         $movimento->setCategoria($ricorrente->getCategoria());
         $movimento->setImporto($ricorrente->getImporto());
         $movimento->setTipo($ricorrente->getTipo());
-        $movimento->setNote($ricorrente->getDescrizione());
+        $movimento->setNote("Ricorrente: ".$ricorrente->getDescrizione());
         
         $this->entityManager->persist($movimento);
     }
