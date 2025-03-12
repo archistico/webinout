@@ -121,7 +121,7 @@ class MovimentoRicorrenteController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/ricorrenti/processa', name: 'app_ricorrenti_processa')]
+    #[Route('/fiebibqpbmeihkzykquxdbzw', name: 'app_ricorrenti_processa')]
     public function Processa(MovimentoRicorrenteService $movimentoRicorrenteService): Response
     {
         $movimentoRicorrenteService->processaMovimentoRicorrente();
