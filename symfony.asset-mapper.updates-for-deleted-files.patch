@@ -1,0 +1,14 @@
+diff --git a/composerjson b/composerjson
+index 0aad74d..def61bb 100644
+--- a/composerjson
++++ b/composerjson
+@@ -77,7 +77,8 @@
+     "scripts": {
+         "auto-scripts": {
+             "cache:clear": "symfony-cmd",
+-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
++            "assets:install %PUBLIC_DIR%": "symfony-cmd",
++            "importmap:install": "symfony-cmd"
+         },
+         "post-install-cmd": [
+             "@auto-scripts"

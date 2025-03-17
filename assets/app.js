@@ -6,3 +6,6 @@ import './bootstrap.js';
  * which should already be in your base.html.twig.
  */
 console.log('🎉 Emilie')
+
+import './styles/app.css';
+
