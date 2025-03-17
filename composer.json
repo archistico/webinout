@@ -12,25 +12,25 @@
         "doctrine/orm": "^2.16",
         "dragonmantank/cron-expression": "^3.4",
         "symfony/apache-pack": "^1.0",
-        "symfony/asset": "6.3.*",
-        "symfony/asset-mapper": "6.3.*",
-        "symfony/console": "6.3.*",
-        "symfony/dotenv": "6.3.*",
-        "symfony/filesystem": "6.3.*",
+        "symfony/asset": "7.2.*",
+        "symfony/asset-mapper": "7.2.*",
+        "symfony/console": "7.2.*",
+        "symfony/dotenv": "7.2.*",
+        "symfony/filesystem": "7.2.*",
         "symfony/flex": "^2",
-        "symfony/form": "6.3.*",
-        "symfony/framework-bundle": "6.3.*",
-        "symfony/messenger": "6.3.*",
-        "symfony/mime": "6.3.*",
-        "symfony/rate-limiter": "6.3.*",
-        "symfony/runtime": "6.3.*",
-        "symfony/scheduler": "6.3.*",
-        "symfony/security-bundle": "6.3.*",
-        "symfony/twig-bundle": "6.3.*",
+        "symfony/form": "7.2.*",
+        "symfony/framework-bundle": "7.2.*",
+        "symfony/messenger": "7.2.*",
+        "symfony/mime": "7.2.*",
+        "symfony/rate-limiter": "7.2.*",
+        "symfony/runtime": "7.2.*",
+        "symfony/scheduler": "7.2.*",
+        "symfony/security-bundle": "7.2.*",
+        "symfony/twig-bundle": "7.2.*",
         "symfony/ux-chartjs": "^2.13",
         "symfony/ux-turbo": "^2.13",
-        "symfony/validator": "6.3.*",
-        "symfony/yaml": "6.3.*",
+        "symfony/validator": "7.2.*",
+        "symfony/yaml": "7.2.*",
         "symfonycasts/verify-email-bundle": "^1.16",
         "tecnickcom/tcpdf": "^6.8",
         "twig/extra-bundle": "^2.12|^3.0",
@@ -41,11 +41,11 @@
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.4",
         "fakerphp/faker": "^1.23",
-        "symfony/debug-bundle": "6.3.*",
+        "symfony/debug-bundle": "7.2.*",
         "symfony/maker-bundle": "^1.52",
-        "symfony/stopwatch": "6.3.*",
-        "symfony/var-dumper": "6.3.*",
-        "symfony/web-profiler-bundle": "6.3.*"
+        "symfony/stopwatch": "7.2.*",
+        "symfony/var-dumper": "7.2.*",
+        "symfony/web-profiler-bundle": "7.2.*"
     },
     "config": {
         "allow-plugins": {
@@ -92,7 +92,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "6.3.*"
+            "require": "7.2.*"
         }
     }
 }
