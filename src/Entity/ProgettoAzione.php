@@ -78,4 +78,15 @@ class ProgettoAzione
 
         return $this;
     }
+
+    public function getDifferenzaOre(): ?float
+    {
+        if ($this->Inizio === null || $this->Fine === null) {
+            return null;
+        }
+
+        $secondi = $this->Fine->getTimestamp() - $this->Inizio->getTimestamp();
+
+        return round($secondi / 3600, 2);
+    }
 }
