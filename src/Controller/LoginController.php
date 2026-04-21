@@ -12,6 +12,10 @@ class LoginController extends AbstractController
     #[Route('/login', name: 'app_login')]
     public function index(AuthenticationUtils $authenticationUtils): Response
     {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_home');
+        }
+
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
@@ -26,6 +30,10 @@ class LoginController extends AbstractController
     #[Route('/', name: 'app_redirect')]
     public function app_redirect(): Response
     {
-        return $this->redirectToRoute('app_login', []);
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        return $this->redirectToRoute('app_login');
     }
 }

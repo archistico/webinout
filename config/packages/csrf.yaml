@@ -1,11 +1,10 @@
-# Enable stateless CSRF protection for forms and logins/logouts
+# Use the default session-backed CSRF protection.
+# The login flow is stateful (`form_login` + session), so stateless
+# double-submit tokens can fail intermittently when an old login page
+# is submitted from another tab or browser history.
 framework:
     form:
         csrf_protection:
             token_id: submit
 
-    csrf_protection:
-        stateless_token_ids:
-            - submit
-            - authenticate
-            - logout
+    csrf_protection: ~
