@@ -75,4 +75,15 @@ class ProgettoTipologia
 
         return $this;
     }
+
+    public function getTotaleOreProgetti(): float
+    {
+        $totale = 0.0;
+
+        foreach ($this->Progetti as $progetto) {
+            $totale += $progetto->getTotaleOreAzioni();
+        }
+
+        return round($totale, 2);
+    }
 }

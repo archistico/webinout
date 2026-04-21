@@ -24,6 +24,7 @@
 						<thead>
 							<tr>
 								<th>Nome</th>
+								<th class="text-end">Ore Totali</th>
 								<th class="w-1"></th>
 							</tr>
 						</thead>
@@ -31,6 +32,7 @@
 							{% for elemento in lista %}
 								<tr>
 									<td>{{ elemento.Descrizione }}</td>
+									<td class="text-end">{{ elemento.TotaleOreProgetti|number_format(2, ',', '.') }}</td>
 									<td>
 										<div class="btn-list flex-nowrap">
 											<div class="col-xl-auto py-1">
