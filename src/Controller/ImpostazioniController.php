@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -23,9 +24,16 @@ final class ImpostazioniController extends AbstractController
     }
 
     #[Route('/admin/impostazioni/utenti', name: 'app_impostazioni_utenti_lista')]
-    public function UtentiLista(): Response
+    public function UtentiLista(UserRepository $userRepository): Response
     {
-        return $this->render('impostazioni/index.html.twig', [
+        $utenti = $userRepository->findBy([], [
+            'cognome' => 'ASC',
+            'nome' => 'ASC',
+            'email' => 'ASC',
+        ]);
+
+        return $this->render('impostazioni/utenti.lista.html.twig', [
+            'lista' => $utenti,
         ]);
     }
 }

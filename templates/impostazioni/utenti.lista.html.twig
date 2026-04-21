@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lista Utenti
+{% endblock %}
+
+{% block body %}
+	<div class="row">
+		<div class="col-12">
+			<h1>LISTA UTENTI</h1>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12 py-3">
+			<a href="{{ path('app_impostazioni_home') }}" class="btn btn-secondary btn-square w-100">
+				<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M5 12l6 6" /><path d="M5 12l6 -6" /></svg>
+				INDIETRO
+			</a>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="table-responsive">
+					<table class="table table-vcenter card-table table-striped">
+						<thead>
+							<tr>
+								<th>Cognome</th>
+								<th>Nome</th>
+								<th>Email</th>
+								<th>Ruoli</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for utente in lista %}
+								<tr>
+									<td>{{ utente.cognome }}</td>
+									<td>{{ utente.nome }}</td>
+									<td>{{ utente.email }}</td>
+									<td>{{ utente.roles|join(', ') }}</td>
+								</tr>
+							{% else %}
+								<tr>
+									<td colspan="4" class="text-muted text-center">Nessun utente presente</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
