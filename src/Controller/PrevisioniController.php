@@ -19,6 +19,7 @@ class PrevisioniController extends AbstractController
         $mesi = round(($difference->days)/$giorni_mese);
 
         $lista = $movimentoRepository->listaPrevisione($datainizio, $mesi);
+        $listaMeso = $movimentoRepository->listaPrevisioneMeso($datainizio, $mesi);
 
         $listaEntrate = $movimentoRepository->listaPrevisioneCategoria($datainizio, $mesi, "Entrata");
         $listaUscite = $movimentoRepository->listaPrevisioneCategoria($datainizio, $mesi, "Uscita");
@@ -35,6 +36,7 @@ class PrevisioniController extends AbstractController
 
         return $this->render('previsioni/previsioni.html.twig', [
             'lista' => $lista,
+            'listaMeso' => $listaMeso,
             'datainizio' => $datainizio,
             'entrate' => $entrate,
             'uscite' => $uscite,

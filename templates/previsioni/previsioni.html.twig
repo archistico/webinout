@@ -63,6 +63,46 @@
 	<div class="row py-3">
 		<div class="col-12">
 			<div class="row row-cards">
+				<h2>Media importo mensile/annuale per ogni categoria Meso (dal {{ datainizio|date('d/m/Y') }})</h2>
+				<div class="row">
+					<div class="col-12">
+						<div class="card">
+							<div class="table-responsive">
+								<table class="table table-vcenter card-table table-striped">
+									<thead>
+										<tr>
+											<th>Categoria Meso</th>
+											<th class="text-end">Importo mensile</th>
+											<th class="text-end">Importo annuale</th>
+										</tr>
+									</thead>
+									<tbody>
+										{% for elemento in listaMeso %}
+											<tr>
+												<td>{{ elemento.MacroNome }}
+													|
+													{{ elemento.MesoNome }}</td>
+												<td class="text-end">{% if elemento.MacroNome == "Uscita" %}<span class="text-danger">-{% else %}<span>+{% endif %}{{ elemento.Totale|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}/mese</span></td>
+												<td class="text-end">{% if elemento.MacroNome == "Uscita" %}<span class="text-danger">-{% else %}<span>+{% endif %}{{ (elemento.Totale*12)|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}/annuo</span></td>
+											</tr>
+										{% else %}
+											<tr>
+												<td colspan="3" class="text-center text-secondary">Nessun dato disponibile</td>
+											</tr>
+										{% endfor %}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row py-3">
+		<div class="col-12">
+			<div class="row row-cards">
 				<h2>Media importo mensile/annuale per ogni categoria (dal {{ datainizio|date('d/m/Y') }})</h2>
 				<div class="row">
 					<div class="col-12">
