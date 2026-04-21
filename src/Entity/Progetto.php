@@ -91,4 +91,15 @@ class Progetto
 
         return $this;
     }
+
+    public function getTotaleOreAzioni(): float
+    {
+        $totale = 0.0;
+
+        foreach ($this->Azioni as $azione) {
+            $totale += $azione->getDifferenzaOre() ?? 0;
+        }
+
+        return round($totale, 2);
+    }
 }

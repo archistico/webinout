@@ -25,6 +25,7 @@
 							<tr>
 								<th>Descrizione</th>
 								<th>Tipologia</th>
+								<th class="text-end">Ore Totali</th>
 								<th class="w-1"></th>
 							</tr>
 						</thead>
@@ -33,6 +34,7 @@
 								<tr>
 									<td>{{ elemento.Descrizione }}</td>
 									<td>{{ elemento.fkProgettoTipologia.Descrizione }}</td>
+									<td class="text-end">{{ elemento.TotaleOreAzioni|number_format(2, ',', '.') }}</td>
 									<td>
 										<div class="btn-list flex-nowrap">
 											<div class="col-xl-auto py-1">
