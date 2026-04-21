@@ -102,4 +102,15 @@ class Progetto
 
         return round($totale, 2);
     }
+
+    public function getTotaleOreAzioniAnnoCorrente(): float
+    {
+        $totale = 0.0;
+
+        foreach ($this->Azioni as $azione) {
+            $totale += $azione->getDifferenzaOreAnnoCorrente();
+        }
+
+        return round($totale, 2);
+    }
 }

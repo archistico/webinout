@@ -86,4 +86,15 @@ class ProgettoTipologia
 
         return round($totale, 2);
     }
+
+    public function getTotaleOreProgettiAnnoCorrente(): float
+    {
+        $totale = 0.0;
+
+        foreach ($this->Progetti as $progetto) {
+            $totale += $progetto->getTotaleOreAzioniAnnoCorrente();
+        }
+
+        return round($totale, 2);
+    }
 }

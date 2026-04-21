@@ -89,4 +89,26 @@ class ProgettoAzione
 
         return round($secondi / 3600, 2);
     }
+
+    public function getDifferenzaOreAnnoCorrente(): float
+    {
+        if ($this->Inizio === null || $this->Fine === null) {
+            return 0.0;
+        }
+
+        $adesso = new \DateTimeImmutable();
+        $inizioAnno = new \DateTimeImmutable($adesso->format('Y-01-01 00:00:00'));
+        $fineAnno = new \DateTimeImmutable($adesso->format('Y-12-31 23:59:59'));
+
+        $inizio = $this->Inizio > $inizioAnno ? $this->Inizio : $inizioAnno;
+        $fine = $this->Fine < $fineAnno ? $this->Fine : $fineAnno;
+
+        if ($fine <= $inizio) {
+            return 0.0;
+        }
+
+        $secondi = $fine->getTimestamp() - $inizio->getTimestamp();
+
+        return round($secondi / 3600, 2);
+    }
 }
