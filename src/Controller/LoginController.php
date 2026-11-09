@@ -6,10 +6,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 
 class LoginController extends AbstractController
 {
-    #[Route('/login', name: 'app_login')]
+    #[Route('/login', name: 'app_login', methods: ['GET', 'POST'])]
     public function index(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
@@ -24,6 +25,7 @@ class LoginController extends AbstractController
         return $this->render('login/index.html.twig', [
             'last_username' => $lastUsername,
             'error'         => $error,
+            'csrf_error'    => $error instanceof InvalidCsrfTokenException,
         ]);
     }
 

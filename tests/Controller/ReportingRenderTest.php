@@ -24,6 +24,7 @@ class ReportingRenderTest extends KernelTestCase
         self::bootKernel();
         $request = Request::create('http://localhost/admin');
         $request->attributes->set('_route', $route);
+        $request->setSession(self::getContainer()->get('session.factory')->createSession());
         self::getContainer()->get('request_stack')->push($request);
     }
 
