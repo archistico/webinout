@@ -40,6 +40,7 @@ class ScadenzaRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('m')
             ->orderBy('m.DataScadenza', 'ASC')
+            ->addOrderBy('m.id', 'ASC')
             ->setMaxResults(5)
             ->getQuery()
             ->getResult()

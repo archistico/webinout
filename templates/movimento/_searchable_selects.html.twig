@@ -1,0 +1,60 @@
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/i18n/it.js"></script>
+<script>
+    $(function () {
+        // Keep the native selects usable if the CDN is unavailable.
+        if (!$.fn.select2) {
+            return;
+        }
+
+        $('#{{ form.Categoria.vars.id|e('js') }}, #{{ form.Tipo.vars.id|e('js') }}').each(function () {
+            const select = this;
+            const $select = $(select);
+            const $field = $select.parent().addClass('movimento-searchable-field');
+            const label = select.labels[0];
+
+            $select.select2({
+                language: 'it',
+                width: '100%',
+                dropdownParent: $field,
+                minimumResultsForSearch: 0
+            });
+
+            const $selection = $select.next('.select2-container').find('.select2-selection');
+            $selection.attr('aria-required', String(select.required));
+            if (label) {
+                label.id = label.id || select.id + '-label';
+                $selection.attr('aria-labelledby', label.id + ' select2-' + select.id + '-container');
+            }
+            if (select.getAttribute('aria-invalid') === 'true' || $select.hasClass('is-invalid')) {
+                $selection.attr('aria-invalid', 'true');
+            }
+
+            $select.on('select2:open', function () {
+                const search = $field.find('.select2-search__field')[0];
+                if (search) {
+                    search.setAttribute('aria-label', 'Cerca ' + (label ? label.textContent.trim() : 'opzione'));
+                    search.focus();
+                }
+            });
+
+            // Browser validation must focus the visible control, not the hidden select.
+            select.addEventListener('invalid', function (event) {
+                event.preventDefault();
+                $selection.attr('aria-invalid', 'true');
+                if (!select.form.querySelector('.select2-container--open')) {
+                    $select.select2('open');
+                }
+            });
+            $select.on('change', function () {
+                $selection.attr('aria-invalid', String(!select.validity.valid));
+            });
+            select.form.addEventListener('reset', function () {
+                setTimeout(function () {
+                    $select.trigger('change.select2');
+                    $selection.removeAttr('aria-invalid');
+                }, 0);
+            });
+        });
+    });
+</script>

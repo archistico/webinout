@@ -1,0 +1,29 @@
+<div class="card">
+    <div class="table-responsive">
+        <table class="table table-vcenter card-table table-striped">
+            <caption class="visually-hidden">{{ titolo }}</caption>
+            <thead>
+                <tr>
+                    <th>Categoria</th>
+                    <th class="text-end">{{ inizioAnnoPassato|date('d/m/Y', 'Europe/Rome') }} - {{ fineAnnoPassato|date('d/m/Y', 'Europe/Rome') }}</th>
+                    <th class="text-end">{{ inizioAnnoInCorso|date('d/m/Y', 'Europe/Rome') }} - {{ fineAnnoInCorso|date('d/m/Y', 'Europe/Rome') }}</th>
+                    <th class="text-end">Differenza</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for elemento in elementi %}
+                    {% set favorevole = (tipo == 'entrate' and elemento.Differenza > 0) or (tipo == 'uscite' and elemento.Differenza < 0) %}
+                    {% set colore = elemento.Differenza == 0 or tipo == 'altre' ? '' : (favorevole ? 'text-success' : 'text-danger') %}
+                    <tr>
+                        <td>{{ elemento.Categoria }}</td>
+                        <td class="text-end">{{ elemento.TotaleAnnoScorso|format_currency('EUR', locale='it') }}</td>
+                        <td class="text-end">{{ elemento.TotaleAnnoInCorso|format_currency('EUR', locale='it') }}</td>
+                        <td class="text-end {{ colore }}">{% if elemento.Differenza > 0 %}+{% endif %}{{ elemento.Differenza|format_currency('EUR', locale='it') }}</td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="4" class="text-center text-secondary">Nessun movimento nei periodi confrontati</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

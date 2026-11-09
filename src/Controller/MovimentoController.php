@@ -229,7 +229,7 @@ class MovimentoController extends AbstractController
     {
         /** @var array $movimenti */
         $movimenti = $movimentoRepository->lista();
-        $data = (new \DateTime('now'));
+        $data = new \DateTime('now', new \DateTimeZone('Europe/Rome'));
 
         $pdf = $pdfMovimentoService->creaPdf($movimenti, $data);
         $nome_file_pdf = $data->format('Y-m-d'). " Lista_movimenti.pdf";

@@ -7,13 +7,20 @@
 	<div class="row">
 		<div class="col-12">
 			<h1>Previsioni</h1>
+			{% if mesi > 0 %}
+				<p class="text-secondary">Medie su {{ mesi }} mesi completi, dal {{ datainizio|date('d/m/Y', 'Europe/Rome') }} al {{ datafine|date('d/m/Y', 'Europe/Rome') }}.
+					Sono inclusi i mesi senza movimenti; il mese in corso e le date future sono esclusi.
+					Gli importi annuali sono proiezioni della media mensile su 12 mesi.</p>
+			{% else %}
+				<p class="text-secondary">Non ci sono ancora mesi completi dal {{ datainizio|date('d/m/Y', 'Europe/Rome') }} su cui calcolare le medie.</p>
+			{% endif %}
 		</div>
 	</div>
 
 	<div class="row py-3">
 		<div class="col-12">
 			<div class="row row-cards">
-				<h2>Media Entrate/Uscite (dal {{ datainizio|date('d/m/Y') }})</h2>
+				<h2>Media Entrate/Uscite (dal {{ datainizio|date('d/m/Y', 'Europe/Rome') }})</h2>
 				<div class="col-sm-12 col-lg-6">
 					<div class="card card-sm">
 						<div class="card-body">
@@ -25,7 +32,7 @@
 								</div>
 								<div class="col">
 									<div class="font-weight-medium">
-										<strong>+{{ entrate.Totale|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</strong>
+										<strong>+{{ entrate.Totale|format_currency('EUR', locale='it') }}</strong>
 									</div>
 									<div class="text-secondary">
 										Media entrate mensili
@@ -46,7 +53,7 @@
 								</div>
 								<div class="col">
 									<div class="font-weight-medium">
-										<strong>-{{ uscite.Totale|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</strong>
+										<strong>-{{ uscite.Totale|format_currency('EUR', locale='it') }}</strong>
 									</div>
 									<div class="text-secondary">
 										Media uscite mensili
@@ -63,7 +70,7 @@
 	<div class="row py-3">
 		<div class="col-12">
 			<div class="row row-cards">
-				<h2>Media importo mensile/annuale per ogni categoria Meso (dal {{ datainizio|date('d/m/Y') }})</h2>
+				<h2>Media importo mensile/annuale per ogni categoria Meso (dal {{ datainizio|date('d/m/Y', 'Europe/Rome') }})</h2>
 				<div class="row">
 					<div class="col-12">
 						<div class="card">
@@ -82,8 +89,8 @@
 												<td>{{ elemento.MacroNome }}
 													|
 													{{ elemento.MesoNome }}</td>
-												<td class="text-end">{% if elemento.MacroNome == "Uscita" %}<span class="text-danger">-{% else %}<span>+{% endif %}{{ elemento.Totale|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}/mese</span></td>
-												<td class="text-end">{% if elemento.MacroNome == "Uscita" %}<span class="text-danger">-{% else %}<span>+{% endif %}{{ (elemento.Totale*12)|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}/annuo</span></td>
+												<td class="text-end">{% if elemento.MacroNome == "Uscita" %}<span class="text-danger">-{% else %}<span>+{% endif %}{{ elemento.Totale|format_currency('EUR', locale='it') }}/mese</span></td>
+												<td class="text-end">{% if elemento.MacroNome == "Uscita" %}<span class="text-danger">-{% else %}<span>+{% endif %}{{ (elemento.Totale*12)|format_currency('EUR', locale='it') }}/annuo</span></td>
 											</tr>
 										{% else %}
 											<tr>
@@ -103,7 +110,7 @@
 	<div class="row py-3">
 		<div class="col-12">
 			<div class="row row-cards">
-				<h2>Media importo mensile/annuale per ogni categoria (dal {{ datainizio|date('d/m/Y') }})</h2>
+				<h2>Media importo mensile/annuale per ogni categoria (dal {{ datainizio|date('d/m/Y', 'Europe/Rome') }})</h2>
 				<div class="row">
 					<div class="col-12">
 						<div class="card">
@@ -124,9 +131,11 @@
 													{{ elemento.MesoNome }}
 													|
 													{{ elemento.MicroNome }}</td>
-												<td class="text-end">{% if elemento.MacroNome == "Uscita" %}<span class="text-danger">-{% else %}<span>+{% endif %}{{ elemento.Totale|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}/mese</span></td>
-												<td class="text-end">{% if elemento.MacroNome == "Uscita" %}<span class="text-danger">-{% else %}<span>+{% endif %}{{ (elemento.Totale*12)|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}/annuo</span></td>
+												<td class="text-end">{% if elemento.MacroNome == "Uscita" %}<span class="text-danger">-{% else %}<span>+{% endif %}{{ elemento.Totale|format_currency('EUR', locale='it') }}/mese</span></td>
+												<td class="text-end">{% if elemento.MacroNome == "Uscita" %}<span class="text-danger">-{% else %}<span>+{% endif %}{{ (elemento.Totale*12)|format_currency('EUR', locale='it') }}/annuo</span></td>
 											</tr>
+										{% else %}
+											<tr><td colspan="3" class="text-center text-secondary">Nessun dato disponibile</td></tr>
 										{% endfor %}
 									</tbody>
 								</table>

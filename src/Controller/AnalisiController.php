@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Repository\MovimentoRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
@@ -15,34 +14,22 @@ class AnalisiController extends AbstractController
     #[Route('/admin/analisi', name: 'app_analisi')]
     public function analisi(MovimentoRepository $movimentoRepository, ChartBuilderInterface $chartBuilder): Response
     {
-        $movimenti = $movimentoRepository->findAll();
-        
-        $entrate_totali = 0;
-        $uscite_totali = 0;
+        $listaMacro = $movimentoRepository->listaTotaliPerMacro();
+        $listaMeso = $movimentoRepository->listaTotaliPerMeso();
+        $listaMicro = $movimentoRepository->listaTotaliPerMicro();
 
-        $listaUsciteMeso = [];
-        
-        foreach($movimenti as $m) 
-        {
-            $filemacro = $m->getCategoria()->getPadre()->getPadre()->getNome();
-
-            if ($filemacro == "Entrata") {
-                $entrate_totali += $m->getImporto();
-            }
-            if ($filemacro == "Uscita") {
-                $uscite_totali += $m->getImporto();
-
-                $filemeso = $m->getCategoria()->getPadre()->getNome();
-
-                if (!array_key_exists($filemeso, $listaUsciteMeso)) {
-                    $listaUsciteMeso[$filemeso] = $m->getImporto();
-                } else {
-                    $listaUsciteMeso[$filemeso] += $m->getImporto();
-                }
+        $totals = ['Entrata' => 0, 'Uscita' => 0];
+        foreach ($listaMacro as $row) {
+            if (array_key_exists($row['MacroNome'], $totals)) {
+                $totals[$row['MacroNome']] += (int) round((float) $row['Totale'] * 100);
             }
         }
-
-        //dd($listaUsciteMeso);
+        $entrate_totali = $totals['Entrata'] / 100;
+        $uscite_totali = $totals['Uscita'] / 100;
+        // Keep distinct category rows, even when their names are identical.
+        $usciteMeso = array_values(array_filter($listaMeso, static fn (array $row): bool => $row['MacroNome'] === 'Uscita'));
+        $nomiMeso = array_column($usciteMeso, 'MesoNome');
+        $importiMeso = array_map(static fn (array $row): float => round((float) $row['Totale'], 2), $usciteMeso);
 
         $chart_analisi_1 = $chartBuilder->createChart(Chart::TYPE_BAR);
         $chart_analisi_1->setData([
@@ -57,11 +44,11 @@ class AnalisiController extends AbstractController
 
         $chart_analisi_2 = $chartBuilder->createChart(Chart::TYPE_BAR);
         $chart_analisi_2->setData([
-            'labels' => array_keys($listaUsciteMeso),
+            'labels' => $nomiMeso,
             'datasets' => [
                 [
                     'backgroundColor' => 'rgb(255, 99, 132)',
-                    'data' => array_values($listaUsciteMeso),
+                    'data' => $importiMeso,
                 ],
             ],
         ]);
@@ -90,18 +77,10 @@ class AnalisiController extends AbstractController
             ],            
         ]);
 
-        // Lista totali per macro
-        $listaMacro = $movimentoRepository->listaTotaliPerMacro();
-
-        // Lista totali per meso
-        $listaMeso = $movimentoRepository->listaTotaliPerMeso();
-
-        // Lista totali per meso
-        $listaMicro = $movimentoRepository->listaTotaliPerMicro();
-
         return $this->render('analisi/analisi.html.twig', [
             'chart_analisi_1' => $chart_analisi_1,
             'chart_analisi_2' => $chart_analisi_2,
+            'haUscite' => count($usciteMeso) > 0,
             'listaMeso' => $listaMeso,
             'listaMacro' => $listaMacro,
             'listaMicro' => $listaMicro,

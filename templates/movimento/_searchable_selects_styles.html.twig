@@ -1,0 +1,40 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css">
+<style>
+    .movimento-searchable-field { min-width: 0; }
+    .movimento-searchable-field .select2-container { max-width: 100%; }
+    .movimento-searchable-field .select2-selection--single,
+    .movimento-searchable-field .select2-search__field,
+    .movimento-searchable-field .select2-dropdown {
+        background-color: var(--tblr-bg-forms, #1f2936);
+        color: var(--tblr-body-color, #dce1e7);
+        border-color: var(--tblr-border-color, #374151);
+    }
+    .movimento-searchable-field .select2-selection--single { min-height: 38px; }
+    .movimento-searchable-field .select2-selection--single .select2-selection__rendered {
+        color: inherit;
+        line-height: 36px;
+        padding-left: 12px;
+    }
+    .movimento-searchable-field .select2-selection--single .select2-selection__arrow { height: 36px; }
+    .movimento-searchable-field .select2-results__option { overflow-wrap: anywhere; }
+    .movimento-searchable-field .select2-results__option[aria-selected=true] { background-color: var(--tblr-bg-surface-secondary, #374151); }
+    .movimento-searchable-field .select2-results__option--highlighted[aria-selected] {
+        background-color: var(--tblr-primary, #206bc4);
+        color: #fff;
+    }
+    .movimento-searchable-field .select2-container--focus .select2-selection--single,
+    .movimento-searchable-field .select2-container--open .select2-selection--single,
+    .movimento-searchable-field .select2-search__field:focus {
+        border-color: var(--tblr-primary, #206bc4);
+        outline: 2px solid var(--tblr-primary, #206bc4);
+        outline-offset: 1px;
+    }
+    .movimento-searchable-field .select2-selection[aria-invalid=true] {
+        border-color: var(--tblr-danger, #d63939);
+    }
+    .movimento-searchable-field .select2-container--disabled .select2-selection--single {
+        background-color: var(--tblr-bg-surface-secondary, #374151);
+        opacity: .65;
+        cursor: not-allowed;
+    }
+</style>

@@ -6,38 +6,31 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\MovimentoRepository;
+use App\Service\ForecastPeriod;
 
 class PrevisioniController extends AbstractController
 {
     #[Route('/admin/previsioni', name: 'app_previsioni')]
-    public function index(MovimentoRepository $movimentoRepository): Response
+    public function index(MovimentoRepository $movimentoRepository, ForecastPeriod $forecastPeriod): Response
     {
-        $datainizio = new \DateTime('2024-01-01');
-        $oggi = new \DateTime();
-        $difference = $oggi->diff($datainizio);
-        $giorni_mese = 30.5;
-        $mesi = round(($difference->days)/$giorni_mese);
+        $period = $forecastPeriod->calculate(new \DateTimeImmutable());
+        ['datainizio' => $datainizio, 'datafine' => $datafine, 'mesi' => $mesi] = $period;
 
-        $lista = $movimentoRepository->listaPrevisione($datainizio, $mesi);
-        $listaMeso = $movimentoRepository->listaPrevisioneMeso($datainizio, $mesi);
+        $lista = $mesi > 0 ? $movimentoRepository->listaPrevisione($datainizio, $mesi, $datafine) : [];
+        $listaMeso = $mesi > 0 ? $movimentoRepository->listaPrevisioneMeso($datainizio, $mesi, $datafine) : [];
 
-        $listaEntrate = $movimentoRepository->listaPrevisioneCategoria($datainizio, $mesi, "Entrata");
-        $listaUscite = $movimentoRepository->listaPrevisioneCategoria($datainizio, $mesi, "Uscita");
+        $listaEntrate = $mesi > 0 ? $movimentoRepository->listaPrevisioneCategoria($datainizio, $mesi, 'Entrata', $datafine) : [];
+        $listaUscite = $mesi > 0 ? $movimentoRepository->listaPrevisioneCategoria($datainizio, $mesi, 'Uscita', $datafine) : [];
 
-        if(count($listaEntrate) > 0 && count($listaUscite) > 0)
-        {
-            $entrate = $listaEntrate[0];
-            $uscite = $listaUscite[0];
-        } else 
-        {
-            $entrate["Totale"] = 0;
-            $uscite["Totale"] = 0;
-        }        
+        $entrate = ['Totale' => (float) ($listaEntrate[0]['Totale'] ?? 0)];
+        $uscite = ['Totale' => (float) ($listaUscite[0]['Totale'] ?? 0)];
 
         return $this->render('previsioni/previsioni.html.twig', [
             'lista' => $lista,
             'listaMeso' => $listaMeso,
             'datainizio' => $datainizio,
+            'datafine' => $datafine->modify('-1 day'),
+            'mesi' => $mesi,
             'entrate' => $entrate,
             'uscite' => $uscite,
         ]);

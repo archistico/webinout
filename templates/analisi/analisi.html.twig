@@ -7,16 +7,25 @@
 	<div class="row">
 		<div class="col-12">
 			<h1>ANALISI MOVIMENTI</h1>
+			<p class="text-secondary">Totali di tutti i movimenti registrati, senza filtro di periodo. Importi in euro.</p>
 		</div>
 	</div>
 	<div class="row py-3">
 		<div class="col-12">
 			<div class="row">
 				<div class="col-sm-12 col-lg-6 p-2">
-					{{ render_chart(chart_analisi_1, {'class': 'chart-lg'}) }}
+					{% if listaMacro is not empty %}
+						{{ render_chart(chart_analisi_1, {'class': 'chart-lg'}) }}
+					{% else %}
+						<p class="text-secondary">Nessun movimento disponibile per il grafico entrate/uscite.</p>
+					{% endif %}
 				</div>
 				<div class="col-sm-12 col-lg-6 p-2">
-					{{ render_chart(chart_analisi_2, {'class': 'chart-lg'}) }}
+					{% if haUscite %}
+						{{ render_chart(chart_analisi_2, {'class': 'chart-lg'}) }}
+					{% else %}
+						<p class="text-secondary">Nessuna uscita disponibile per il grafico delle categorie Meso.</p>
+					{% endif %}
 				</div>
 			</div>
 		</div>
@@ -42,9 +51,9 @@
 										{% for elemento in listaMacro %}
 											<tr>
 												<td>{{ elemento.MacroNome }}</td>
-												<td class="text-end">{{ elemento.Totale|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</td>
+												<td class="text-end">{{ elemento.Totale|format_currency('EUR', locale='it') }}</td>
 											</tr>
-										{% endfor %}
+										{% else %}<tr><td colspan="2" class="text-center text-secondary">Nessun dato disponibile</td></tr>{% endfor %}
 									</tbody>
 								</table>
 							</div>
@@ -77,9 +86,9 @@
 												<td>{{ elemento.MacroNome }}
 													|
 													{{ elemento.MesoNome }}</td>
-												<td class="text-end">{{ elemento.Totale|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</td>
+												<td class="text-end">{{ elemento.Totale|format_currency('EUR', locale='it') }}</td>
 											</tr>
-										{% endfor %}
+										{% else %}<tr><td colspan="2" class="text-center text-secondary">Nessun dato disponibile</td></tr>{% endfor %}
 									</tbody>
 								</table>
 							</div>
@@ -115,9 +124,9 @@
 													|
 													{{ elemento.MicroNome }}
 												</td>
-												<td class="text-end">{{ elemento.Totale|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</td>
+												<td class="text-end">{{ elemento.Totale|format_currency('EUR', locale='it') }}</td>
 											</tr>
-										{% endfor %}
+										{% else %}<tr><td colspan="2" class="text-center text-secondary">Nessun dato disponibile</td></tr>{% endfor %}
 									</tbody>
 								</table>
 							</div>

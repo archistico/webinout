@@ -1,5 +1,15 @@
 {% extends "base.html.twig" %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {% include 'movimento/_searchable_selects_styles.html.twig' %}
+{% endblock %}
+
+{% block script %}
+    {{ parent() }}
+    {% include 'movimento/_searchable_selects.html.twig' %}
+{% endblock %}
+
 {% block title %}Movimento - Modifica
 {% endblock %}
 

@@ -50,10 +50,9 @@ class MovimentoRepository extends ServiceEntityRepository
             ->innerJoin('m.Categoria', 'micro', 'WITH', 'm.Categoria = micro.id')
             ->innerJoin('micro.Padre', 'meso', 'WITH', 'micro.Padre = meso.id')
             ->innerJoin('meso.Padre', 'macro', 'WITH', 'meso.Padre = macro.id')
+            ->addSelect('micro', 'meso', 'macro')
             ->orderBy('m.Data', 'DESC')
-            ->addOrderBy('macro.Nome', 'ASC')
-            ->addOrderBy('meso.Nome', 'ASC')
-            ->addOrderBy('micro.Nome', 'ASC')
+            ->addOrderBy('m.id', 'DESC')
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult()
@@ -133,29 +132,33 @@ class MovimentoRepository extends ServiceEntityRepository
     }
 
     /**
-    * @return Movimento[] Somma lista movimenti per categorie in un periodo
+    * @return array Totali per categoria nel periodo [inizio, fine).
     */
-    public function listaSommaPerCategoriePeriodo(\DateTime $inizio, \DateTime $fine): array
+    public function listaSommaPerCategoriePeriodo(\DateTimeInterface $inizio, \DateTimeInterface $fine): array
     {
         return $this
             ->createQueryBuilder('m')
-            ->addselect('micro.Nome As MicroNome')
+            ->select('micro.id AS CategoriaId')
+            ->addSelect('micro.Nome As MicroNome')
             ->addselect('meso.Nome As MesoNome')
             ->addselect('macro.Nome As MacroNome')
-            ->addSelect('SUM(m.Importo) as Totale')
+            ->addSelect('COALESCE(SUM(m.Importo), 0) as Totale')
             ->innerJoin('m.Categoria', 'micro', 'WITH', 'm.Categoria = micro.id')
             ->innerJoin('micro.Padre', 'meso', 'WITH', 'micro.Padre = meso.id')
             ->innerJoin('meso.Padre', 'macro', 'WITH', 'meso.Padre = macro.id')
-            ->setParameter('inizio', $inizio)
-            ->setParameter('fine', $fine)
+            ->setParameter('inizio', $inizio->format('Y-m-d H:i:s'))
+            ->setParameter('fine', $fine->format('Y-m-d H:i:s'))
             ->Where('m.Data >= :inizio')
-            ->andWhere('m.Data <= :fine')
+            ->andWhere('m.Data < :fine')
             ->orderBy('SUM(m.Importo)', 'DESC')
             ->addOrderBy('macro.Nome', 'ASC')
             ->addOrderBy('meso.Nome', 'ASC')
             ->addOrderBy('micro.Nome', 'ASC')
+            ->groupBy('macro.id')
             ->addGroupBy('macro.Nome')
+            ->addGroupBy('meso.id')
             ->addGroupBy('meso.Nome')
+            ->addGroupBy('micro.id')
             ->addGroupBy('micro.Nome')
             ->getQuery()
             ->getResult()
@@ -163,24 +166,32 @@ class MovimentoRepository extends ServiceEntityRepository
     }
 
     /**
-    * @return Movimento[] Lista movimenti dal
+    * @return array Medie mensili per categoria nel periodo [inizio, fine).
     */
-    public function listaPrevisione(\DateTime $datainizio, int $mesi): array
+    public function listaPrevisione(\DateTimeInterface $datainizio, int $mesi, \DateTimeInterface $datafine): array
     {
+        if ($mesi < 1) {
+            return [];
+        }
         return $this
             ->createQueryBuilder('m')
             ->setParameter('mesi', $mesi)
-            ->addselect('macro.Nome As MacroNome')
+            ->select('macro.Nome As MacroNome')
             ->addselect('meso.Nome As MesoNome')
             ->addselect('micro.Nome As MicroNome')
-            ->addSelect('SUM(m.Importo)/:mesi as Totale')
+            ->addSelect('(COALESCE(SUM(m.Importo), 0) / :mesi) as Totale')
             ->innerJoin('m.Categoria', 'micro', 'WITH', 'm.Categoria = micro.id')
             ->innerJoin('micro.Padre', 'meso', 'WITH', 'micro.Padre = meso.id')
             ->innerJoin('meso.Padre', 'macro', 'WITH', 'meso.Padre = macro.id')
             ->setParameter('datainizio', $datainizio->format('Y-m-d'))
             ->Where('m.Data >= :datainizio')
-            ->GroupBy('macro.Nome')
+            ->andWhere('m.Data < :datafine')
+            ->setParameter('datafine', $datafine->format('Y-m-d'))
+            ->groupBy('macro.id')
+            ->addGroupBy('macro.Nome')
+            ->addGroupBy('meso.id')
             ->addGroupBy('meso.Nome')
+            ->addGroupBy('micro.id')
             ->addGroupBy('micro.Nome')
             ->orderBy('Totale', 'DESC')
             ->addOrderBy('macro.Nome', 'ASC')
@@ -194,20 +205,27 @@ class MovimentoRepository extends ServiceEntityRepository
     /**
     * @return array
     */
-    public function listaPrevisioneMeso(\DateTime $datainizio, int $mesi): array
+    public function listaPrevisioneMeso(\DateTimeInterface $datainizio, int $mesi, \DateTimeInterface $datafine): array
     {
+        if ($mesi < 1) {
+            return [];
+        }
         return $this
             ->createQueryBuilder('m')
             ->setParameter('mesi', $mesi)
-            ->addselect('macro.Nome As MacroNome')
+            ->select('macro.Nome As MacroNome')
             ->addselect('meso.Nome As MesoNome')
-            ->addSelect('SUM(m.Importo)/:mesi as Totale')
+            ->addSelect('(COALESCE(SUM(m.Importo), 0) / :mesi) as Totale')
             ->innerJoin('m.Categoria', 'micro', 'WITH', 'm.Categoria = micro.id')
             ->innerJoin('micro.Padre', 'meso', 'WITH', 'micro.Padre = meso.id')
             ->innerJoin('meso.Padre', 'macro', 'WITH', 'meso.Padre = macro.id')
             ->setParameter('datainizio', $datainizio->format('Y-m-d'))
             ->Where('m.Data >= :datainizio')
-            ->GroupBy('macro.Nome')
+            ->andWhere('m.Data < :datafine')
+            ->setParameter('datafine', $datafine->format('Y-m-d'))
+            ->groupBy('macro.id')
+            ->addGroupBy('macro.Nome')
+            ->addGroupBy('meso.id')
             ->addGroupBy('meso.Nome')
             ->orderBy('Totale', 'DESC')
             ->addOrderBy('macro.Nome', 'ASC')
@@ -220,21 +238,26 @@ class MovimentoRepository extends ServiceEntityRepository
     /**
     * @return array 
     */
-    public function listaPrevisioneCategoria(\DateTime $datainizio, int $mesi, string $categoria): array
+    public function listaPrevisioneCategoria(\DateTimeInterface $datainizio, int $mesi, string $categoria, \DateTimeInterface $datafine): array
     {
+        if ($mesi < 1) {
+            return [];
+        }
         return $this
             ->createQueryBuilder('m')
             ->setParameter('mesi', $mesi)
-            ->addselect('macro.Nome As MacroNome')
-            ->addSelect('SUM(m.Importo)/:mesi as Totale')
+            ->select('macro.Nome As MacroNome')
+            ->addSelect('(COALESCE(SUM(m.Importo), 0) / :mesi) as Totale')
             ->innerJoin('m.Categoria', 'micro', 'WITH', 'm.Categoria = micro.id')
             ->innerJoin('micro.Padre', 'meso', 'WITH', 'micro.Padre = meso.id')
             ->innerJoin('meso.Padre', 'macro', 'WITH', 'meso.Padre = macro.id')
             ->setParameter('datainizio', $datainizio->format('Y-m-d'))
             ->Where('m.Data >= :datainizio')
+            ->andWhere('m.Data < :datafine')
+            ->setParameter('datafine', $datafine->format('Y-m-d'))
             ->setParameter('categoria', $categoria)
             ->andWhere('macro.Nome = :categoria')
-            ->GroupBy('macro.Nome')
+            ->groupBy('macro.Nome')
             ->orderBy('Totale', 'DESC')
             ->addOrderBy('macro.Nome', 'ASC')            
             ->getQuery()
@@ -249,16 +272,19 @@ class MovimentoRepository extends ServiceEntityRepository
     {
         return $this
             ->createQueryBuilder('m')
-            ->addselect('macro.Nome As MacroNome')
+            ->select('macro.Nome As MacroNome')
             ->addselect('meso.Nome As MesoNome')
             ->addselect('micro.Nome As MicroNome')
-            ->addSelect('SUM(m.Importo) as Totale')
+            ->addSelect('COALESCE(SUM(m.Importo), 0) as Totale')
             ->innerJoin('m.Categoria', 'micro', 'WITH', 'm.Categoria = micro.id')
             ->innerJoin('micro.Padre', 'meso', 'WITH', 'micro.Padre = meso.id')
             ->innerJoin('meso.Padre', 'macro', 'WITH', 'meso.Padre = macro.id')
-            ->GroupBy('macro.id')
+            ->groupBy('macro.id')
+            ->addGroupBy('macro.Nome')
             ->addGroupBy('meso.id')
+            ->addGroupBy('meso.Nome')
             ->addGroupBy('micro.id')
+            ->addGroupBy('micro.Nome')
             ->addOrderBy('macro.Nome', 'ASC')            
             ->addOrderBy('meso.Nome', 'ASC')            
             ->addOrderBy('micro.Nome', 'ASC')            
@@ -274,14 +300,16 @@ class MovimentoRepository extends ServiceEntityRepository
     {
         return $this
             ->createQueryBuilder('m')
-            ->addselect('macro.Nome As MacroNome')
+            ->select('macro.Nome As MacroNome')
             ->addselect('meso.Nome As MesoNome')
-            ->addSelect('SUM(m.Importo) as Totale')
+            ->addSelect('COALESCE(SUM(m.Importo), 0) as Totale')
             ->innerJoin('m.Categoria', 'micro', 'WITH', 'm.Categoria = micro.id')
             ->innerJoin('micro.Padre', 'meso', 'WITH', 'micro.Padre = meso.id')
             ->innerJoin('meso.Padre', 'macro', 'WITH', 'meso.Padre = macro.id')
-            ->GroupBy('macro.id')
+            ->groupBy('macro.id')
+            ->addGroupBy('macro.Nome')
             ->addGroupBy('meso.id')
+            ->addGroupBy('meso.Nome')
             ->addOrderBy('macro.Nome', 'ASC')            
             ->addOrderBy('meso.Nome', 'ASC')            
             ->getQuery()
@@ -296,12 +324,13 @@ class MovimentoRepository extends ServiceEntityRepository
     {
         return $this
             ->createQueryBuilder('m')
-            ->addselect('macro.Nome As MacroNome')
-            ->addSelect('SUM(m.Importo) as Totale')
+            ->select('macro.Nome As MacroNome')
+            ->addSelect('COALESCE(SUM(m.Importo), 0) as Totale')
             ->innerJoin('m.Categoria', 'micro', 'WITH', 'm.Categoria = micro.id')
             ->innerJoin('micro.Padre', 'meso', 'WITH', 'micro.Padre = meso.id')
             ->innerJoin('meso.Padre', 'macro', 'WITH', 'meso.Padre = macro.id')
-            ->GroupBy('macro.id')
+            ->groupBy('macro.id')
+            ->addGroupBy('macro.Nome')
             ->addOrderBy('macro.Nome', 'ASC')            
             ->getQuery()
             ->getResult()

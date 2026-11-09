@@ -49,14 +49,15 @@ class Scadenza
         return $this;
     }
 
-    public function getDifferenzaGiorni(): ?string
+    public function getDifferenzaGiorni(?\DateTimeImmutable $oggi = null): ?int
     {
-        $scadenza = $this->DataScadenza->getTimestamp();
-        $intervallo = new \DateInterval('P1D');
-        $oggi = ((new \DateTime())->sub($intervallo))->getTimestamp();
-        
-        $diff = $scadenza - $oggi;
-        $giorni = intval(round($diff / 86400));
-        return $giorni;
+        if ($this->DataScadenza === null) {
+            return null;
+        }
+        $timezone = new \DateTimeZone('Europe/Rome');
+        $oggi = ($oggi ?? new \DateTimeImmutable('now', $timezone))->setTimezone($timezone)->setTime(0, 0);
+        $scadenza = new \DateTimeImmutable($this->DataScadenza->format('Y-m-d'), $timezone);
+
+        return (int) $oggi->diff($scadenza)->format('%r%a');
     }
 }

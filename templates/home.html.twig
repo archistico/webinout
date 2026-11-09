@@ -73,7 +73,7 @@
 										</div>
 										<div class="col">
 											<div class="font-weight-medium">
-												<strong>+{{ entrate_mensili|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</strong>
+												<strong>+{{ entrate_mensili|format_currency('EUR', locale='it') }}</strong>
 											</div>
 											<div class="text-secondary">
 												Entrate mensili
@@ -94,7 +94,7 @@
 										</div>
 										<div class="col">
 											<div class="font-weight-medium">
-												<strong>-{{ uscite_mensili|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</strong>
+												<strong>-{{ uscite_mensili|format_currency('EUR', locale='it') }}</strong>
 											</div>
 											<div class="text-secondary">
 												Uscite mensili
@@ -115,7 +115,7 @@
 										</div>
 										<div class="col">
 											<div class="font-weight-medium">
-												<strong>{{ (entrate_mensili-uscite_mensili)|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</strong>
+												<strong>{{ (entrate_mensili-uscite_mensili)|format_currency('EUR', locale='it') }}</strong>
 											</div>
 											<div class="text-secondary">
 												Differenza
@@ -143,7 +143,7 @@
 										</div>
 										<div class="col">
 											<div class="font-weight-medium">
-												<strong>+{{ entrate_annuali|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</strong>
+												<strong>+{{ entrate_annuali|format_currency('EUR', locale='it') }}</strong>
 											</div>
 											<div class="text-secondary">
 												Entrate annuali
@@ -164,7 +164,7 @@
 										</div>
 										<div class="col">
 											<div class="font-weight-medium">
-												<strong>-{{ uscite_annuali|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</strong>
+												<strong>-{{ uscite_annuali|format_currency('EUR', locale='it') }}</strong>
 											</div>
 											<div class="text-secondary">
 												Uscite annuali
@@ -185,7 +185,7 @@
 										</div>
 										<div class="col">
 											<div class="font-weight-medium">
-												<strong>{{ (entrate_annuali-uscite_annuali)|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</strong>
+												<strong>{{ (entrate_annuali-uscite_annuali)|format_currency('EUR', locale='it') }}</strong>
 											</div>
 											<div class="text-secondary">
 												Differenza
@@ -231,11 +231,11 @@
 														</td>
 														<td class="text-end">
 															{% if elemento.Categoria.Padre.Padre.Nome == 'Uscita' %}
-																<span class="text-danger">-{{ elemento.Importo|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</span>
+																<span class="text-danger">-{{ elemento.Importo|format_currency('EUR', locale='it') }}</span>
 															{% elseif elemento.Categoria.Padre.Padre.Nome == 'Entrata' %}
-																+{{ elemento.Importo|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}
+																+{{ elemento.Importo|format_currency('EUR', locale='it') }}
 															{% else %}
-																{{ elemento.Importo|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}
+																{{ elemento.Importo|format_currency('EUR', locale='it') }}
 															{% endif %}
 														</td>
 													</tr>
@@ -297,43 +297,6 @@
 																	giorni</span>
 															{% endif %}
 														</td>
-													</tr>
-												{% endfor %}
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-12">
-					<div class="row row-cards">
-						<h2>Somme movimenti per le varie categorie
-							<a href="{{ path('app_movimento_lista') }}" class="btn btn-primary btn-sm btn-square">Lista movimenti</a>
-						</h2>
-
-						<div class="row">
-							<div class="col-12">
-								<div class="card">
-									<div class="table-responsive">
-										<table class="table table-vcenter card-table table-striped">
-											<thead>
-												<tr>
-													<th>Categoria</th>
-													<th class="text-end">Importo</th>
-												</tr>
-											</thead>
-											<tbody>
-												{% for elemento in movimentiSomme %}
-													<tr>
-														<td>{{ elemento.MacroNome }}
-															|
-															{{ elemento.MesoNome }}
-															|
-															{{ elemento.MicroNome }}</td>
-														<td class="text-end">{{ elemento.Totale|format_currency('EUR', {rounding_mode: 'floor'}, locale='it') }}</td>
 													</tr>
 												{% endfor %}
 											</tbody>
